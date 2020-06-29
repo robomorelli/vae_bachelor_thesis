@@ -27,12 +27,32 @@ I dati, per la loro stessa natura, sono disomogenei e caotici, quindi risulta pa
 \subsection{Processi multi-variati}
 \label{subsec:processi multi-variati}
 
-	Nelle prime righe del paragrafo precedente si è parlato di evento o oggetto, senza meglio specificare come questo fosse collegato ai dati. Un evento può essere pensato come una collezione di dati e quindi lo si può rappresentare come un vettore in uno spazio n-dimensionale: 
+	Nelle prime righe del paragrafo precedente si è introdotto il termine evento o oggetto, senza meglio specificare come questo fosse collegato ai dati. Un evento può essere pensato come una collezione di dati e quindi lo si può rappresentare come un vettore in uno spazio n-dimensionale: 
 	\begin{equation}
 		\textbf{x} = (x_{1},...,x_{n})
 	\end{equation}
 	In realtà l'utilizzo del termine vettore è improprio ogni qual volta si abbia a che fare con componenti (i dati) disomogenee tra loro, tuttavia lo si continuerà ad utilizzare per una questione di comodità tenendo a mente questa specifica. A questo punto risulta evidente la necessità di trattare questi eventi attraverso processi multi-variati.\\
-	Bisogna aggiungere che è possibile che i dati (e quindi le componenti del vettore) siano tra loro correlati: in questa situazione è possibile ridurre la dimensione dello spazio di cui si è parlato precedentemente da n a d (con d<n).
-
-
+	Bisogna aggiungere che è possibile che i dati (e quindi le componenti del vettore) siano tra loro correlati: in questa situazione è possibile ridurre la dimensionalità dello spazio di cui si è parlato precedentemente da n a d (con d<n).
+	
+\newpage
+	
+\subsection{Machine Learning}
+\label{subsec:machine learning}
+	L'approccio classico all'analisi dei dati prevede la disponibilità di un modello matematico, che dipende da una serie di parametri incogniti. Questi parametri vengono ricavati a partire dai dati sperimentali attraverso processi che possono essere sia analitici che numerici. \\
+	Quando si parla di machine learning la prospettiva viene ribaltata, perché il modello matematico non è noto a priori. \\
+	Bisogna distinguere tre macro-tipologie di approccio all'analisi dati nel machine learning:
+	\begin{itemize}
+		\item APPRENDIMENTO SUPERVISIONATO \\
+			In questa tipologia di apprendimento vengono presentati al computer degli input di esempio ed i relativi output desiderati, con lo scopo di apprendere una relazione generale che lega gli input con gli output; in questo caso si utilizza il così detto "training data set", mentre per testare il modello ottenuto si considera il "test data set" dove non vengono forniti al computer gli output. L'apprendimento supervisionato verrà trattato in maniera più approfondita nel prossimo paragrafo.
+		\item APPRENDIMENTO NON SUPERVISIONATO \\
+			In questo caso non vengono forniti al computer gli output attesi fin dalle prime fasi di apprendimento del modello e quindi lo scopo è quello di scoprire una qualche struttura fra i dati di input.
+		\item APPRENDIMENTO PER RINFORZO \\
+	\end{itemize}
+%	Una prima distinzione che è necessario presentare si basa sulla tipologia di output:
+%	\begin{itemize}
+%		\item Classificazione \\
+%			L'output è discreto.
+%		\item Regressione \\
+		
+%	\end{itemize}
 %
