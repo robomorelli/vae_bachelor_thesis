@@ -1,5 +1,6 @@
 %
-\section{Introduzione}\label{sec:introduzione}
+\section{Introduzione}
+\label{sec:introduzione}
 %
 Il Modello Standard è, senza ombra di dubbio, il fiore all'occhiello della fisica del Novecento. Tuttavia sono sempre più le evidenze che suggeriscono come esso si limiti a spiegare solo una parte della struttura profonda della natura: si è fatta strada sempre con più forza l'idea che esista una così detta fisica oltre il Modello Standard e, per indagarla, si costruiscono acceleratori di particelle sempre più potenti, di cui il Large Hidron Collider è l'esempio principale. 
 Il run3 del Large Hidron Collider è previsto per Maggio 2021, tuttavia non vi è stato un miglioramento notevole da un punto di vista energetico. Allo stesso tempo si stima che la produzione di dati sarà fino a dieci volte maggiore rispetto al run precedente, quindi ci si chiede se sia possibile trattare in maniera innovativa questa enorme mole di dati per provare a trovare segnale di nuova fisica. Nello specifico la domanda è se le metodologie di machine learning possano giocare un ruolo centrale per analizzare i dati prodotti nel prossimo ciclo di funzionamento di LHC.\\
@@ -16,11 +17,22 @@ I dati, per la loro stessa natura, sono disomogenei e caotici, quindi risulta pa
 	
 	\begin{enumerate}
 		\item CLASSIFICAZIONE \\
-			Questa tipologia è probabilmente la principale quando si ha a che fare con la fisica delle alte energie e consiste nell'associare un evento/oggetto  ad una categoria. Per esempio, una volta rilevata una particolare particella bisogna stabilire se questa è un elettrone, un protone, etc.
-		\item STIMA DI PARAMETRI
-			In questa tipologia ricadono tutti quei processi attraverso i quali si estraggono dei parametri (ad esempio la massa di una tipologia di particelle) attraverso un fitting del modello teorico con i dati sperimentali.
-		\item STIMA DI FUNZIONI
-			
+			Questa tipologia è probabilmente la principale quando si ha a che fare con la fisica delle alte energie e consiste nell'associare un evento/oggetto  ad una categoria. Per esempio, una volta rilevata una particolare particella bisogna stabilire se questa è un elettrone, un protone, etc;
+		\item STIMA DI PARAMETRI \\
+			In questa tipologia ricadono tutti quei processi attraverso i quali si estraggono dei parametri (ad esempio la massa di una tipologia di particelle) attraverso un fitting del modello teorico con i dati sperimentali;
+		\item STIMA DI FUNZIONI \\
+			Si ricava una funzione continua di una o più variabili a partire dai dati sperimentali.
 	\end{enumerate}
+
+\subsection{Processi multi-variati}
+\label{subsec:processi multi-variati}
+
+	Nelle prime righe del paragrafo precedente si è parlato di evento o oggetto, senza meglio specificare come questo fosse collegato ai dati. Un evento può essere pensato come una collezione di dati e quindi lo si può rappresentare come un vettore in uno spazio n-dimensionale: 
+	\begin{equation}
+		\textbf{x} = (x_{1},...,x_{n})
+	\end{equation}
+	In realtà l'utilizzo del termine vettore è improprio ogni qual volta si abbia a che fare con componenti (i dati) disomogenee tra loro, tuttavia lo si continuerà ad utilizzare per una questione di comodità tenendo a mente questa specifica. A questo punto risulta evidente la necessità di trattare questi eventi attraverso processi multi-variati.\\
+	Bisogna aggiungere che è possibile che i dati (e quindi le componenti del vettore) siano tra loro correlati: in questa situazione è possibile ridurre la dimensione dello spazio di cui si è parlato precedentemente da n a d (con d<n).
+
 
 %
