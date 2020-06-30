@@ -47,12 +47,17 @@ I dati, per la loro stessa natura, sono disomogenei e caotici, quindi risulta pa
 		\item APPRENDIMENTO NON SUPERVISIONATO \\
 			In questo caso non vengono forniti al computer gli output attesi fin dalle prime fasi di apprendimento del modello e quindi lo scopo è quello di scoprire una qualche struttura fra i dati di input.
 		\item APPRENDIMENTO PER RINFORZO \\
+			Il Reinforcement Learning è basato sul concetto di ricompensa, ovvero si permette all'algoritmo di esplorare un così detto ambiente e, in base all'azione compiuta, gli si fornisce un feedback positivo, negativo o indifferente. Un esempio classico prevede di voler addestrare un algoritmo per un particolare gioco: si farà in modo di fargli compiere una serie di partite in maniera iterativa e gli si assegnerà una ricompensa in caso di vittoria o un malus in caso di sconfitta. \\ 
 	\end{itemize}
-%	Una prima distinzione che è necessario presentare si basa sulla tipologia di output:
-%	\begin{itemize}
-%		\item Classificazione \\
-%			L'output è discreto.
-%		\item Regressione \\
-		
-%	\end{itemize}
-%
+
+	Una ulteriore distinzione che è necessario fare è fra algoritmi di classificazione, regressione e clustering:
+	\begin{itemize}
+		\item CLASSIFICAZIONE \\
+			Gli algoritmi di classificazione sono caratterizzati da un output discreto, cioè una serie di classi alle quali l'input può appartenere.Questa tipologia di meccanismo viene in genere portata avanti tramite metodi di apprendimento supervisionato. Un esempio di algoritmo di classificazione è quello che permette di distinguere se un particolare oggetto è presente o meno in un'immagine.
+		\item REGRESSIONE \\
+			La regressione è simile alla classificazione con la differenza che, in questo caso, l'output è continuo. Anche gli algoritmi di regressione sono adatti ad essere trattati con metodologie di apprendimento supervisionato.
+		\item CLUSTERING \\
+			Nel clustering l'obiettivo è sempre quello di dividere gli input in delle classi, tuttavia in questo caso tali classi non sono stabilite a priori. La natura di algoritmi di questo tipo li rende adatti ad essere trattati tramite metodi di apprendimento non supervisionato.
+	\end{itemize}
+
+
