@@ -19,7 +19,7 @@ where $\beta$ is a free parameter defining the relative weight of the divergence
 \subsection{Dataset}
 \label{subsec:dataset}
 
-The Wh1Lbb analysis ntuples are used in this study. The same preselection of the original analysis~\cite{ATL-COM-PHYS-2018-1638} is applied both on the background processes and on the signal events and it is reported in Table~\ref{tab:preliminary_cuts}. In Figure~\ref{fig:feat_distr} the distributions of the most discriminating variables are shown for the total background (sum of all the processes) and some signal example. The definition and the data/MC agreement of each variable considered for the training are explained and described in detail in Section 6 of~\cite{ATL-COM-PHYS-2018-1638}. It is worth to remark that only the background events are used to train the model, while the signal events are only included in the evaluation step after the events selection.
+The Wh1Lbb analysis ntuples are used in this study. The same preselection of the original analysis is applied both on the background processes and on the signal events and it is reported in Table~\ref{tab:preliminary_cuts}. In Figure~\ref{fig:feat_distr} the distributions of the most discriminating variables are shown for the total background (sum of all the processes) and some signal example. The definition and the data/MC agreement of each variable considered for the training are explained and described in detail in Section 6 of. It is worth to remark that only the background events are used to train the model, while the signal events are only included in the evaluation step after the events selection.
 
 \begin{table}[h]
 \centering
@@ -86,7 +86,7 @@ The Kullback-Lieber divergence term regards the encoding phase outputs and force
 ln{\frac{\sigma_{p}^{j}}{\sigma_{z}^{i,j}}} -1 
 \end{equation}
 
-where,\textit{k} is the batch size selected for the training, \textit{i} runs over the samples and \textit{j} over the latent space dimensions. The parameters predicted from the model for each event are: $(1)$ $\mu_{z}$  and $\sigma_{z}$ that define the distribution shape in the latent space; $(2)$ $\mu_{p}$, and $\sigma_{p}$ that represents the prior shape parameters. It is important to observe that, following the work described in~\cite{vae:Cerri_2019}, also this latter couple of parameters are optimized during the training letting the model to select the optimal latent space target distribution.
+where,\textit{k} is the batch size selected for the training, \textit{i} runs over the samples and \textit{j} over the latent space dimensions. The parameters predicted from the model for each event are: $(1)$ $\mu_{z}$  and $\sigma_{z}$ that define the distribution shape in the latent space; $(2)$ $\mu_{p}$, and $\sigma_{p}$ that represents the prior shape parameters. It is important to observe that, following the work described in, also this latter couple of parameters are optimized during the training letting the model to select the optimal latent space target distribution.
 
 The reconstruction loss term is instead represented by the average negative-log-likelihood of the inputs given the shape parameter values predicted by the model during the decoding phase:
 

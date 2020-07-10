@@ -21,7 +21,7 @@ In Figura ~\ref{fig:Grid Search} nella pagina seguente è riportato per chiarezz
 
 \begin{figure}[h!]
 	\includegraphics[width=\linewidth]{figs/Grid_immagine.png}
-	\caption{la figura illustra visivamente l'esito di un processo di ottimizzazione degli iperparametri attraverso il metodo Grid Search}
+	\caption{la figura illustra visivamente l'esito di un processo di ottimizzazione degli iperparametri attraverso il metodo Grid Search (~\cite{knuthwebsite})}
 	\label{fig:Grid Search}
 \end{figure}
 \newpage 
@@ -33,16 +33,20 @@ Chiaramente la scelta di tale punto deve essere fatta in modo da ottimizzare la 
 
 \begin{figure}[h!]
 	\includegraphics[width=\linewidth]{figs/Grid_example.png}
-	\caption{risultato grafico di un processo di Random Grid Search per la separazione del segnale dal fondo in un processo bi-variato. L'immagine è presa da \cite{MultivariateAnalysisMethodsinParticlePhysics}.}
+	\caption{risultato grafico di un processo di Random Grid Search per la separazione del segnale dal fondo in un processo bi-variato. L'immagine è presa da \cite{Metodi_multivariati}.}
 	\label{fig:grid_example}
 \end{figure}
 \newpage
 
-Come si evince dalla figura, un notevole limite del Grid search in questo caso particolare (e della sua variante RDG) sta nell'essere vincolati a dei tagli paralleli agli assi e quindi ci si trova difronte ad un risultato piuttosto limitante. Si possono introdurre a questo punto i Metodi Lineari, continuando a seguire il percorso già accennato in precedenza, ovvero partire dal metodo concettualmente e praticamente più semplice ma meno efficiente per poi salire mano mano il livello di complessità e di efficienza.\\
+Come si evince dalla figura, un notevole limite del Grid search in questo caso particolare (e della sua variante RDG) sta nell'essere vincolati a dei tagli paralleli agli assi e quindi ci si trova difronte ad un risultato piuttosto limitante. Si possono introdurre a questo punto i Metodi Lineari, continuando a seguire il percorso già accennato in precedenza, ovvero partire dal metodo concettualmente e praticamente più semplice ma meno efficiente per poi salire mano mano di complessità e di efficienza.\\
 
 \newpage
 
-\subsection{Metodi lineari e Discriminante di Fisher}
+\subsection{Analisi discriminante lineare}
 \label{metodi lineari e discriminante di Fisher}
+
+Come detto nella sezione precedente, il GS ed il RDG possono essere utilizzati per la separazione del segnale dal fondo ma hanno dei limiti piuttosto considerevoli che sono già stai illustrati. L'analisi discriminante è un metodo che permette di raggiungere lo stesso obiettivo di separazione ma in maniera più efficiente. \\
+L'analisi discriminante si definisce lineare quando la funzione classificatrice è, appunto, lineare. \\
+Si immagini di avere a disposizione un determinato set di eventi in input $\textbf{x}_\textbf{i}$, ciascuno caratterizzato da un numero n di variabili 
 
 
