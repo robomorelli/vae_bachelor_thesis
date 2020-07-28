@@ -32,7 +32,8 @@ Come esempio si riporta un problema molto comune nel campo della fisica delle al
 Chiaramente la scelta di tale punto deve essere fatta in modo da ottimizzare la separazione segnale-fondo e quindi si può utilizzare il metodo del Grid Search o meglio il RGS per le ragioni presentate precedentemente. 
 
 \begin{figure}[h!]
-	\includegraphics[width=\linewidth]{figs/Grid_example.png}
+	\centering
+	\includegraphics[width=0.85\textwidth]{figs/Grid_example.png}
 	\caption{risultato grafico di un processo di Random Grid Search per la separazione del segnale dal fondo in un processo bi-variato. L'immagine è presa da \cite{Metodi_multivariati}.}
 	\label{fig:grid_example}
 \end{figure}
@@ -45,7 +46,7 @@ Come si evince dalla figura, un notevole limite del Grid search in questo caso p
 \subsection{Analisi discriminante lineare}
 \label{metodi lineari e discriminante di Fisher}
 
-Come detto nella sezione precedente, il GS ed il RDG possono essere utilizzati per la separazione del segnale dal fondo ma hanno dei limiti piuttosto considerevoli che sono già stai illustrati. L'analisi discriminante è un metodo che permette di raggiungere lo stesso obiettivo di separazione, ma in modo più efficiente. \\
+Come detto nella sezione precedente, il GS ed il RDG possono essere utilizzati per la separazione del segnale dal fondo ma hanno dei limiti piuttosto considerevoli che sono già stati illustrati. L'analisi discriminante è un metodo che permette di raggiungere lo stesso obiettivo di separazione, ma in modo più efficiente. \\
 L'analisi discriminante si definisce lineare quando la funzione classificatrice è, appunto, lineare. \\
 Si immagini di avere a disposizione un determinato set di eventi in input $\textbf{x}_\textbf{i}$, ciascuno caratterizzato da un numero n di variabili (spazio n-dimensionale) e di volerli ripartire fra segnale e fondo.\\
 Si definisce la funzione discriminante lineare nel seguente modo:
@@ -54,5 +55,8 @@ D(x_1 , x_2 , ... , x_n) = c_0 + c_1x_1 + ... +c_nx_n = c_0 + \sum_{i=0}^{n} c_i
 \end{equation}
 quindi come una combinazione lineare delle componenti del vettore che rappresenta l'evento; il valore assunto dalla funzione per ogni singolo evento ne permette la separazione nelle due classi (nel presente caso segnale e fondo), utilizzando un valore di riferimento $D_0$. \\
 A questo punto l'obiettivo è quello di massimizzare la distanza fra le due classi, ovvero rendere massima la differenza dei valori assunti dalla funzione $D(\textbf{x})$ fra gli eventi appartenenti al fondo e quelli relativi al segnale. \\
-Un esempio di questo approccio è il metodo proposto da Fisher: si consideri un campione di eventi appartenenti al segnale e se ne definisca la media $\bm\mu_\textbf{s}$ e la deviazione standard $\bm\sigma_\textbf{s}$ ed un campione appartenente al fondo, definendo anche qui la media $\bm\mu_\textbf{f}$ e la deviazione standard $\bm\sigma_\textbf{f}$
+Un esempio di questo approccio è il metodo proposto da Fisher: si consideri un campione di eventi appartenenti al segnale e se ne definisca la media $\bm\mu_\textbf{s}$ e la deviazione standard $\sigma_s$ ed un campione appartenente al fondo, definendo anche qui la media $\bm\mu_\textbf{f}$ e la deviazione standard $\sigma_f$. A questo punto la migliore configurazione dei parametri è quella che massimizza la seguente funzione: 
+\begin{equation}
+F(\textbf{c}) = \frac{(\bm\mu_\textbf{s} - \bm\mu_\textbf{f})^2}{\sigma_s^2 + \sigma_f^2}
+\end{equation}
 

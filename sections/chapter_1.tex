@@ -6,16 +6,15 @@ Come già accennato precedentemente, quando si parla di apprendimento supervisio
 \textbf{y} = f(\textbf{x}) che mette in relazione gli input con gli output. Tuttavia, come detto, tale funzione è incognita ed è quindi ciò che viene ricercato con l'algoritmo di apprendimento.
 Nella pratica si cerca di approssimare la funzione agendo su una serie di parametri $\bm{\theta}$, quindi si avrà un qualcosa del tipo: \textbf{y'} = f'(\textbf{x},$\bm{\theta}$). \\
 
-\begin{figure}[]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.85\textwidth]{figs/app_sup.png}
-	%\includegraphics[width=0.85\textwidth]{figs/dataset/distr_1.png}
-	%\includegraphics[width=0.85\textwidth]{figs/dataset/distr_2.png}
-	\caption{da chiedere}
-	\label{fig:feat_distr}
+	\includegraphics[width=0.85\textwidth]{figs/App_sup.png}
+	\caption{si riporta uno schema intuitivo del funzionamento di un algoritmo di apprendimento supervisionato}
+	\label{fig:schema_app_sup}
 \end{figure}
 
-Per ogni vettore \textbf{x} del training data set è possibile definire una particolare funzione detta "Loss function" L(\textbf{y},f(\textbf{x},$\bm{\theta}$)); a questo punto è possibile fare una media della funzione di costo sull'intero set di dati a disposizione, ottenendo la funzione di rischio: \\
+
+Per ogni vettore \textbf{x} del training data set è possibile definire una particolare funzione detta "Loss function" L(\textbf{y},f(\textbf{x},$\bm{\theta}$)); a questo punto è possibile fare una media della funzione di perdita sull'intero set di dati a disposizione, ottenendo la funzione di rischio: \\
 \begin{equation}
 	R(\bm{\theta}) = \frac{1}{N}\sum_{k=1}^{N}L(\textbf{y},f(\textbf{x},\bm{\theta}))
 \end{equation}
