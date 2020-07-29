@@ -58,5 +58,28 @@ A questo punto l'obiettivo è quello di massimizzare la distanza fra le due clas
 Un esempio di questo approccio è il metodo proposto da Fisher: si consideri un campione di eventi appartenenti al segnale e se ne definisca la media $\bm\mu_\textbf{s}$ e la deviazione standard $\sigma_s$ ed un campione appartenente al fondo, definendo anche qui la media $\bm\mu_\textbf{f}$ e la deviazione standard $\sigma_f$. A questo punto la migliore configurazione dei parametri è quella che massimizza la seguente funzione: 
 \begin{equation}
 F(\textbf{c}) = \frac{(\bm\mu_\textbf{s} - \bm\mu_\textbf{f})^2}{\sigma_s^2 + \sigma_f^2}
-\end{equation}
+\end{equation} 
+\newpage
 
+\subsection{Reti Neurali}
+\label{reti neurali}
+La struttura di una rete neurale prevede la presenza di unità fondamentali, dette neuroni, che sono organizzate in strati ed interconnesse fra di loro mediante l'utilizzo di pesi. Il nome rete neurale (artificiale) deriva dal fatto che la loro struttura è inspirata dalle corrispondenti strutture biologiche (seppur di molto semplificata). \\
+In una rete neurale è sempre presente uno strato di input ed uno di output, mentre il numero di livelli nascosti può variare a seconda della complessità della rete; In figura ~\ref{fig:schemaNN} è riportato un esempio di rete neurale con un singolo strato interno nascosto.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.50\textwidth]{figs/schemaNN.png}
+	\caption{si riporta un esempio grafico di rete neurale formata da un unico strato nascosto. L'immagine è presa da \cite{Metodi_multivariati}.}
+	\label{fig:schemaNN}
+\end{figure}
+\\
+Come già accennato l'elemento fondamentale di una rete neurale è il neurone, detto anche TLU (threshold logic unit) ed è utile approfondirne la struttura interna: l'idea di base è quella di sommare fra loro gli input $x_i$ utilizzando dei pesi $w_i$ per poi confrontare il valore ottenuto con un particolare valore di soglia $\theta$. L'output del neurone potrà quindi assumere due soli valori (1 o 0) a seconda che il risultato della media pesata degli input sia maggiore o minore del valore di soglia $\theta$.
+Lo schema di una TLU è riportato in figura ~\ref{fig:schema_neurone} 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.85\textwidth]{figs/schema_neurone.png}
+	\caption{si riporta lo schema di struttura di un neurone, dove si evince il ruolo dei pesi $w_i$ e del valore di soglia $\theta$. La figura è presa da \cite{IntroML}}
+	\label{fig:schema_neurone}
+\end{figure}
+
+Come si evince dalla figura ~\ref{fig:schema_neurone} 
