@@ -74,7 +74,7 @@ In una rete neurale è sempre presente uno strato di input ed uno di output, men
 \\
 Come già accennato l'elemento fondamentale di una rete neurale è il neurone, detto anche TLU (threshold logic unit) ed è utile approfondirne la struttura interna: l'idea di base è quella di sommare fra loro gli input $x_i$ utilizzando dei pesi $w_i$ per poi confrontare il valore ottenuto con un particolare valore di soglia $\theta$. L'output del neurone potrà quindi assumere due soli valori (1 o 0) a seconda che il risultato della media pesata degli input sia maggiore o minore del valore di soglia $\theta$.
 Lo schema di una TLU è riportato in figura ~\ref{fig:schema_neurone} 
-
+\newpage
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.85\textwidth]{figs/schema_neurone.png}
@@ -82,4 +82,23 @@ Lo schema di una TLU è riportato in figura ~\ref{fig:schema_neurone}
 	\label{fig:schema_neurone}
 \end{figure}
 
-Come si evince dalla figura ~\ref{fig:schema_neurone} 
+Come si evince dalla figura ~\ref{fig:schema_neurone}, $\textbf{X}$ rappresenta il vettore n-dimensionale le cui componenti sono gli input del TLU e $\textbf{W}$ è il vettore dei pesi (anch'esso n-dimensionale). \\
+Si impone che il TLU abbia come output il valore 1 nel caso in cui:
+\begin{equation}
+\textbf{X}\bullet\textbf{W} = \sum_{i=1}^{n} x_iw_i \ge \theta
+\end{equation}  
+e 0 altrimenti. \\
+Come si vede dalla figura, in genere si pone $\theta$=0 e quindi è necessario aggiungere una componente ulteriore ai vettori in modo da poter comunque implementare un TLU che abbia una soglia di attivazione diversa da zero. Per fare ciò è possibile definire due nuovi vettori con una componente in più dei precedenti:
+\begin{equation}
+	\textbf{Y} = (\textbf{X},x_{n+1})
+\end{equation}
+\begin{equation}
+	\textbf{V} = (\textbf{W},w_{n+1})
+\end{equation}
+dove $x_{n+1}$ viene posto uguale ad uno e $w_{n+1}$ uguale all'opposto del valore di soglia desiderato. \\
+La spiegazione intuitiva di ciò che viene portato avanti mediante lo schema appena illustrato può essere presentata da un punto di vista puramente geometrico. Si consideri che la seguente equazione
+\begin{equation}
+	\textbf{X}\bullet\textbf{W} + w_{n+1} = 0
+\end{equation}
+rappresenta un iper-piano che separa gli input fra quelli per cui $\textbf{X}\bullet\textbf{W} + w_{n+1} > 0$ e quelli per cui $\textbf{X}\bullet\textbf{W} + w_{n+1} < 0$, ottenendo appunto la separazione di cui si è parlato precedentemente. \\
+A questo punto è evidente che modificando il vettore dei pesi $\textbf{W}$ sarà possibile cambiare l'orientazione dell'iper-piano, mentre cambiando il valore di $w_{n+1}$ cambia la sua posizione; quindi è possibile muovere l'iper-piano (attraverso variazioni dei pesi) in modo da ottenere la separazione degli input desiderata.
