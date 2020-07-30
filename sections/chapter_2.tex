@@ -63,7 +63,8 @@ F(\textbf{c}) = \frac{(\bm\mu_\textbf{s} - \bm\mu_\textbf{f})^2}{\sigma_s^2 + \s
 
 \subsection{Reti Neurali}
 \label{reti neurali}
-La struttura di una rete neurale prevede la presenza di unità fondamentali, dette neuroni, che sono organizzate in strati ed interconnesse fra di loro mediante l'utilizzo di pesi. Il nome rete neurale (artificiale) deriva dal fatto che la loro struttura è inspirata dalle corrispondenti strutture biologiche (seppur di molto semplificata). \\
+La struttura di una rete neurale prevede la presenza di unità fondamentali, dette neuroni, che sono organizzate in strati e legate fra di loro mediante delle connessioni (sinapsi), ciascuna delle quali è caratterizzata da un peso. Sono proprio questi pesi a giocare un ruolo fondamentale nel processo di apprendimento della rete perché sono loro i parametri soggetti a modifica.\\
+Il nome rete neurale (artificiale) deriva dal fatto che la loro struttura è inspirata dalle corrispondenti strutture biologiche (seppur di molto semplificata). \\
 In una rete neurale è sempre presente uno strato di input ed uno di output, mentre il numero di livelli nascosti può variare a seconda della complessità della rete; In figura ~\ref{fig:schemaNN} è riportato un esempio di rete neurale con un singolo strato interno nascosto.
 \begin{figure}[h!]
 	\centering
@@ -72,33 +73,50 @@ In una rete neurale è sempre presente uno strato di input ed uno di output, men
 	\label{fig:schemaNN}
 \end{figure}
 \\
-Come già accennato l'elemento fondamentale di una rete neurale è il neurone, detto anche TLU (threshold logic unit) ed è utile approfondirne la struttura interna: l'idea di base è quella di sommare fra loro gli input $x_i$ utilizzando dei pesi $w_i$ per poi confrontare il valore ottenuto con un particolare valore di soglia $\theta$. L'output del neurone potrà quindi assumere due soli valori (1 o 0) a seconda che il risultato della media pesata degli input sia maggiore o minore del valore di soglia $\theta$.
-Lo schema di una TLU è riportato in figura ~\ref{fig:schema_neurone} 
-\newpage
+Si può passare ora a presentare il modello del singolo neurone per capire com'è strutturato e quale compito svolge.
+Gli elementi che caratterizzano il singolo neurone sono:
+\begin{enumerate}
+	\item Una serie di connessioni in ingresso (ciascuna caratterizzata da un proprio peso);
+	\item Un sommatore che ha il compito di svolgere la somma pesata degli input, utilizzando i pesi caratteristici delle connessioni;
+	\item Un output e la relativa funzione di attivazione, che viene usata per limitarne l'ampiezza (tipicamente ad intervalli [0,1] o [-1,1]);
+	\item Un valore di soglia che viene usato per aumentare o diminuire il valore ottenuto dalla somma pesata.
+\end{enumerate}
+Si riporta in figura ~\ref{schema_neurone} lo schema grafico di un singolo neurone (k), dove $\textbf{x} = (x_1 ,..., x_m)$ è il vettore degli input input, $\textbf{w}_k = (w_{k1} ,..., w_{km})$ è il vettore dei pesi, $\phi$(x) è la funzione di attivazione, $b_k$ è il valore di soglia e $y_k$ è l'output.
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.85\textwidth]{figs/schema_neurone.png}
-	\caption{si riporta lo schema di struttura di un neurone, dove si evince il ruolo dei pesi $w_i$ e del valore di soglia $\theta$. La figura è presa da \cite{IntroML}}
-	\label{fig:schema_neurone}
+	\includegraphics[width=0.70\textwidth]{figs/schema_neurone.png}
+	\caption{Illustrazione della struttura di un neurone (~\cite{Intro_retiN}).}
+	\label{schema_neurone}	
+\end{figure} \\
+Quindi il neurone opera la seguente somma pesata:
+\begin{equation}
+	s_k = \textbf{x}\bullet\textbf{w}_\textbf{k} = \sum_{i=1}^{m}x_iw_{ki}
+\end{equation}
+e si ottiene l'output attraverso la funzione di attivazione: 
+\begin{equation}
+y_k = \phi(s_k + b_k)
+\end{equation}
+Risulta utile spendere qualche parola in più sul tipo di funzione di attivazione più utilizzata, ovvero la funzione sigmoide:
+\begin{equation}
+	sig(x) = \frac{1}{1 + e^{-{\alpha}x}}
+\end{equation} 
+dove $\alpha$ è un parametro che permette di regolare la pendenza della curva, come si evince dalla figura ~\ref{sigmoide}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.75\textwidth]{figs/sigmoide.png}
+	\caption{Si riportano due sigmoidi, dove per quella in rosso si ha $\alpha$=2 e per quella in blu $\alpha$=7.}
+	\label{sigmoide}
 \end{figure}
+\newpage
+A questo punto è possibile passare ad un livello di complessità superiore, osservando in che modo possono essere organizzati i neuroni per formare la rete neurale; si distinguono due tipologie di reti:
+\begin{enumerate}
+	\item Reti feedforward con uno o più strati: in questo caso il segnale si propaga dai nodi di input verso quelli di output, senza connessioni fra i neuroni di uno stesso strato;
+	\item Reti feedback: sono reti cicliche dove il segnale si propaga anche fra i neuroni di uno stesso strato.
+\end{enumerate}
+Bisogna chiedersi ora in che modo apprende il singolo neurone. Una delle possibilità (nel caso in cui sia noto l'output target) è l'apprendimento con correzione di errore, che viene presentato velocemente nel seguito.
+Si consideri un singolo neurone che ha in ingresso una serie di input $(x_1,...,x_n)$ e quindi produce un valore di output $y$ attraverso la somma pesata già introdotta precedentemente; tale valore può quindi essere confrontata con il risultato atteso $R$, ottenendo così un errore $err = R - y$; si può quindi definire la funzione di costo
+\begin{equation}
+	E = \frac{1}{2}err^2
+\end{equation}
+sulla quale si applicherà il metodo di discesa del gradiente già discusso nel paragrafo $2.1$ per ottimizzare i parametri.
 
-Come si evince dalla figura ~\ref{fig:schema_neurone}, $\textbf{X}$ rappresenta il vettore n-dimensionale le cui componenti sono gli input del TLU e $\textbf{W}$ è il vettore dei pesi (anch'esso n-dimensionale). \\
-Si impone che il TLU abbia come output il valore 1 nel caso in cui:
-\begin{equation}
-\textbf{X}\bullet\textbf{W} = \sum_{i=1}^{n} x_iw_i \ge \theta
-\end{equation}  
-e 0 altrimenti. \\
-Come si vede dalla figura, in genere si pone $\theta$=0 e quindi è necessario aggiungere una componente ulteriore ai vettori in modo da poter comunque implementare un TLU che abbia una soglia di attivazione diversa da zero. Per fare ciò è possibile definire due nuovi vettori con una componente in più dei precedenti:
-\begin{equation}
-	\textbf{Y} = (\textbf{X},x_{n+1})
-\end{equation}
-\begin{equation}
-	\textbf{V} = (\textbf{W},w_{n+1})
-\end{equation}
-dove $x_{n+1}$ viene posto uguale ad uno e $w_{n+1}$ uguale all'opposto del valore di soglia desiderato. \\
-La spiegazione intuitiva di ciò che viene portato avanti mediante lo schema appena illustrato può essere presentata da un punto di vista puramente geometrico. Si consideri che la seguente equazione
-\begin{equation}
-	\textbf{X}\bullet\textbf{W} + w_{n+1} = 0
-\end{equation}
-rappresenta un iper-piano che separa gli input fra quelli per cui $\textbf{X}\bullet\textbf{W} + w_{n+1} > 0$ e quelli per cui $\textbf{X}\bullet\textbf{W} + w_{n+1} < 0$, ottenendo appunto la separazione di cui si è parlato precedentemente. \\
-A questo punto è evidente che modificando il vettore dei pesi $\textbf{W}$ sarà possibile cambiare l'orientazione dell'iper-piano, mentre cambiando il valore di $w_{n+1}$ cambia la sua posizione; quindi è possibile muovere l'iper-piano (attraverso variazioni dei pesi) in modo da ottenere la separazione degli input desiderata.
