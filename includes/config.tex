@@ -24,6 +24,9 @@
 \usepackage[nottoc]{tocbibind}
 \usepackage[backend=bibtex,style=authoryear,natbib=true]{biblatex} % Use the bibtex backend with the authoryear citation style (which resembles APA)
 
+%\usepackage[colorinlistoftodos]{todonotes}
+\newcommand{\comment}[1]
+{\par {\bfseries \color{blue} #1 \par}} %comment showed
 \addbibresource{sample.bib} % The filename of the bibliography
 
 
