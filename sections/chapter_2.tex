@@ -91,6 +91,7 @@ Si riporta in figura ~\ref{schema_neurone} lo schema grafico di un singolo neuro
 Quindi il neurone opera la seguente somma pesata:
 \begin{equation}
 	s_k = \textbf{x}\bullet\textbf{w}_\textbf{k} = \sum_{i=1}^{m}x_iw_{ki}
+	\label{sk}
 \end{equation}
 e si ottiene l'output attraverso la funzione di attivazione: 
 \begin{equation}
@@ -108,6 +109,8 @@ dove $\alpha$ è un parametro che permette di regolare la pendenza della curva, 
 	\label{sigmoide}
 \end{figure}
 \newpage
+Un singolo neurone è l'ingrediente fondamentale di una rete neurale e nella gran parte dei casi non è in grado di svolgere da solo nessun compito interessante ma deve sempre essere inserito in una rete. Tuttavia esiste una caso particolare nel quale un singolo neurone può portare a termine un compito di classificazione; affinché ciò sia possibile è necessario che i vettori evento siano riconducibili a due sole categorie e che il loro spazio possa essere separato (in relazione alle due categorie) da un singolo iper-piano. In questo caso esiste un teorema di convergenza che garantisce appunto la convergenza dei pesi nel processo di addestramento.
+
 A questo punto è possibile passare ad un livello di complessità superiore, osservando in che modo possono essere organizzati i neuroni per formare la rete neurale; si distinguono due tipologie di reti:
 \begin{enumerate}
 	\item Reti feedforward con uno o più strati: in questo caso il segnale si propaga dai nodi di input verso quelli di output, senza connessioni fra i neuroni di uno stesso strato;
@@ -118,5 +121,71 @@ Si consideri un singolo neurone che ha in ingresso una serie di input $(x_1,...,
 \begin{equation}
 	E = \frac{1}{2}err^2
 \end{equation}
-sulla quale si applicherà il metodo di discesa del gradiente già discusso nel paragrafo $2.1$ per ottimizzare i parametri.
+sulla quale si applicherà il metodo di discesa del gradiente già discusso nel paragrafo $2.1$ per ottimizzare i parametri.\\
+Una volta capito in che modo avviene l'addestramento di un singolo neurone, è possibile trattare le diverse funzioni che può svolgere una rete neurale:
+\begin{enumerate}
+	\item L'associazione, a sua volta divisibile in autoassociazione ed eteroassociazione. Nel primo caso vengono presentati alla rete neurale una serie di vettori evento nella fase di training per poi verificare se uno di questi vettori, ripresentato parzialmente, viene nuovamente riconosciuto dalla rete e completato (tale funzione ben si presta ad essere ottenuta a seguito di un processo di apprendimento non supervisionato); nel secondo caso si utilizza un vettore non ancora noto alla rete neurale come richiamo di una già processato;
+	\item Il riconoscimento consiste nell'associazione da parte della rete di un vettore evento ad una delle varie categorie possibili. Tale obiettivo può essere ottenuto a seguito di una fase di addestramento dove vengono forniti alla rete sia i vettori in input che le categorie alle quali questi appartengono (si tratta chiaramente di un processo di apprendimento non supervisionato). Si ipotizzi di avere a disposizione dei vettori evento con un numero n di componenti (i dati) e, chiaramente, possono essere pensati come dei punti in uno spazio n-dimensionale; questo spazio potrà essere allora diviso in delle regioni che corrispondono alle varie categorie di cui si è parlato precedentemente ed i confini di queste zone si ottengono a seguito del processo di addestramento;
+	\item L'approssimazione di funzioni, dove si hanno a disposizione gli input $\textbf{x}_\textbf{i}$ ed i corrispettivi output $\textbf{y}_\textbf{i}$. Quello che si cerca di fare è approssimare al meglio la funzione $\textbf{y} = f(\textbf{x})$ vera con una $g(\textbf{x})$, tale per cui la distanza euclidea è inferiore ad un valore prefissato positivo (piccolo) $\epsilon$:
+		\begin{equation}
+			\Vert g(\textbf{x}) - f(\textbf{x}) \Vert < \epsilon
+		\end{equation}
+\end{enumerate}
 
+Arrivati a questo punto è possibile esporre la trattazione su come una rete neurale viene addestrata. Precedentemente si è introdotta la struttura di una rete neurale, specificando le differenze fra lo strato di input, quello di output e gli strati nascosti. Ogni singolo neurone nel suo processo di addestramento deve aggiornare i suoi pesi, in modo che l'output della rete neurale sia simile a quello atteso.\\
+Uno dei metodi migliori per addestrare la rete neurale è l'algoritmo di back-propagation. \\
+Una rete neurale è caratterizzata da due tipologie di segnale: da un lato vi è un segnale di funzione che si propaga dallo strato di input verso quello di output e, dall'altro, vi è un segnale di errore che ha origine nello strato di output e si propaga verso quello di input. E' il segnale di errore a giocare un ruolo fondamentale nel processo di apprendimento tramite ottimizzazione dei pesi che caratterizzano la rete neurale. \\
+Addentrandosi nell'algoritmo di back-propagation bisogna fare una distinzione fra il modo in cui esso viene applicato allo strato di output ed il modo in cui viene applicato agli strati nascosti:
+\begin{enumerate}
+	\item Neurone nello strato di output.\\
+	Si consideri uno strato di output con un numero n di neuroni e ci si focalizzi sul k-esimo. In un certo momento del processo di apprendimento, alla rete neurale si starà presentando il j-esimo elemento del training data set, quindi per il neurone k si otterrà il seguente segnale di errore:
+	\begin{equation}
+		err_k^{(j)} = R_k^{(j)} - y_k^{(j)}
+	\end{equation}
+	dove con la lettera y si intende il valore ottenuto in output dal neurone e con R il valore atteso. \\
+	L'errore totale dello strato di output per il vettore evento j-esimo viene definito nel seguente modo:
+	\begin{equation}
+		E^{(j)} = \frac{1}{2} \sum_{k=1}^{n} (err_k^{(j)})^2
+	\end{equation}
+	Se poi N è il numero totale di elementi del training data set, allora la funzione di costo può essere definita nel seguente modo:
+	\begin{equation}
+	E_{tot} = \frac{1}{N}\sum_{j=1}^{N} E^{(j)}
+	\end{equation}
+	e l'obiettivo è quello di minimizzare tale funzione di costo. Per fare ciò si procede aggiustando i pesi a seguito della presentazione di ogni singolo vettore evento.
+	Si utilizza il metodo di discesa del gradiente, procedendo nel seguente modo: \\
+	il gradiente è dato da
+	\begin{equation}
+		\frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}}
+	\end{equation}
+	e gli aggiornamenti del peso vengono applicati nel verso opposto del gradiente, ovvero
+	\begin{equation}
+		\Delta w_{ki}^{(j)} = -\mu \frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}}
+	\end{equation}
+	con $\mu$ fattore di apprendimento.
+	Manca a questo punto il calcolo esplicito del gradiente, che può essere eseguito con la regola della catena 
+	\begin{equation}
+		\frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}} = \frac{\partial E^{(j)}}{\partial err_k^{(j)}}
+		\frac{\partial err_k^{(j)}}{\partial y_k^{(j)}}
+		\frac{\partial y_k^{(j)}}{\partial S_k^{(j)}}
+		\frac{\partial S_k^{(j)}}{\partial w_{ki}^{(j)}}
+	\end{equation}
+	dove $S_k^{(j)} = s_k^{(j)} + b_k^{(j)} $ (si faccia riferimento all'equazione \eqref{sk}). \\
+	Una volta calcolate le quattro derivate si ottiene:
+	\begin{equation}
+		\frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}} =
+		-err_k^{(j)}\phi'(S_k^{(j)})y_i^{(j)}
+	\end{equation}
+	 e quindi:
+	 \begin{equation}
+	 	\Delta w_{ki}^{(j)} = err_k^{(j)}\phi'(S_k^{(j)})y_i^{(j)} \mu
+	 \end{equation}
+	
+	\item Neurone in uno strato nascosto \\
+	In questo caso l'output del neurone non ha un diretto valore con il quale può essere confrontato, quindi il segnale di errore deve essere determinato a partire dai segnali di errore di tutti i neuroni dello strato successivo, da cui il nome di back-propagation proprio perché il segnale di errore prosegue all'indietro dall'output verso l'input.
+\end{enumerate}
+Come ultima considerazione sulle reti neurali bisogna sottolineare che il coefficiente di apprendimento deve essere scelto in maniera accurata, infatti se fosse troppo piccolo si avrebbe una convergenza estremamente lenta e, viceversa, un valore troppo grande porterebbe ad una instabilità con comportamento oscillatorio.
+
+\newpage
+
+\subsection{Alberi Decisionali}
+\label{alberi decisionali}
