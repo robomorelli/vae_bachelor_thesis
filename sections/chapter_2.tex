@@ -189,3 +189,16 @@ Come ultima considerazione sulle reti neurali bisogna sottolineare che il coeffi
 
 \subsection{Alberi Decisionali}
 \label{alberi decisionali}
+
+Un problema di classificazione può essere sempre trattato in forma di albero decisionale;
+applicazioni in sequenza di una serie di test, fatti sugli attributi
+l'albero decisionale non è altro che una funzione che a partire dal vettore di input, le cui componenti in questo caso le chiamo attributi, a seguito di una sequenza di test restituisce un singolo valore di output
+
+gli attributi in input possono essere sia continui che discreti (caso più semplice)
+
+output a due valori -> classificatore booleano (o si o no, o segnale o fondo)
+
+differenza tra nodo interno, dove avviene il test sul valore di uno degli attributi e gli archi che ne dipartono corrispondono ai possibili valori e nodo foglia (terminale) che mi dà il possibile risultato finale del processo decisionale
+
+come posso capire a partire dall'abbinamento fra vettore degli attributi e output l'ordine con il quale avvengono i test?
+Si vanno a cercare di volta in volta i criteri più discriminanti -> servirà un algoritmo riorsivo
