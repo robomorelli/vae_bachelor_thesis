@@ -17,7 +17,7 @@ I dati, per la loro stessa natura, sono disomogenei e caotici, quindi risulta pa
 	
 	\begin{enumerate}
 		\item CLASSIFICAZIONE \\
-			Questa tipologia è probabilmente la principale quando si ha a che fare con la fisica delle alte energie e consiste nell'associare un evento/oggetto  ad una categoria. Per esempio, una volta rilevata una particolare particella bisogna stabilire se questa è un elettrone, un protone, etc. \comment{L'applicazione più frequente è però rappresentata dalla distinzione e quindi, dalla classificazione, degli eventi fisici nelle rispettive categorie di background/segnale} ;
+			Questa tipologia è probabilmente la principale quando si ha a che fare con la fisica delle alte energie e consiste nell'associare un evento/oggetto  ad una categoria. Per esempio, una volta rilevata una particolare particella bisogna stabilire se questa è un elettrone, un protone, etc.% \comment{L'applicazione più frequente è però rappresentata dalla distinzione e quindi, dalla classificazione, degli eventi fisici nelle rispettive categorie di background/segnale} ;
  
 %\todo[inline]{This is a todo note inline} 
 		\item STIMA DI PARAMETRI \\
@@ -35,13 +35,13 @@ I dati, per la loro stessa natura, sono disomogenei e caotici, quindi risulta pa
 	\end{equation}
 	In realtà l'utilizzo del termine vettore è improprio ogni qual volta si abbia a che fare con componenti (i dati) disomogenee tra loro, tuttavia lo si continuerà ad utilizzare per una questione di comodità tenendo a mente questa specifica. A questo punto risulta evidente la necessità di trattare questi eventi attraverso processi multi-variati.\\
 	Bisogna aggiungere che è possibile che i dati (e quindi le componenti del vettore) siano tra loro correlati: in questa situazione è possibile ridurre la dimensionalità dello spazio di cui si è parlato precedentemente da n a d (con d<n).
-\comment{Perchè potrebbe essere utile ridurre la dimensionalità? (rappresentazione sparsa dei dati:
- \begin{itemize}
+%\comment{Perchè potrebbe essere utile ridurre la dimensionalità? (rappresentazione sparsa dei dati:
+% \begin{itemize}
  
- \item \href{https://en.wikipedia.org/wiki/Curse_of_dimensionality}{wikipedia definition}
- \item \href{https://machinelearningmastery.com/dimensionality-reduction-for-machine-learning/}{overview dimensionalyty reduction}
+% \item \href{https://en.wikipedia.org/wiki/Curse_of_dimensionality}{wikipedia definition}
+% \item \href{https://machinelearningmastery.com/dimensionality-reduction-for-machine-learning/}{overview dimensionalyty reduction}
  
-  \end{itemize}
+%  \end{itemize}
   
 	
 \newpage
@@ -55,7 +55,8 @@ I dati, per la loro stessa natura, sono disomogenei e caotici, quindi risulta pa
 		\item APPRENDIMENTO SUPERVISIONATO \\
 			In questa tipologia di apprendimento vengono presentati al computer degli input di esempio ed i relativi output desiderati, con lo scopo di apprendere una relazione generale che lega gli input con gli output; in questo caso si utilizza il così detto "training data set", mentre per testare il modello ottenuto si considera il "test data set" dove non vengono forniti al computer gli output. L'apprendimento supervisionato verrà trattato in maniera più approfondita nel prossimo paragrafo.
 		\item APPRENDIMENTO NON SUPERVISIONATO \\
-			In questo caso non vengono forniti al computer gli output attesi fin dalle prime fasi di apprendimento del modello e quindi lo scopo è quello di scoprire una qualche struttura fra i dati di input.\comment{fare riferimento al variational autoencoder: La parte implementativa di questa tesi si basa sull'utilizzo di un algoritmo unsupervised meglio noto come variational autoencoder. Come si vedrà, questo modello viene addestrato per identificare le caratteristiche peculiari degli eventi fisici di background in modo da contrapporli successivamente a quelle relative ad eventi di segnale.
+			In questo caso non vengono forniti al computer gli output attesi fin dalle prime fasi di apprendimento del modello e quindi lo scopo è quello di scoprire una qualche struttura fra i dati di input.%\comment{fare riferimento al variational autoencoder: La parte implementativa di questa tesi si basa sull'utilizzo di un algoritmo unsupervised meglio noto come variational autoencoder.
+			Come si vedrà, questo modello viene addestrato per identificare le caratteristiche peculiari degli eventi fisici di background in modo da contrapporli successivamente a quelle relative ad eventi di segnale.
 		\item APPRENDIMENTO PER RINFORZO \\
 			Il Reinforcement Learning è basato sul concetto di ricompensa, ovvero si permette all'algoritmo di esplorare un così detto ambiente e, in base all'azione compiuta, gli si fornisce un feedback positivo, negativo o indifferente. Un esempio classico prevede di voler addestrare un algoritmo per un particolare gioco: si farà in modo di fargli compiere una serie di partite in maniera iterativa e gli si assegnerà una ricompensa in caso di vittoria o un malus in caso di sconfitta. \\ 
 	\end{itemize}

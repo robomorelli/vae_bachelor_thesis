@@ -190,15 +190,32 @@ Come ultima considerazione sulle reti neurali bisogna sottolineare che il coeffi
 \subsection{Alberi Decisionali}
 \label{alberi decisionali}
 
-Un problema di classificazione può essere sempre trattato in forma di albero decisionale;
-applicazioni in sequenza di una serie di test, fatti sugli attributi
-l'albero decisionale non è altro che una funzione che a partire dal vettore di input, le cui componenti in questo caso le chiamo attributi, a seguito di una sequenza di test restituisce un singolo valore di output
+Gli alberi decisionali rappresentano uno dei metodi più intuitivi del Machine Learning perché è possibile avere una semplice rappresentazione grafica del meccanismo del loro funzionamento. \\
+Gli alberi decisionali rappresentano un mezzo estremamente interessante per le operazioni di classificazione (sia per output continui che discreti) ed operano attraverso una serie di test sugli attributi degli input (con il termine attributo si intende una componente del vettore di input ). \\ 
+Come primo passo è utile discutere come è strutturato un albero decisionale, introducendo alcune notazioni (come ausilio alla trattazione si riporta in figura ~\ref{schemaDT} un esempio di albero decisionale molto semplice).\\
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=0.70\textwidth]{figs/schemaDT.png}
+	\caption{esempio di come è strutturato un albero decisionale}
+	\label{schemaDT}
+\end{figure}
+Gli elementi che caratterizzano un albero decisionale sono:
+\begin{itemize}
+	\item Nodo. \\
+		I nodi sono riportati in figura ~\ref{schemaDT} come dei cerchi colorati in azzurro e contrassegnati dalla lettera N. Ogni nodo si occupa di eseguire un test su di un singolo attributo (il nodo iniziale dove avviene il primo test e quindi la prima differenziazione degli input è detto "root node");
+	\item Ramo. \\
+		I rami (detti anche archi) determinano le regole di "splitting", ovvero le regole attraverso le quali vengono separati i vettori in input a seconda dei loro attributi; tali rami determinano quindi i percorsi all'interno degli alberi decisionali e quindi, in ultima analisi, la classificazione finale;
+	\item Foglie. \\
+		Le foglie sono una classe particolare di nodi, ovvero i nodi finali che, in quanto tali, non generano nuove diramazioni ma rappresentano il risultato finale del processo di classificazione.
+\end{itemize}
 
-gli attributi in input possono essere sia continui che discreti (caso più semplice)
-
-output a due valori -> classificatore booleano (o si o no, o segnale o fondo)
-
-differenza tra nodo interno, dove avviene il test sul valore di uno degli attributi e gli archi che ne dipartono corrispondono ai possibili valori e nodo foglia (terminale) che mi dà il possibile risultato finale del processo decisionale
-
-come posso capire a partire dall'abbinamento fra vettore degli attributi e output l'ordine con il quale avvengono i test?
-Si vanno a cercare di volta in volta i criteri più discriminanti -> servirà un algoritmo riorsivo
+Bisogna tenere a mente che si sta parlando di una metodologia del ML, che è quindi volta ad estrarre dai dati di input (training data set) e dai corrispettivi output target l'informazione generale, per poter poi applicare l'algoritmo a casi per i quali non si è in possesso degli output di riferimento.\\
+Detto ciò è necessario capire in che modo possa essere costruito un albero decisionale e l'idea di base è quella di stabilire, di volta in volta, il criterio sugli attributi che più discrimina gli input. \\
+Nella costruzione degli alberi decisionali bisogna distinguere due fasi successive:
+\begin{itemize}
+	\item "Building", ovvero costruzione.\\
+		In questo prima fase l'obiettivo è quello di far crescere l'albero in dimensione, quindi in termini di rami e nodi per avere un numero adeguato di regole di splitting così da ottenere una classificazione in classi omogenee nella fase finale. In questa prima si ottiene un albero particolarmente folto e quindi probabilmente soggetto all'overfitting (come primo argine a ciò è possibile introdurre un criterio d'arresto capace di fermare la crescita dell'albero al realizzarsi di particolari condizioni);
+	\item "Pruning", ovvero potatura.\\
+		Questa fase è quella che permette di evitare l'overfitting perché vengono eliminati i rami che non contribuiscono in maniera significativa al processo di classificazione.
+	
+\end{itemize} 
