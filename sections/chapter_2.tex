@@ -219,3 +219,25 @@ Nella costruzione degli alberi decisionali bisogna distinguere due fasi successi
 		Questa fase è quella che permette di evitare l'overfitting perché vengono eliminati i rami che non contribuiscono in maniera significativa al processo di classificazione.
 	
 \end{itemize} 
+
+Come già detto la prima fase è quella di "Building", durante la quale viene costruito l'albero decisionale aggiungendo nodi e rami, con il fine di ottenere una classificazione finale il più possibile omogenea; è altresì noto che ad ogni nodo corrisponde un attributo sul quale è effettuato un test, quindi è evidente che, dato un particolare numero di attributi, il numero di alberi possibili è molto elevato. Bisogna trovare un modo per disporre nella maniera più efficace i nodi all'interno dell'albero: l'idea è quella di scegliere per primo l'attributo attraverso il quale si ha una maggiore discriminazione dei dati in input. Per fare ciò si possono percorrere due strade distinte, utilizzando:
+\begin{itemize}
+	\item Coefficiente di impurità di Gini. 
+	\item Guadagno informativo. 
+\end{itemize} 
+E' chiaro che entrambi questi indici vengono utilizzati con la stessa finalità, tuttavia ogni algoritmo ha una differente logica di costruzione e quindi adotterà uno solo dei due indici, con la possibilità di ottenere risultati differenti. \\
+A questo punto l'albero decisionale è stato costruito e quindi si deve passare alla fase di "pruning", con l'obiettivo di ridurre le dimensioni dell'albero per evitare l'ormai noto overfitting. Per fare ciò le strade sono due, infatti da un lato si può seguire un approccio "top-down", partendo dalla radice e suddividendo l'intera struttura in sotto alberi e dall'altro un approccio "bottom-up", partendo dalle foglie ed analizzando l'impatto di ogni singola potatura; è altresì possibile introdurre nella fase di costruzione stessa un criterio di "early-stopping" richiedendo un valore minimo di miglioramento dell'algoritmo fra un'iterazione e l'altra.
+\newpage
+In conclusione bisogna sottolineare che gli alberi decisionali sono particolarmente utilizzati per i seguenti motivi:
+\begin{itemize}
+	\item semplicità nell'interpretazione e nella visualizzazione;
+	\item tolleranza ad eventuali attributi mancanti per alcuni input nel training data set o nel test data set;
+	\item insensibilità ad eventuali attributi irrilevanti nella classificazione;
+	\item invarianza per trasformazioni monotone effettuate sugli attributi, che rende la fase di pre- processamento dei dati non necessaria. 
+\end{itemize}
+Gli alberi decisionali hanno tuttavia una serie di limiti elencati nelle righe che seguono:
+\begin{itemize}
+	\item instabilità rispetto al variare del training data set, cioè data set di allenamento di poco differenti fra loro producono risultati molto diversi;
+	\item frequente problema dell'overfitting.
+\end{itemize}
+\newpage
