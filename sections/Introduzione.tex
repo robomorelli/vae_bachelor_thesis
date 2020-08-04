@@ -17,9 +17,9 @@ I dati, per la loro stessa natura, sono disomogenei e caotici, quindi risulta pa
 	
 	\begin{enumerate}
 		\item CLASSIFICAZIONE \\
-			Questa tipologia è probabilmente la principale quando si ha a che fare con la fisica delle alte energie e consiste nell'associare un evento/oggetto  ad una categoria. Per esempio, una volta rilevata una particolare particella bisogna stabilire se questa è un elettrone, un protone, etc.% \comment{L'applicazione più frequente è però rappresentata dalla distinzione e quindi, dalla classificazione, degli eventi fisici nelle rispettive categorie di background/segnale} ;
- 
-%\todo[inline]{This is a todo note inline} 
+			Questa tipologia è probabilmente la principale quando si ha a che fare con la fisica delle alte energie e consiste nell'associare un evento/oggetto  ad una categoria. Per esempio, una volta rilevata una particolare particella bisogna stabilire se questa è un elettrone, un protone, etc ed un'altra applicazione molto frequente è la distinzione degli eventi fisici nelle categorie di segnale e background.
+			% \comment{L'applicazione più frequente è però rappresentata dalla distinzione e quindi, dalla classificazione, degli eventi fisici nelle rispettive categorie di background/segnale} ;
+  
 		\item STIMA DI PARAMETRI \\
 			In questa tipologia ricadono tutti quei processi attraverso i quali si estraggono dei parametri (ad esempio la massa di una tipologia di particelle) attraverso un fitting del modello teorico con i dati sperimentali;
 		\item STIMA DI FUNZIONI \\
@@ -56,7 +56,8 @@ I dati, per la loro stessa natura, sono disomogenei e caotici, quindi risulta pa
 			In questa tipologia di apprendimento vengono presentati al computer degli input di esempio ed i relativi output desiderati, con lo scopo di apprendere una relazione generale che lega gli input con gli output; in questo caso si utilizza il così detto "training data set", mentre per testare il modello ottenuto si considera il "test data set" dove non vengono forniti al computer gli output. L'apprendimento supervisionato verrà trattato in maniera più approfondita nel prossimo paragrafo.
 		\item APPRENDIMENTO NON SUPERVISIONATO \\
 			In questo caso non vengono forniti al computer gli output attesi fin dalle prime fasi di apprendimento del modello e quindi lo scopo è quello di scoprire una qualche struttura fra i dati di input.%\comment{fare riferimento al variational autoencoder: La parte implementativa di questa tesi si basa sull'utilizzo di un algoritmo unsupervised meglio noto come variational autoencoder.
-			Come si vedrà, questo modello viene addestrato per identificare le caratteristiche peculiari degli eventi fisici di background in modo da contrapporli successivamente a quelle relative ad eventi di segnale.
+			Come si vedrà, questo modello viene addestrato per identificare le caratteristiche peculiari degli eventi fisici di background in modo da contrapporli successivamente a quelle relative ad eventi di segnale.\\
+			Verrà posta particolare attenzione su un particolare metodo di apprendimento non supervisionato, il Variational Autoencoder (VAEs), del quale verrà svolta una trattazione teorica approfondita ed una applicazione al campo della fisica delle particelle
 		\item APPRENDIMENTO PER RINFORZO \\
 			Il Reinforcement Learning è basato sul concetto di ricompensa, ovvero si permette all'algoritmo di esplorare un così detto ambiente e, in base all'azione compiuta, gli si fornisce un feedback positivo, negativo o indifferente. Un esempio classico prevede di voler addestrare un algoritmo per un particolare gioco: si farà in modo di fargli compiere una serie di partite in maniera iterativa e gli si assegnerà una ricompensa in caso di vittoria o un malus in caso di sconfitta. \\ 
 	\end{itemize}
@@ -72,6 +73,5 @@ I dati, per la loro stessa natura, sono disomogenei e caotici, quindi risulta pa
 	\end{itemize}
 	
 	
-	%\cite{ProvaRef}
 
 

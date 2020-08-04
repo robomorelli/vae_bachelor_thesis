@@ -18,11 +18,7 @@ Inoltre, aumentando il livello di complessità, è possibile trovare eventuali g
 
 \newpage
 
-\subsection{Metodologie di clustering}
-\label{metodologie di clustering}
-Si descrivono due diverse metodologie di clustering, di cui una basata sul concetto di distanza ed una su quello di probabilità.
-
-\subsubsection{Metodo basato sulla distanza euclidea}
+\subsection{Metodo di clustering basato sulla distanza euclidea}
 \label{metodo distanza euclidea}
 Gli algoritmi di apprendimento non supervisionato sfruttano una qualche misura di similarità per separare i pattern (gli input) nei vari cluster. Una possibilità è quella di utilizzare la semplice distanza euclidea per poter separare lo spazio n-dimensionale dei pattern in delle sotto-aree, che sono appunto i cluster. \\
 Per fare ciò viene implementato un metodo iterativo, basato sulla definizione di alcuni punti particolari nello spazio dei pattern, detti "cluster seekers" (letteralmente "cercatori di cluster"). \\
@@ -32,7 +28,37 @@ I pattern del training data set $\Sigma$ vengono presentati all'algoritmo uno al
 \begin{equation}
 \textbf{C}_\textbf{k} + \alpha_k(\textbf{x}_\textbf{i} - \textbf{C}_\textbf{k}) \rightarrow \textbf{C}_\textbf{k}
 \end{equation}
-dove $\alpha_k$ è un parametro di apprendimento che determina di quanto il cluster seeker k-esimo si muove verso il punto $\textbf{x}_\textbf{i}$
+dove $\alpha_k$ è un parametro di apprendimento che determina di quanto il cluster seeker k-esimo si muove verso il punto $\textbf{x}_\textbf{i}$. \\
+A questo punto è utile fare in modo che più il cluster seeker è soggetto a spostamenti minore diventa l'entità dello spostamento. Per fare ciò si definisce una massa $m_k$ e le si assegna un valore pari al numero di volte in cui $\textbf{C}_\textbf{k}$ è stato soggetto a spostamenti (quindi anche il valore della massa verrà aggiornato di volta in volta); dopodiché si assegna ad $\alpha_k$ il seguente valore
+\begin{equation}
+	\alpha_k = \frac{1}{1 + m_k}
+\end{equation} 
+e, dato che ad ogni iterazione che coinvolge $\textbf{C}_\textbf{k}$ il valore di $m_k$ aumenta di una unità, il parametro di apprendimento $\alpha_k$ diminuisce di volta in volta. \\
+Il risultato di questo aggiustamento è che il cluster seeker si trova sempre nel punto che rappresenta la media dei punti del cluster. \\
+Una volta che sono stati presentati tutti i pattern del training data set all'algoritmo, i vari cluster seeker saranno conversi ai "centri di massa" dei cluster e la classificazione (cioè la delimitazione dei cluster nello spazio n-dimensionale) può essere fatta con una partizione dello spazio di Voronoi, di cui si riporta la seguente definizione:
+\begin{quotation} \small
+	\textit{In ogni insieme (topologicamente) discreto S di punti in uno spazio euclideo e per quasi ogni punto x, c'è un punto in S che è il più vicino a x. Il "quasi" è una precisazione necessaria dato che alcuni punti x possono essere equidistanti da 2 o più punti di S.
+	Se S contiene solo due punti, a e b, allora il luogo geometrico dei punti equidistanti da a e b è un iperpiano, ovvero un sottospazio affine di codimensione 1. Tale iperpiano sarà il confine tra l'insieme di tutti punti più vicini ad a che a b e l'insieme di tutti i punti più vicini a b che ad a. È l'asse del segmento ab.
+	In generale, l'insieme dei punti più vicini a un punto c $\in$ S che ad ogni altro punto di S è la parte interna di un politopo (eventualmente privo di bordi) detto dominio di Dirichlet o cella di Voronoi di c. L'insieme di tali politopi è una tassellatura dell'intero spazio e viene detta tassellatura di Voronoi corrispondente all'insieme S. Se la dimensione dello spazio è solo 2, è facile rappresentare graficamente le tassellazioni di Voronoi; è a questo caso che si riferisce solitamente l'accezione diagramma di Voronoi. \\
+	(Wikipedia, Diagramma di Voronoi.)} 
+\end{quotation}
 
+Un esempio didattico del risultato di questa partizione è riportato in figura ~\ref{Voronoi}.
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.70\textwidth]{figs/Voronoi.png}
+	\caption{Si riporta un esempio di partizione dello spazio (bi-dimensionale) di Voronoi in tre sotto regioni . L'immagine è presa da \cite{IntroML}}
+	\label{Voronoi}
+\end{figure}
 
+Si è accennato qualche riga fa che il numero di cluster seeker è inizialmente scelto in maniera casuale, per poi essere ottimizzato; per il processo di ottimizzazione si utilizza la varianza dei pattern $\{\textbf{x}_\textbf{i}\}$ per ogni cluster:
+\begin{equation}
+	\sigma^2 = \frac{1}{L}\sum_{i=1}^{L} (\textbf{x}_\textbf{i} - \bm{\mu})^2
+\end{equation}
+dove L è il numero di pattern nel cluster e $\bm{\mu}$ ne è la media:
+\begin{equation}
+	\bm{\mu} = \frac{1}{L}\sum_{i=1}^{L} \textbf{x}_\textbf{i}
+\end{equation}
+A questo punto, se la distanza $d_{ij}$ fra due cluster seeker $\textbf{C}_\textbf{i}$ e $\textbf{C}_\textbf{j}$ è minore di un determinato valore $\epsilon$, allora si sostituiscono i due cluster seeker con uno nuovo posto nel loro centro di massa (tenendo conto delle due masse $m_i$ e $m_j$); dall'altro lato, se vi è un cluster per il quale la varianza $\sigma^2$ è più grande di un valore $\delta$, si aggiunge un nuovo cluster seeker vicino a quello già esistente e si eguagliano entrambe le loro masse a zero.\\
+Come osservazione finale bisogna dire che nei metodi che si basano sul concetto di distanza è importante ri-scalare i valori delle componenti dei pattern (in linea di principio si possono avere componenti diverse con ordini di grandezza di molto differenti) in modo da evitare che alcune componenti pesino più di altre. \\ 
 \newpage
