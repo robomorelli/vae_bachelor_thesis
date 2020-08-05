@@ -1,0 +1,17 @@
+\section{Variational Autoencoders (VAEs)}
+\label{VAEs}
+
+A questo punto si è giunti finalmente al cuore di questa trattazione, dove vengono illustrate le basi teoriche di un metodo di apprendimento non supervisionato, il Variational Autoencoders (VAEs), del quale si studierà nella prossima sezione un'applicazione al campo della fisica delle alte energie. \\
+Il percorso seguito in questa sezione è il seguente:
+\begin{itemize}
+	\item Problema della dimensionalità;
+	\item Autoencoders;
+	\item Variational Autoencoders.
+\end{itemize}
+
+\subsection{Curse of dimensionality e riduzione della dimensionalità}
+\label{curse_dim}
+
+Come è stato più volte detto in questa trattazione, quando si parla di input (o pattern) ci si riferisce a dei vettori, le cui componenti sono i dati veri e propri; questi vettori, in quanto tali, possono essere pensati all'interno di un opportuno spazio n-dimensionale (con n=numero di componenti del vettore).\\
+Quando si parla di "Curse of dimensionality" (letteralmente "la maledizione della dimensionalità") ci si riferisce ad una serie di problemi che ci si trova ad affrontare quando bisogna trattare spazi con un'alta dimensionalità, che altrimenti non comparirebbero in spazi a bassa dimensionalità.  \\
+Dato che all'aumentare della dimensionalità i volumi nello spazio aumentano in maniera significativa, ci si troverà nella situazione per cui i pattern risultano sparsi nello spazio e questo è chiaramente un problema per ogni analisi che ne si vuole fare basata sulla statistica; infatti, per ottenere dei risultati significativi a livello statistico, la quantità di dati necessari aumenta in maniera esponenziale e questo risulta essere un problema a livello pratico.
