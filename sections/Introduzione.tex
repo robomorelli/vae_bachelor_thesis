@@ -24,68 +24,6 @@ In particolare verrà affrontato un metodo di ML, il $\textit{Variational Autoen
 \newpage
 
 
-\subsection{Tipologie di analisi dati}
-\label{subsec:tipologie analisi dati}
-
-	Quando si parla di analisi dati ci si può essenzialmente ricondurre a tre macro-categorie di operazioni:
-	
-	\begin{enumerate}
-		\item CLASSIFICAZIONE \\
-			Questa tipologia è probabilmente la principale quando si ha a che fare con la fisica delle alte energie e consiste nell'associare un evento/oggetto  ad una categoria. Per esempio, una volta rilevata una particolare particella bisogna stabilire se questa è un elettrone, un protone, etc ed un'altra applicazione molto frequente è la distinzione degli eventi fisici nelle categorie di segnale e background.
-			% \comment{L'applicazione più frequente è però rappresentata dalla distinzione e quindi, dalla classificazione, degli eventi fisici nelle rispettive categorie di background/segnale} ;
-  
-		\item STIMA DI PARAMETRI \\
-			In questa tipologia ricadono tutti quei processi attraverso i quali si estraggono dei parametri (ad esempio la massa di una tipologia di particelle) attraverso un fitting del modello teorico con i dati sperimentali;
-		\item STIMA DI FUNZIONI \\
-			Si ricava una funzione continua di una o più variabili a partire dai dati sperimentali.
-	\end{enumerate}
-
-\subsection{Processi multi-variati}
-\label{subsec:processi multi-variati}
-
-	Nelle prime righe del paragrafo precedente si è introdotto il termine evento o oggetto, senza meglio specificare come questo fosse collegato ai dati. Un evento può essere pensato come una collezione di dati e quindi lo si può rappresentare come un vettore in uno spazio n-dimensionale: 
-	\begin{equation}
-		\textbf{x} = (x_{1},...,x_{n})
-	\end{equation}
-	In realtà l'utilizzo del termine vettore è improprio ogni qual volta si abbia a che fare con componenti (i dati) disomogenee tra loro, tuttavia lo si continuerà ad utilizzare per una questione di comodità tenendo a mente questa specifica. A questo punto risulta evidente la necessità di trattare questi eventi attraverso processi multi-variati.\\
-	Bisogna aggiungere che è possibile che i dati (e quindi le componenti del vettore) siano tra loro correlati: in questa situazione è possibile ridurre la dimensionalità dello spazio di cui si è parlato precedentemente da n a d (con d<n). Verrà posto un focus particolare sul problema della dimensionalità degli input della sezione ~\ref{curse_dim}, che servirà da trampolino di lancio per affrontare un metodo particolare del ML, il Variational Autoencoders. 
-%\comment{Perchè potrebbe essere utile ridurre la dimensionalità? (rappresentazione sparsa dei dati:
-% \begin{itemize}
- 
-% \item \href{https://en.wikipedia.org/wiki/Curse_of_dimensionality}{wikipedia definition}
-% \item \href{https://machinelearningmastery.com/dimensionality-reduction-for-machine-learning/}{overview dimensionalyty reduction}
- 
-%  \end{itemize}
-  
-	
-\newpage
-	
-\subsection{Machine Learning}
-\label{subsec:machine learning}
-	L'approccio classico all'analisi dei dati prevede la disponibilità di un modello matematico, che dipende da una serie di parametri incogniti. Questi parametri vengono ricavati a partire dai dati sperimentali attraverso processi che possono essere sia analitici che numerici. \\
-	Quando si parla di machine learning la prospettiva viene ribaltata, perché il modello matematico non è noto a priori. \\
-	Bisogna distinguere tre macro-tipologie di approccio all'analisi dati nel machine learning:
-	\begin{itemize}
-		\item APPRENDIMENTO SUPERVISIONATO \\
-			In questa tipologia di apprendimento vengono presentati al computer degli input di esempio ed i relativi output desiderati, con lo scopo di apprendere una relazione generale che lega gli input con gli output; in questo caso si utilizza il così detto "training data set", mentre per testare il modello ottenuto si considera il "test data set" dove non vengono forniti al computer gli output. L'apprendimento supervisionato verrà trattato in maniera più approfondita nel prossimo paragrafo.
-		\item APPRENDIMENTO NON SUPERVISIONATO \\
-			In questo caso non vengono forniti al computer gli output attesi fin dalle prime fasi di apprendimento del modello e quindi lo scopo è quello di scoprire una qualche struttura fra i dati di input.%\comment{fare riferimento al variational autoencoder: La parte implementativa di questa tesi si basa sull'utilizzo di un algoritmo unsupervised meglio noto come variational autoencoder.
-			Come si vedrà, questo modello viene addestrato per identificare le caratteristiche peculiari degli eventi fisici di background in modo da contrapporli successivamente a quelle relative ad eventi di segnale.\\
-			Verrà posta particolare attenzione su un particolare metodo di apprendimento non supervisionato, il Variational Autoencoder (VAEs), del quale verrà svolta una trattazione teorica approfondita ed una applicazione al campo della fisica delle particelle
-		\item APPRENDIMENTO PER RINFORZO \\
-			Il Reinforcement Learning è basato sul concetto di ricompensa, ovvero si permette all'algoritmo di esplorare un così detto ambiente e, in base all'azione compiuta, gli si fornisce un feedback positivo, negativo o indifferente. Un esempio classico prevede di voler addestrare un algoritmo per un particolare gioco: si farà in modo di fargli compiere una serie di partite in maniera iterativa e gli si assegnerà una ricompensa in caso di vittoria o un malus in caso di sconfitta. \\ 
-	\end{itemize}
-
-	Una ulteriore distinzione che è necessario fare è fra algoritmi di classificazione, regressione e clustering:
-	\begin{itemize}
-		\item CLASSIFICAZIONE \\
-			Gli algoritmi di classificazione sono caratterizzati da un output discreto, cioè una serie di classi alle quali l'input può appartenere.Questa tipologia di meccanismo viene in genere portata avanti tramite metodi di apprendimento supervisionato. Un esempio di algoritmo di classificazione è quello che permette di distinguere se un particolare oggetto è presente o meno in un'immagine.
-		\item REGRESSIONE \\
-			La regressione è simile alla classificazione con la differenza che, in questo caso, l'output è continuo. Anche gli algoritmi di regressione sono adatti ad essere trattati con metodologie di apprendimento supervisionato.
-		\item CLUSTERING \\
-			Nel clustering l'obiettivo è sempre quello di dividere gli input in delle classi, tuttavia in questo caso tali classi non sono stabilite a priori. La natura di algoritmi di questo tipo li rende adatti ad essere trattati tramite metodi di apprendimento non supervisionato.
-	\end{itemize}
-	
 	
 
 
