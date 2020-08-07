@@ -1,0 +1,22 @@
+\section{Analisi multivariata e Machine Learning}
+\label{analisi multivariata e ML}
+
+	Quando si parla di analisi dati ci si può essenzialmente ricondurre a tre macro-categorie di operazioni:
+
+\begin{enumerate}
+	\item CLASSIFICAZIONE \\
+	Questa tipologia è probabilmente la principale quando si ha a che fare con la fisica delle alte energie e consiste nell'associare un evento/oggetto  ad una categoria. Nel caso specifico di questa trattazione l'obiettivo sarà esattamente quello di classificare gli eventi/oggetti nelle due categorie di background e segnale.
+
+	\item STIMA DI PARAMETRI \\
+	In questa tipologia ricadono tutti quei processi attraverso i quali si estraggono dei parametri (ad esempio la massa di una tipologia di particelle) attraverso un fitting del modello teorico con i dati sperimentali;
+	
+	\item STIMA DI FUNZIONI \\
+	Si ricava una funzione continua di una o più variabili a partire dai dati sperimentali.
+\end{enumerate}
+
+Questa trattazione si concentrerà essenzialmente sulle possibili metodologie di classificazione, proprio perché l'obiettivo è il discernimento fra segnale e background alla ricerca di nuova fisica. \\
+Nelle prime righe di questo capitolo è stato introdotto il termine $\textit{evento}$ o $\textit{oggetto}$, senza meglio specificare come questo fosse collegato ai dati. Un evento può essere pensato come una collezione di dati e quindi lo si può rappresentare come un vettore in uno spazio n-dimensionale: 
+\begin{equation}
+\textbf{x} = (x_{1},...,x_{n})
+\end{equation}
+In realtà l'utilizzo del termine vettore è improprio ogni qual volta si abbia a che fare con componenti (i dati) disomogenee tra loro, tuttavia lo si continuerà ad utilizzare per una questione di comodità tenendo a mente questa specifica. Nelle pagine successive con i termini evento, oggetto, vettore di input e pattern ci si riferirà sempre alla stessa entità appena introdotta. \\
