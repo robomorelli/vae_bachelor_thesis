@@ -330,12 +330,12 @@ Gli alberi decisionali hanno tuttavia una serie di limiti elencati nelle righe c
 \subsection{Curse of dimensionality e riduzione della dimensionalità}
 \label{curse_dim}
 
-A questo punto si è giunti finalmente al cuore di questa trattazione, dove vengono illustrate le basi teoriche di un metodo di apprendimento non supervisionato, il Variational Autoencoders (VAEs), del quale si studierà nella prossima sezione un'applicazione al campo della fisica delle alte energie. \\
-Il percorso seguito in questa sezione è il seguente:
+A questo punto si è giunti finalmente al cuore di questa trattazione, dove vengono illustrate le basi teoriche di un metodo di apprendimento non supervisionato, il Variational Autoencoders (VAEs), del quale si studierà nel prossimo capitolo un'applicazione al campo della fisica delle alte energie. \\
+Gli argomenti trattati nelle prossime pagine per presentare le basi teoriche del VAEs seguono la seguente struttura logica:
 \begin{itemize}
-	\item Problema della dimensionalità;
-	\item Autoencoders;
-	\item Variational Autoencoders.
+	\item  Presentazione del problema della dimensionalità;
+	\item Una delle possibili soluzioni: Autoencoders;
+	\item Evoluzione dell'autoencoders: il Variational Autoencoders.
 \end{itemize}
 Come è stato più volte detto in questa trattazione, quando si parla di input (o pattern) ci si riferisce a dei vettori, le cui componenti sono i dati veri e propri; questi vettori, in quanto tali, possono essere pensati all'interno di un opportuno spazio n-dimensionale (con n=numero di componenti del vettore).\\
 Quando si parla di "Curse of dimensionality" (letteralmente "la maledizione della dimensionalità") ci si riferisce ad una serie di problemi che ci si trova ad affrontare quando bisogna trattare spazi con un'alta dimensionalità, che altrimenti non comparirebbero in spazi a bassa dimensionalità.  \\
@@ -370,12 +370,24 @@ Come conseguenza di ciò che è stato appena illustrato, l'obiettivo di un proce
 \end{equation}
 dove $\epsilon (\textbf{x},\textbf{d}(\textbf{e}(\textbf{x})))$ è la grandezza attraverso la quale viene  quantificata la quantità di informazione persa nel processo di riduzione. \\ \\
 A questo punto è possibile illustrare le varie metodologie di riduzione della dimensionalità, secondo la distinzione già incontrata fra selezione ed estrazione. \\
-I metodi di selezione ("Feature Selection Methods (FSM)") sono metodi attraverso i quali vengono selezionate le componenti dei vettori di input da tenere e quelle da eliminare perché irrilevanti per le analisi successive; a proposito dei 
+I metodi di selezione ("$\textit{Feature Selection Methods}$ (FSM)") sono metodi attraverso i quali vengono selezionate le componenti dei vettori di input da tenere e quelle da eliminare perché irrilevanti per le analisi successive. I FSM si includo i $\textit{wrapper methods}$ ed i $\textit{filter methods}$: i primi valutano il modello con varie combinazioni di subset delle variabili originali e selezionano quella con la più alta efficienza, mentre i secondi utilizzano un metodo basato su dei punteggi per valutare eventuali correlazioni fra le variabili di partenza. \\
+I metodi di estrazione, invece, si basano fortemente sull'algebra lineare; in particolare vengono utilizzati spesso per la riduzione della dimensionalità i metodi di fattorizzazione delle matrici per cogliere la parte più importante dei dati. \\
+Il più comune di questi metodi prende il nome di $\textit{Principal Component Analysis}$ (PCA), del quale verrà presentata brevemente l'idea di base, evitando di addentrarsi troppo nella trattazione matematica che è essenzialmente riconducibile ad un calcolo di autovalori ed autovettori. \\
+L'idea del PCA è quella di costruire un numero $\textit{n}_\textit{e}$ di nuove variabili indipendenti che siano combinazione lineare delle $\textit{n}$ variabili di partenza; tale costruzione viene fatta in modo tale che la proiezione delle vecchie variabili sul nuovo sottospazio generato da quelle nuove sia il più possibile vicina ai dati iniziali, dove la vicinanza è da intendere in termini della distanza euclidea. In altre parole con il PCA si ricerca il sottospazio dello spazio dei pattern di partenza per il quale l'errore che viene compiuto nell'approssimazione dei dati tramite proiezioni sia il più piccolo possibile. Si riporta in figura ~\ref{PCA} un'illustrazione di ciò che è stato appena detto.
+\\
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.57\textwidth]{figs/PCA.png}
+	\caption{Illustrazione del processo di PCA nel caso di uno spazio dei pattern iniziali bi-dimensionale (\cite{Understanding_VAEs}).}
+	\label{PCA}
+\end{figure}
 
 \newpage
 
 \subsection{Autoencoders}
 \label{autoencoders}
+
+
 
 \newpage
 
