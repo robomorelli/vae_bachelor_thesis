@@ -386,6 +386,36 @@ L'idea del PCA è quella di costruire un numero $\textit{n}_\textit{e}$ di nuove
 
 \subsection{Autoencoders}
 \label{autoencoders}
+Gli autoencoders, come ogni altro metodo di riduzione della dimensionalità, sono costituiti da un encoder e da un decoder; tuttavia in questo caso la peculiarità è che sia l'encoder che il decoder sono delle reti neurali, come è possibile vedere in figura ~\ref{autoencoder}. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.70\textwidth]{figs/autoencoder.png}
+	\caption{Struttura di un generico autoencoder (\cite{Understanding_VAEs}).}
+	\label{autoencoder}
+\end{figure}
+
+L'obiettivo è chiaramente quello di individuare la coppia encoder-decoder che ottimizza il processo di ricostruzione degli input e ciò viene fatto attraverso il seguente processo iterativo: si presentano all'encoder i pattern di partenza uno alla volta, subiscono un processo di riduzione della dimensionalità e poi vengono ricostruiti (tornando alla dimensionalità di partenza), viene calcolato l'errore dal confronto fra l'input iniziale e quello ricostruito ed avviene l'aggiornamento dei pesi della rete neurale mediante il meccanismo di backpropagation, già incontrato nella sezione ~\ref{reti neurali}. \\
+Intuitivamente l'autoencoder può essere pensato come un collo di bottiglia, attraverso il quale solo una parte dell'informazione riesce a passare oltre e a formare i vettori dello spazio latente.
+Facendo riferimento alla figura ~\ref{autoencoder} si osserva che, a partire dai pattern in input \textbf{x}, come primo passo si costruisce lo spazio latente degli $\textbf{z} = e(\textbf{x})$ per poi procedere alla fase di decodifica nella quale si ottengono i pattern ricostruiti $\hat{\textbf{x}} = d(\textbf{z})$; si procede successivamente al calcolo degli errori nel seguente modo:
+\begin{equation}
+	L = \Vert \textbf{x} - \hat{\textbf{x}} \Vert
+\end{equation}
+dove L è l'errore di ricostruzione.\\
+Una considerazione necessaria circa l'errore, che potrebbe sembrare in contraddizione con quanto detto fino ad ora sul concetto di ottimizzazione, è che si vuole di norma evitare che $\textbf{x} = \hat{\textbf{x}}$, perché questo vuol dire che l'autoencoder ha imparato la funzione identità e, come conseguenza, la struttura dello spazio latente, che è quella interessante per il processo di riduzione della dimensionalità, non porta alcuna informazione interessante; ciò è dovuto al fatto che l'encoder non impara se vi siano variabili più o meno importanti di altre o se esse possano essere compattate in nuove variabili di dimensionalità minore. \\
+Per fornire un esempio pratico di ciò che è stato appena affermato, si consideri un insieme di vettori di input N dimensionali; una possibilità è quella di prendere una per una le componenti dei pattern e disporle lungo una retta (spazio latente 1-dimensionale) nella fase di encoding, per poi procedere in maniera inversa nella fase di decodifica. L'errore con questo procedimento sarà nullo ma non si può essere soddisfati essenzialmente per due motivi, ovvero perché lo spazio latente non è interpretabile e sfruttabile e perché in un processo di riduzione della dimensionalità si vuole fare in modo che i dati continuino a conservare una qualche struttura. \\
+Una possibilità per evitare il risultato appena illustrato, che è in fin dei conti una sfaccettatura del concetto di overfitting, è di aggiungere alla funzione L un fattore di regolarizzazione che penalizza i risultati per i quali $\textbf{x} = \hat{\textbf{x}}$. \\
+Quindi bisogna sempre porre particolare attenzione alla scelta della profondità dell'encoder, ovvero alla sua capacità di riduzione della dimensionalità. \\
+Per completezza nella trattazione si osserva che gli autoencoder possono essere sia lineari che non; il primo caso si ottiene quando non si inserisce una funzione di attivazione non lineare e quindi le trasformazioni possono essere rappresentate come matrici, ottenendo un risultato simile a quello del PCA (~\ref{curse_dim}). \\
+Il caso di autoencoder non lineari può essere pensato come un passo successivo per quanto riguarda la riduzione della dimensionalità. Infatti, come è stato già detto, il PCA ricerca il miglior iperpiano nello spazio dei pattern originali sul quale questi possano essere proiettati in modo da ridurre la perdita di informazione; dall'altro lato gli autoencoder non lineari non si limitano alla ricerca di iperpiani, ma possono esplorare anche superfici più complesse, come si evince chiaramente dalla figura ~\ref{autoencoder non lineari}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.70\textwidth]{figs/Autoencoder_non_lineari.png}
+	\caption{Differenza fra i metodi lineari (PCA) e gli autoencoder non lineari (\cite{Autoencoders}).}
+	\label{autoencode_non_lineari}
+\end{figure}
+
 
 
 
