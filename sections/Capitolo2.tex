@@ -385,6 +385,9 @@ L'idea del PCA è quella di costruire un numero $\textit{n}_\textit{e}$ di nuove
 \newpage
 
 \subsection{Autoencoders}
+
+%per gli autoencoder posso rivedere la struttura del paragrafo ed impostarla in maniera simile al video su youtube (https://www.youtube.com/watch?v=uaaqyVS9-rM), in particolare nell'inizio dove si parla di deep autoencoder e di applicazioni non solo per la riduzione della dimensionalità.
+
 \label{autoencoders}
 Gli autoencoders, come ogni altro metodo di riduzione della dimensionalità, sono costituiti da un encoder e da un decoder; tuttavia in questo caso la peculiarità è che sia l'encoder che il decoder sono delle reti neurali, come è possibile vedere in figura ~\ref{autoencoder}. 
 
@@ -406,17 +409,15 @@ Una considerazione necessaria circa l'errore, che potrebbe sembrare in contraddi
 Per fornire un esempio pratico di ciò che è stato appena affermato, si consideri un insieme di vettori di input N dimensionali; una possibilità è quella di prendere una per una le componenti dei pattern e disporle lungo una retta (spazio latente 1-dimensionale) nella fase di encoding, per poi procedere in maniera inversa nella fase di decodifica. L'errore con questo procedimento sarà nullo ma non si può essere soddisfati essenzialmente per due motivi, ovvero perché lo spazio latente non è interpretabile e sfruttabile e perché in un processo di riduzione della dimensionalità si vuole fare in modo che i dati continuino a conservare una qualche struttura. \\
 Una possibilità per evitare il risultato appena illustrato, che è in fin dei conti una sfaccettatura del concetto di overfitting, è di aggiungere alla funzione L un fattore di regolarizzazione che penalizza i risultati per i quali $\textbf{x} = \hat{\textbf{x}}$. \\
 Quindi bisogna sempre porre particolare attenzione alla scelta della profondità dell'encoder, ovvero alla sua capacità di riduzione della dimensionalità. \\
-Per completezza nella trattazione si osserva che gli autoencoder possono essere sia lineari che non; il primo caso si ottiene quando non si inserisce una funzione di attivazione non lineare e quindi le trasformazioni possono essere rappresentate come matrici, ottenendo un risultato simile a quello del PCA (~\ref{curse_dim}). \\
-Il caso di autoencoder non lineari può essere pensato come un passo successivo per quanto riguarda la riduzione della dimensionalità. Infatti, come è stato già detto, il PCA ricerca il miglior iperpiano nello spazio dei pattern originali sul quale questi possano essere proiettati in modo da ridurre la perdita di informazione; dall'altro lato gli autoencoder non lineari non si limitano alla ricerca di iperpiani, ma possono esplorare anche superfici più complesse, come si evince chiaramente dalla figura ~\ref{autoencoder non lineari}.
+Per completezza nella trattazione si osserva che gli autoencoder possono essere sia lineari che non; il primo caso si ottiene quando non si inserisce una funzione di attivazione non lineare e si utilizzano solo due strati, quindi le trasformazioni possono essere rappresentate come matrici e si ottiene un risultato simile a quello del PCA (~\ref{curse_dim}). \\
+Il caso di autoencoder non lineari ($\textit{deep autoencoder}$) può essere pensato come un passo successivo per quanto riguarda la riduzione della dimensionalità. Infatti, come è stato già detto, il PCA ricerca il miglior iperpiano nello spazio dei pattern originali sul quale questi possano essere proiettati in modo da ridurre la perdita di informazione; dall'altro lato gli autoencoder non lineari non si limitano alla ricerca di iperpiani, ma possono esplorare anche superfici più complesse, come si evince chiaramente dalla figura ~\ref{autoencoder_non_lineari}.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.70\textwidth]{figs/Autoencoder_non_lineari.png}
 	\caption{Differenza fra i metodi lineari (PCA) e gli autoencoder non lineari (\cite{Autoencoders}).}
-	\label{autoencode_non_lineari}
+	\label{autoencoder_non_lineari}
 \end{figure}
-
-
 
 
 \newpage
