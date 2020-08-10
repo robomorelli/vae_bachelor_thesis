@@ -425,4 +425,26 @@ Il caso di autoencoder non lineari ($\textit{deep autoencoder}$) può essere pen
 \subsection{Variational Autoencoders (VAEs)}
 \label{VAEs}
 
+Nella sezione precedente è stato presentato l'autoencoder come un metodo di riduzione della dimensionalità; tuttavia, apportando una sostanziale modifica, tale metodo può essere utilizzato per la generazione di pattern ed in questo caso si parla di Variational Autoencoders (VAEs). \\ 
+Bisogna domandarsi a questo punto in che modo si possa passare dalla riduzione della dimensionalità al generare nuovi pattern e perché il semplice autoencoder, così come è stato incontrato, non permette di raggiungere tale obiettivo e debba essere modificato opportunamente. \\
+Come primo passo è necessario capire perché gli autoencoders non siano adatti al processo di generazione e la risposta può essere intuita già da ciò che è stato detto nella sezione precedente ma si cercherà di argomentarla meglio. L'autoencoder, come noto, agisce su di un pattern originale \textbf{x} trasformandolo in un $\textbf{z} = e(\textbf{x})$ nello spazio latente (fase di encoding)  e poi trasforma nuovamente \textbf{z} per tornare allo spazio originale; si potrebbe pensare che, per far svolgere la funzione di generazione, si potrebbe scegliere un punto a caso dello spazio latente (che è stato costruito nella fase di encoding) e darlo in pasto al decoder, ottenendo così un nuovo pattern per nulla collegato a quelli originali. Il problema nel ragionamento appena esplicato sta nel non tenere in conto la regolarità dello spazio latente. Come detto nella sezione precedente, ottenere uno spazio latente regolare non è affatto semplice e quindi la regolarità non può essere assunta a priori; questo non deve affatto stupire perché l'autoencoder è pensato per codificare e decodificare informazioni cercando di ridurre al minimo la perdita delle stesse e quindi tenderà naturalmente all'overfitting. Il risultato sarà uno spazio latente non regolarizzato e quindi, campionando da esso un punto a caso, si otterrebbe un pattern ricostruito assolutamente privo di senso, come si può osservare, in maniera didattica, dalla figura ~\ref{limite autoencoder}. \\ 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.99\textwidth]{figs/limite_autoencoder.png}
+	\caption{Illustrazione grafica e semplificata dei limiti nell'applicazione degli autoencoder per fini di generazione di nuovi pattern (\cite{Understanding_VAEs}).}
+	\label{limite autoencoder}
+\end{figure}
+
+Quindi, per raggiungere l'obiettivo prefissato, si attua un processo di regolarizzazione durante la fase di addestramento e si può iniziare a parlare di Variational Autoencoders (VAEs). Si può quindi definire il VAEs come un autoencoder per il quale si attua una regolarizzazione dello spazio latente durante il processo di addestramento ed è quindi adatto alla generazione di nuovi pattern. \\
+I VAEs, al pari degli autoencoders, sono costituiti da una coppia di encoder e decoder con una sostanziale differenza, nel senso che per gli autoencoders il pattern di partenza viene codificato come un punto nello spazio latente ($\textbf{z}$), mentre per i VAEs la codifica avviene tramite una distribuzione nello spazio latente ($p(\textbf{z}|\textbf{x})$). Il processo seguito nella fase di addestramento è il seguente:
+\begin{enumerate}
+	\item Il pattern iniziale viene codificato nello spazio latente come una distribuzione di probabilità;
+	\item Si campiona un punto dello spazio latente a partire dalla distribuzione del punto precedente;
+	\item Tale punto viene decodificato dal decoder, ottenendo il pattern ricostruito;
+	\item Avviene il confronto fra il pattern iniziale e quello ricostruito da cui si calcola l'errore, che viene poi propagato mediante il meccanismo della backpropagation.
+\end{enumerate}
+
+Nella pratica si cerca di fare in modo che la distribuzione ottenuta alla fine del processo di codifica sia il più possibile vicina ad una distribuzione Normale, perché come si vedrà in seguito si riesce a garantire una certa regolarità dello spazio latente; in particolare si farà in modo che l'encoder restituisca la media e la matrice di covarianza della distribuzione Normale. \\ 
+Seguendo questa linea, si ottiene che il processo di addestramento è regolato da una funzione di perdita, composta da un termine relativo alla ricostruzione ed uno relativo alla regolarizzazione dello spazio latente; tale termine di regolarizzazione viene espresso mediante la $\textit{Divergenza di Kullback-Leibler}$, che rappresenta una misura della differenza ta due distribuzioni di probabilità. \\
 \newpage
