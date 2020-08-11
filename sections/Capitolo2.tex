@@ -447,4 +447,33 @@ I VAEs, al pari degli autoencoders, sono costituiti da una coppia di encoder e d
 
 Nella pratica si cerca di fare in modo che la distribuzione ottenuta alla fine del processo di codifica sia il più possibile vicina ad una distribuzione Normale, perché come si vedrà in seguito si riesce a garantire una certa regolarità dello spazio latente; in particolare si farà in modo che l'encoder restituisca la media e la matrice di covarianza della distribuzione Normale. \\ 
 Seguendo questa linea, si ottiene che il processo di addestramento è regolato da una funzione di perdita, composta da un termine relativo alla ricostruzione ed uno relativo alla regolarizzazione dello spazio latente; tale termine di regolarizzazione viene espresso mediante la $\textit{Divergenza di Kullback-Leibler}$, che rappresenta una misura della differenza ta due distribuzioni di probabilità. \\
+Nelle righe precedenti è stata richiesta la regolarità dello spazio latente ed è giusto chiarire cosa si intenda effettivamente. Lo spazio latente è regolare se:
+\begin{itemize}
+	\item è continuo, ovvero due punti vicini portano ad un risultato simile una volta decodificati;
+	\item è completo, nel senso che un qualunque punto porta ad un risultato sensato una volta decodificato.  
+\end{itemize}
+Il solo fatto di codificare i pattern come delle distribuzioni non garantisce la continuità e la completezza, perché se non si inserisce il termine di regolarizzazione nella funzione di perdita il VAE continuerà a comportarsi come un semplice autoencoder, tendendo semplicemente a minimizzare l'errore di ricostruzione. Questo può avvenire in due modi, ovvero codificando i pattern come distribuzioni o con varianze molto piccole (quasi come singoli punti) o con medie molto diverse fra loro (punti molto lontani nello spazio latente); nel primo caso non viene garantita la continuità e nel secondo la completezza. \\ 
+Per ottenere la regolarità dello spazio latente si richiede allora che le distribuzioni con cui vengono codificati i pattern siano il più possibile vicine a distribuzioni Normali con media zero e matrice di covarianza uguale all'identità; le medie saranno allora vicine con conseguente sovrapposizione delle distribuzioni, anche perché la matrice di covarianza così fatta impedisce la codifica come punti nello spazio latente. Il prezzo da pagare sarà chiaramente un più alto errore nella fase di ricostruzione.\\ 
+Prima di passare alla formulazione matematica dei VAEs, bisogna notare che la regolarità dello spazio latente implica la presenza di un gradiente, il quale permette di mischiare le caratteristiche dei pattern in input e quindi di dare un significato al campionamento nello spazio latente. \\
+\subsubsection{Formulazione matematica dei VAEs}
+La differenza sostanziale fra autoencoders e VAEs è che i primi sono strutturati come una coppia encoder-decoder deterministici, mentre i secondi sono probabilistici. Nel primo caso, una volta terminato il processo di addestramento, un particolare pattern iniziale $\textbf{x}$ viene sempre codificato in un dato $\textbf{z}$ nello spazio latente e decodifica in un dato $\hat{\textbf{x}}$ ed è per questo che si parla di processo deterministico. Tutto ciò non avviene nel caso dei VAEs, dove entra in gioco un processo probabilistico. \\
+Ci si focalizzi ora sulla generazione di nuovi pattern: viene campionato $\textbf{z}$ a partire dalla distribuzione a priori $p(\textbf{z})$ nello spazio latente e poi viene campionato $\textbf{x}$ a partire dalla distribuzione di probabilità condizionata $p(\textbf{x}|\textbf{z})$; quindi si potrà dire che il decoder "probabilistico" è definito da $p(\textbf{x}|\textbf{z})$ e l'encoder "probabilistico" da $p(\textbf{z}|\textbf{x})$. \\
+A questo punto il teorema di Bayes [~\cite{Statistica}] permette di legare le due distribuzioni di probabilità condizionata nel seguente modo:
+\begin{equation}
+	p(\textbf{z}|\textbf{x}) = \frac{p(\textbf{x}|\textbf{z}) p(\textbf{z})}{p(\textbf{x})}
+\end{equation}
+dove
+\begin{equation}
+	p(\textbf{x}) = \int p(\textbf{x}|\textbf{z}) p(\textbf{z}) dz
+	\label{integrale}
+\end{equation}
+A questo punto si assume che $p(\textbf{z})$ sia una distribuzione Normale standard e che $p(\textbf{x}|\textbf{z})$ sia una distribuzione Normale con media data da una funzione $f(\textbf{z})$ e matrice di covarianza data dal prodotto della matrice identità per un costante positiva c:
+\begin{equation}
+	p(\textbf{z}) = N(0,I) 
+\end{equation}
+\begin{equation}
+p(\textbf{x}|\textbf{z}) = N(f(\textbf{z}),cI)
+\end{equation}
+Arrivati a questo punto si potrebbe pensare di poter procedere con il calcolo di $p(\textbf{z}|\textbf{x})$, in quanto si hanno tutti gli elementi necessari a disposizione; tuttavia tale strada è alquanto impercorribile per via della difficoltà nel calcolo dell'integrale ~\ref{integrale} e sarà necessario utilizzare delle tecniche di approssimazione, come l'inferenza variazionale.
+
 \newpage
