@@ -455,25 +455,79 @@ Nelle righe precedenti è stata richiesta la regolarità dello spazio latente ed
 Il solo fatto di codificare i pattern come delle distribuzioni non garantisce la continuità e la completezza, perché se non si inserisce il termine di regolarizzazione nella funzione di perdita il VAE continuerà a comportarsi come un semplice autoencoder, tendendo semplicemente a minimizzare l'errore di ricostruzione. Questo può avvenire in due modi, ovvero codificando i pattern come distribuzioni o con varianze molto piccole (quasi come singoli punti) o con medie molto diverse fra loro (punti molto lontani nello spazio latente); nel primo caso non viene garantita la continuità e nel secondo la completezza. \\ 
 Per ottenere la regolarità dello spazio latente si richiede allora che le distribuzioni con cui vengono codificati i pattern siano il più possibile vicine a distribuzioni Normali con media zero e matrice di covarianza uguale all'identità; le medie saranno allora vicine con conseguente sovrapposizione delle distribuzioni, anche perché la matrice di covarianza così fatta impedisce la codifica come punti nello spazio latente. Il prezzo da pagare sarà chiaramente un più alto errore nella fase di ricostruzione.\\ 
 Prima di passare alla formulazione matematica dei VAEs, bisogna notare che la regolarità dello spazio latente implica la presenza di un gradiente, il quale permette di mischiare le caratteristiche dei pattern in input e quindi di dare un significato al campionamento nello spazio latente. \\
+
 \subsubsection{Formulazione matematica dei VAEs}
-La differenza sostanziale fra autoencoders e VAEs è che i primi sono strutturati come una coppia encoder-decoder deterministici, mentre i secondi sono probabilistici. Nel primo caso, una volta terminato il processo di addestramento, un particolare pattern iniziale $\textbf{x}$ viene sempre codificato in un dato $\textbf{z}$ nello spazio latente e decodifica in un dato $\hat{\textbf{x}}$ ed è per questo che si parla di processo deterministico. Tutto ciò non avviene nel caso dei VAEs, dove entra in gioco un processo probabilistico. \\
-Ci si focalizzi ora sulla generazione di nuovi pattern: viene campionato $\textbf{z}$ a partire dalla distribuzione a priori $p(\textbf{z})$ nello spazio latente e poi viene campionato $\textbf{x}$ a partire dalla distribuzione di probabilità condizionata $p(\textbf{x}|\textbf{z})$; quindi si potrà dire che il decoder "probabilistico" è definito da $p(\textbf{x}|\textbf{z})$ e l'encoder "probabilistico" da $p(\textbf{z}|\textbf{x})$. \\
-A questo punto il teorema di Bayes [~\cite{Statistica}] permette di legare le due distribuzioni di probabilità condizionata nel seguente modo:
+\label{matematica dei VAEs}
+%La differenza sostanziale fra autoencoders e VAEs è che i primi sono strutturati come una coppia encoder-decoder deterministici, mentre i secondi sono probabilistici. Nel primo caso, una volta terminato il processo di addestramento, un particolare pattern iniziale $\textbf{x}$ viene sempre codificato in un dato $\textbf{z}$ nello spazio latente e decodifica in un dato $\hat{\textbf{x}}$ ed è per questo che si parla di processo deterministico. Tutto ciò non avviene nel caso dei VAEs, dove entra in gioco un processo probabilistico. \\
+%Ci si focalizzi ora sulla generazione di nuovi pattern: viene campionato $\textbf{z}$ a partire dalla distribuzione a priori $p(\textbf{z})$ nello spazio latente e poi viene campionato $\textbf{x}$ a partire dalla distribuzione di probabilità condizionata $p(\textbf{x}|\textbf{z})$; quindi si potrà dire che il decoder "probabilistico" è definito da $p(\textbf{x}|\textbf{z})$ e l'encoder "probabilistico" da $p(\textbf{z}|\textbf{x})$. \\
+%A questo punto il teorema di Bayes [~\cite{Statistica}] permette di legare le due distribuzioni di probabilità condizionata nel seguente modo:
+%\begin{equation}
+	%p(\textbf{z}|\textbf{x}) = \frac{p(\textbf{x}|\textbf{z}) p(\textbf{z})}{p(\textbf{x})}
+%\end{equation}
+%dove
+%\begin{equation}
+	%p(\textbf{x}) = \int p(\textbf{x}|\textbf{z}) p(\textbf{z}) dz
+	%\label{integrale}
+%\end{equation}
+%A questo punto si assume che $p(\textbf{z})$ sia una distribuzione Normale standard e che $p(\textbf{x}|\textbf{z})$ sia una distribuzione Normale con media data da una funzione $f(\textbf{z})$ e matrice di covarianza data dal prodotto della matrice identità per un costante positiva c:
+%\begin{equation}
+%	p(\textbf{z}) = N(0,I) 
+%\end{equation}
+%\begin{equation}
+%p(\textbf{x}|\textbf{z}) = N(f(\textbf{z}),cI)
+%\end{equation}
+%Arrivati a questo punto si potrebbe pensare di poter procedere con il calcolo di $p(\textbf{z}|\textbf{x})$, in quanto si hanno tutti gli elementi necessari a disposizione; tuttavia tale strada è alquanto impercorribile per via della difficoltà nel calcolo dell'integrale ~\ref{integrale} e sarà necessario utilizzare delle tecniche di approssimazione, come l'inferenza variazionale.
+
+Per formulare in maniera rigorosa i VAEs è necessario utilizzare l' inferenza variazionale e verranno dati alcuni concetti fondamentali della teoria dell'informazione. \\
+Per prima cosa bisogna introdurre una grandezza, che è in grado di quantificare la quantità di informazione di una proposizione ed è appunto detta \textit{Informazione}:
+\begin{equation}
+	I = \log p(x)
+\end{equation}
+dove x è l'evento. \\
+Questo concetto di informazione coincide con quello che si possiede intuitivamente, ovvero che ad eventi certi o molto probabili corrisponde una quantità di informazione nulla o molto bassa, mentre ad eventi poco probabili corrisponde una quantità di informazione più alta. \\ 
+Un'altra quantità fondamentale nella teoria dell'informazione è l'\textit{entropia}, ovvero l'informazione media, ed è definita nel seguente modo:
+\begin{equation}
+	H = \sum p(x) \log p(x)
+\end{equation}
+A questo punto si introduce la \textit{KL divergency} (già accennata precedentemente) che è di fondamentale importanza nel processo di addestramento dei VAEs; si tratta di una misura della dissimilarità di due distribuzioni (p(x) e q(x)):
+\begin{equation}
+	KL(p(x)||q(x)) = -\sum p(x) \log q(x) + \sum p(x) \log p(x) = -\sum p(x) \log \frac{q(x)}{p(x)}
+\end{equation}
+si nota come essa sia molto simile alla differenza delle entropie delle due distribuzioni e ciò è in linea con l'intuizione perché due distribuzioni che hanno un'informazione media uguale saranno pressoché uguali.
+Le due proprietà fondamentale della \textit{KL divergency} sono le seguenti:
+\begin{enumerate}
+	\item 
+	\begin{equation}
+		KL(p(x)||q(x)) \geq 0
+	\end{equation}
+	
+	\item 
+	\begin{equation}
+		KL(p(x)||q(x)) \not = KL(q(x)||p(x))
+	\end{equation}
+\end{enumerate}
+Ora è possibile ricollegarsi al discorso sui VAEs e si definisca con \textbf{x} la grandezza osservabile e con \textbf{z} quella nascosta dello spazio latente. Il teorema di Bayes [~\cite{Statistica}] permette di scrivere:
 \begin{equation}
 	p(\textbf{z}|\textbf{x}) = \frac{p(\textbf{x}|\textbf{z}) p(\textbf{z})}{p(\textbf{x})}
+	\label{bayes}
 \end{equation}
 dove
 \begin{equation}
 	p(\textbf{x}) = \int p(\textbf{x}|\textbf{z}) p(\textbf{z}) dz
 	\label{integrale}
 \end{equation}
-A questo punto si assume che $p(\textbf{z})$ sia una distribuzione Normale standard e che $p(\textbf{x}|\textbf{z})$ sia una distribuzione Normale con media data da una funzione $f(\textbf{z})$ e matrice di covarianza data dal prodotto della matrice identità per un costante positiva c:
-\begin{equation}
-	p(\textbf{z}) = N(0,I) 
-\end{equation}
-\begin{equation}
-p(\textbf{x}|\textbf{z}) = N(f(\textbf{z}),cI)
-\end{equation}
-Arrivati a questo punto si potrebbe pensare di poter procedere con il calcolo di $p(\textbf{z}|\textbf{x})$, in quanto si hanno tutti gli elementi necessari a disposizione; tuttavia tale strada è alquanto impercorribile per via della difficoltà nel calcolo dell'integrale ~\ref{integrale} e sarà necessario utilizzare delle tecniche di approssimazione, come l'inferenza variazionale.
+tuttavia tale integrale è difficile da calcolare ed è in questo punto che entra in gioco l'inferenza variazionale per approssimare $p(\textbf{z}|\textbf{x})$ con una qualche funzione $q(\textbf{z}|\textbf{x})$. Si assume inoltre che quest'ultima debba essere scelta dalla famiglia delle distribuzioni Normali, andando a variare i parametri in modo che risulti il più possibile simile a $p(\textbf{z}|\textbf{x})$ e per quantificare ciò si utilizza la
+\textit{KL divergency}: 
 
+\begin{equation}
+	KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}|\textbf{x})) = -\sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{z}|\textbf{x})}{q(\textbf{z}|\textbf{x})}
+\end{equation}
+
+e sostituendo $p(z|x)$ con la ~\ref{bayes} si ottiene:
+
+
+\begin{align*} 
+	KL (q(z|x) || p(z|x)) &=  -\sum q(z|x) \log \frac{p(x|z)p(z)}{p(x)q(z|x)} \\ &=  -\sum q(z|x)\log \frac{p(x|z)p(z)}{q(z|x)} + \sum q(z|x)\log p(x)
+\end{align*}
+ma in entrambi i termini della somma la sommatoria è estesa sui vari z
 \newpage
