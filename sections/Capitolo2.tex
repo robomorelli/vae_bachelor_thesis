@@ -557,6 +557,41 @@ In figura ~\ref{grafo} è possibile osservare in che modo si passa da $\textbf{x
 	\caption{Illustrazione grafica della modalità attraverso la quale si ottiene il passaggio dalla variabile $\textbf{x}$ osservabile alla $\textbf{z}$ nello spazio latente e viceversa.}
 	\label{grafo}
 \end{figure}
+Il significato del termine di $\textit{KL divergency}$ che compare in $\mathcal{L}$ suggerisce che la distribuzione $q(\textbf{z}|\textbf{x})$ debba essere il più possibile ad una distribuzione $p(\textbf{z})$ che può essere scelta e quindi si assume una distribuzione Normale. \\
+L'altro termine in $\mathcal{L}$ è riconducibile ad un errore di ricostruzione, infatti il processo di decodifica, una volta campionato \textbf{z} è deterministico e quindi si ottiene che:
+\begin{equation}
+	p(\textbf{x}|\textbf{z}) = p(\textbf{x}|\hat{\textbf{x}})
+\end{equation}
+dove $\hat{\textbf{x}}$ è il pattern ricostruito. Inoltre se si considerano distribuzioni gaussiane si troverà che:
+
+\begin{equation}
+	p(\textbf{x}|\hat{\textbf{x}}) \propto e^{{-{\lvert \textbf{x}-\hat{\textbf{x}}} \rvert}^2}
+\end{equation}
+
+e quindi
+
+\begin{equation}
+	\log p(\textbf{x}|\hat{\textbf{x}}) \propto -{\lvert \textbf{x}-\hat{\textbf{x}} \rvert}^2
+\end{equation}
+
+Quindi si osserva che l'autoencoder tende a minimizzare semplicemente ${\lvert \textbf{x}-\hat{\textbf{x}} \rvert}^2$, mentre il VAE tende a minimizzare la seguente quantità:
+
+\begin{equation}
+	{\lvert \textbf{x}-\hat{\textbf{x}} \rvert}^2 + KL (q(\textbf{z}|\textbf{x})||N(\bm{\mu},\bm{\Sigma}))
+\end{equation}
+
+Nella pratica si costruisce la rete neurale che si occupa della fase di codifica in modo che restituisca i parametri della distribuzione Normale e quindi la media e la matrice di covarianza, che si impone essere diagonale per semplicità; da qui viene campionato un punto dello spazio latente a partire da tale distribuzione e avviato verso il decoder per ottenere il pattern ricostruito da confrontare con quello iniziale (nella fase di addestramento). Lo schema di questo processo è riportato in figura~\ref{schemaVAEs}.
+\newpage
+
+\begin{figure}[h!]
+	\centering		\includegraphics[width=0.80\textwidth]{figs/VAEgauss.png}
+	\caption{Schema di funzionamento del VAE, dove viene messo in evidenza che l'encoder è forzato a restituire come output i parametri della distribuzione Normale, ovvero la media e la matrice di covarianza.}
+	\label{schemaVAEs}
+\end{figure}
+
+
+Infine, per la fase di generazione di nuovi pattern, sarà sufficiente eliminare l'encoder e campionare dalla distribuzione che si è ottenuta alla fine dell'addestramento e fornire tale punto al decoder per costruire un nuovo pattern.
+
 
 
 \newpage
