@@ -523,11 +523,32 @@ tuttavia tale integrale è difficile da calcolare ed è in questo punto che entr
 	KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}|\textbf{x})) = -\sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{z}|\textbf{x})}{q(\textbf{z}|\textbf{x})}
 \end{equation}
 
-e sostituendo $p(z|x)$ con la ~\ref{bayes} si ottiene:
+e sostituendo $p(z|x)$ con la~\ref{bayes} si ottiene:
 
 
 \begin{align*} 
-	KL (q(z|x) || p(z|x)) &=  -\sum q(z|x) \log \frac{p(x|z)p(z)}{p(x)q(z|x)} \\ &=  -\sum q(z|x)\log \frac{p(x|z)p(z)}{q(z|x)} + \sum q(z|x)\log p(x)
+	KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}|\textbf{x})) &=  -\sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{x}|\textbf{z})p(\textbf{z})}{p(\textbf{x})q(\textbf{z}|\textbf{x})} \\ &=  -\sum q(\textbf{z}|\textbf{x})\log \frac{p(\textbf{x}|\textbf{z})p(\textbf{z})}{q(\textbf{z}|\textbf{x})} + \sum q(\textbf{z}|\textbf{x})\log p(\textbf{x})
 \end{align*}
-ma in entrambi i termini della somma la sommatoria è estesa sui vari z
+ma in entrambi i termini della somma la sommatoria è estesa sulle z, quindi:
+
+\begin{align*}
+	\sum q(\textbf{z}|\textbf{x})\log p(\textbf{x}) =
+	\log (\textbf{x}) \sum q(\textbf{z}|\textbf{x}) =
+	\log p(\textbf{x})
+\end{align*}
+perché $\sum q(\textbf{z}|\textbf{x})=1$. \\
+Si arriva quindi al seguente risultato:
+\begin{equation}
+	\log p(\textbf{x}) = KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}|\textbf{x})) + \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{x}|\textbf{z})p(\textbf{z})}{q(\textbf{z}|\textbf{x})}
+	\label{introL}
+\end{equation}
+La sommatoria nell'equazione~\ref{introL} prende il nome di $\textit{Variational lower bound}$ e viene indicata con la lettera $\mathcal{L}$. \\
+A questo punto si deve osservare che $\textbf{x}$ è fissato e quindi il termine sinistro dell'equazione~\ref{introL} è una costante; di conseguenza minimizzare la $\textit{KL divergency}$ equivale a massimizzare la $\mathcal{L}$, che può essere riscritta in maniera semplificata:
+
+\begin{align*}
+	\mathcal{L} &= \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{x}|\textbf{z})p(\textbf{z})}{q(\textbf{z}|\textbf{x})} \\ &=
+	\sum q(\textbf{z}|\textbf{x}) \log p(\textbf{x}|\textbf{z}) + \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{z})}{q(\textbf{z}|\textbf{x})} \\ &= E_{q}\log p(\textbf{x}|\textbf{z}) - KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z})) 
+\end{align*}
+Quindi, ricapitolando, l'obiettivo iniziale è quello di trovare la distribuzione $p(\textbf{z}|\textbf{x})$ che però è molto complessa per essere calcolata; allora si cerca di approssimarla con una $q(\textbf{z}|\textbf{x})$ scelta tra un'opportuna famiglia e, per scegliere quella più vicina, si deve minimizzare $KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}|\textbf{x}))$, che come visto equivale a massimizzare la $\mathcal{L}$.
+
 \newpage
