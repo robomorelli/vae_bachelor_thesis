@@ -1,2 +1,13 @@
 \section{Ricerca di fisica Behind Standard Model con il VAEs}
 \label{fisica_BSM_VAEs}
+
+In quest'ultimo capitolo verrà presentata una possibile applicazione dei Variational Autoencoders nel campo della fisica delle alte energie, con lo scopo di ricercare segnali di nuova fisica BSM, ovvero oltre il Modello Standard. \\
+Come noto, gli esperimenti portati avanti al $\textit{Large Hidron Collider}$ hanno l'obiettivo di esplorare la fisica spingendosi sempre a più alte energie; attualmente, dopo la scoperta del $\textit{Bosone di Higgs}$, la teoria del Modello Standard sembrerebbe essere completa, anche se rimango alcuni problemi aperti, come lo $\textit{Hierarchy Problem}$ e la spiegazione della $\textit{Dark Mattern}$. \\
+Nella ricerca di nuova fisica BSM sono attualmente presenti due problemi:
+\begin{enumerate}
+	\item Solitamente ad LHC tale ricerca avviene nel cosiddetto modo $\textit{model dependent}$, ovvero viene ricercata nuova fisica con un preciso modello in mente ed i risultati sono ottimi nel caso in cui il modello che si sta utilizzando è giusto, come ad esempio con la scoperta del Bosone di Higgs; il problema è che tutti i nuovi modelli testati fino ad ora non hanno prodotto risultati e quindi è molto probabile che eventuale fisica BSM non sia spiegabile con tali teorie ed è in quest'ottica che una ricerca Model Dependent perde di efficacia.
+	\item Il secondo problema è di natura pratica, infatti ad LHC vengono prodotte 40 milioni di collisioni di protoni al secondo e solo i risultati di mille di queste al secondo possono essere conservati dagli esperimenti ATLAS e CMS. La scelta di questi mille viene svolta da degli algoritmi di selezione ed è quindi molto probabile che eventuali segnali di nuova fisica vengano tralasciati.
+\end{enumerate}
+
+La possibile soluzione potrebbe essere di utilizzare per il sistema di selezione ($\textit{trigger}$) degli algoritmi di natura $\textit{model independent}$, che vengono addestrati sulla fisica del SM e quindi sono in grado di rilevare eventuale fisica BSM come anomalia. \\
+Nelle pagine seguenti verranno illustrati i risultati che si ottengono nel caso in cui si utilizzino i VAEs per lo scopo appena esposto. \\
