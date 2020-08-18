@@ -3,11 +3,37 @@
 
 In quest'ultimo capitolo verrà presentata una possibile applicazione dei Variational Autoencoders nel campo della fisica delle alte energie, con lo scopo di ricercare segnali di nuova fisica BSM, ovvero oltre il Modello Standard. \\
 Come noto, gli esperimenti portati avanti al $\textit{Large Hidron Collider}$ hanno l'obiettivo di esplorare la fisica spingendosi sempre a più alte energie; attualmente, dopo la scoperta del $\textit{Bosone di Higgs}$, la teoria del Modello Standard sembrerebbe essere completa, anche se rimango alcuni problemi aperti, come lo $\textit{Hierarchy Problem}$ e la spiegazione della $\textit{Dark Mattern}$. \\
-Nella ricerca di nuova fisica BSM sono attualmente presenti due problemi:
-\begin{enumerate}
-	\item Solitamente ad LHC tale ricerca avviene nel cosiddetto modo $\textit{model dependent}$, ovvero viene ricercata nuova fisica con un preciso modello in mente ed i risultati sono ottimi nel caso in cui il modello che si sta utilizzando è giusto, come ad esempio con la scoperta del Bosone di Higgs; il problema è che tutti i nuovi modelli testati fino ad ora non hanno prodotto risultati e quindi è molto probabile che eventuale fisica BSM non sia spiegabile con tali teorie ed è in quest'ottica che una ricerca Model Dependent perde di efficacia.
-	\item Il secondo problema è di natura pratica, infatti ad LHC vengono prodotte 40 milioni di collisioni di protoni al secondo e solo i risultati di mille di queste al secondo possono essere conservati dagli esperimenti ATLAS e CMS. La scelta di questi mille viene svolta da degli algoritmi di selezione ed è quindi molto probabile che eventuali segnali di nuova fisica vengano tralasciati.
-\end{enumerate}
+Nella ricerca di nuova fisica possono essere portati avanti due approcci, detti $\textit{model dependent}$ e $\textit{model independent}$. Nel primo caso la ricerca di nuova fisica avviene con un particolare modello in mente ed i risultati sono ottimi nel caso in cui il modello utilizzato è corretto, come per la scoperta del Bosone di Higgs; il limite di una ricerca di questo tipo è chiaramente dovuto al fatto che i risultati sono strettamente legati alla bontà della teoria stessa. Dall'altro lato una ricerca model independent ha il pregio di non essere legata ad una particolare teoria fisica e quindi è capace di ricercare eventuali segnali di nuova fisica a prescindere da un modello teorizzato in anticipo.\\
+Nelle pagine seguenti si cercherà di capire se è possibile addestrare un Variational Autoencoder sul background in modo che sia capace di rilevare eventuali segnali di nuova fisica come anomalie. L'approccio seguito è da un lato model dependent, nel senso che i dati utilizzati sono prodotti attraverso simulazioni Montecarlo in base alla SUSY ($\textit{Supersimmetry theory}$) per la ricerca della coppia di particelle fermione/bosone (chargino e gluino), e dall'altro model independent, perché le masse di queste due particelle non sono stabilite e quindi la ricerca deve essere sensibile a tutte le varie combinazioni possibili.
+\newpage
 
-La possibile soluzione potrebbe essere di utilizzare per il sistema di selezione ($\textit{trigger}$) degli algoritmi di natura $\textit{model independent}$, che vengono addestrati sulla fisica del SM e quindi sono in grado di rilevare eventuale fisica BSM come anomalia. \\
-Nelle pagine seguenti verranno illustrati i risultati che si ottengono nel caso in cui si utilizzino i VAEs per lo scopo appena esposto. \\
+\subsection{Dataset}
+\label{dataset}
+Per l'addestramento del modello e per la successiva fase di verifica sono stati utilizzati i dati prodotti attraverso simulazioni Montecarlo (MC), in base alla teoria di riferimento (SUSY). I pattern prodotti in questo modo sono costituiti da otto variabili ($\textit{met}$, $\textit{mt}$, $\textit{mbb}$, $\textit{mct2}$, $\textit{mlb1}$, $\textit{lep1Pt}$, $\textit{njet30}$, $\textit{nBjet30-MV2c10}$), scelte perché sono le più discriminanti fra segnale e background per quanto riguarda la SUSY; di conseguenza lo spazio iniziale, che dovrà essere compresso e decompresso dal VAE, sarà 8-dimensionale. \\
+Attraverso la simulazione MC vengono prodotti eventi sia di background che di segnale, in modo da verificare se il VAE è capace di discriminare gli uni dagli altri e, in caso affermativo, l'algoritmo potrà essere applicato a dataset reali, nei quali chiaramente non vi è questo tipo di differenziazione.\\
+Prima di passare alla fase di codifica, gli eventi (sia di segnale che di background) sono stati sottoposti ad una serie di tagli di preselezione sulle variabili, come riportato nella tabella~\ref{tab:tagli di preselezione}.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{lc}
+		\hline
+		&Preselezione \\
+		\hline
+		Esattamente un segnale di leptone&Vero\\
+		met\ trigger fired&Vero\\
+		$2-3$ jets con $p_{T}>30 GeV$&Vero\\
+		$b$-tagged jet&[1-3]\\
+		met\ &$> 220$ GeV\\
+		mt\ &$> 50$ GeV\\
+		mbb\ &[$100-140$]GeV\\
+		mct\ &$>100$GeV\\
+		\hline
+	\end{tabular}
+	\caption{Sono riportati i tagli di preselezione applicati sia agli eventi di segnale che a quelli di background.}
+	\label{tab:tagli di preselezione}
+\end{table} 
+
+\newpage
+
+\subsection{Simulazione}
+\label{simulazione}
