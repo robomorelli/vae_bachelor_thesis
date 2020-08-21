@@ -47,8 +47,26 @@ Come primo passo bisogna capire se, a seguito del processo di addestramento, il 
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.75\textwidth]{figs/risultati_simulazione/ricostruzione.png}
+	\includegraphics[width=0.70\textwidth]{figs/risultati_simulazione/ricostruzione.png}
 	\caption{Confronto tra gli input in ingresso del VAE (in rosso) e quelli ricostruiti (in blu) per le otto componenti dei pattern di input.}
 	\label{ricostruzione}
 \end{figure}
+
+\newpage
+
+Dall'osservazione qualitativa della figura~\ref{ricostruzione} emerge che il processo di ricostruzione del VAE risulta essere molto accurato per tutte le variabili, ad eccezione della $\textit{mbb}$. Si giunge a questa conclusione confrontando i pattern originali (in rosso) con quelli ricostruiti (in blu). \\
+Come detto la sola variabile con ricostruzione non soddisfacente è la $\textit{mbb}$, ma questo problema può essere ovviato pesando in maniera maggiore tale variabile (per esempio impostando un peso pari a due o tre).\\
+Nel complesso si può affermare che il processo di addestramento del VAE ha avuto successo e che quindi è in grado di ricostruire gli eventi di background in maniera piuttosto accurata. \\ 
+Come noto, l'errore per ogni singolo evento viene calcolato sommando quello sulle otto variabili (differenza fra punto blu e rosso) e, da qui, si ottiene la distribuzione della $\textit{Loss}$. L'obiettivo è chiaramente quello di ottenere una distribuzione per la quale molti eventi di background hanno un errore basso mentre pochi ne hanno uno alto. A questo punto si forniscono al VAE i pattern di segnale (generati tramite metodo MC) e ci si aspetta che la loro distribuzione della $\textit{Loss}$ abbia un picco più spostato verso valori più alti dell'errore. In figura~\ref{distribuzione_loss} viene riportata la distribuzione della Loss per il segnale di background e per vari segnali di fondo relativi a diverse combinazioni delle masse del Chargino e del Gluino.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.99\textwidth]{figs/risultati_simulazione/distribuzioneLoss.png}
+	\caption{Distribuzione della $\textit{Loss}$ per i pattern di background e per quelli di segnale relativi ad alcune combinazioni delle masse di Chargino-Gluino. La prima immagine è relativa al Vaidation data set, mentre la seconda al test data set.}
+	\label{distribuzione_loss}
+\end{figure}
+
+Come prima considerazione si ottiene una conferma della qualità del processo di addestramento perché, come da attese, la distribuzione della Loss per gli eventi di background presenta un picco spostato verso sinistra, ovvero verso bassi valori dell'errore di ricostruzione. \\ 
+In seconda istanza può essere fatta un'analisi qualitativa per quanto riguarda le distribuzioni della Loss per gli eventi di segnale (in figura~\ref{distribuzione_loss} sono riportate solo le distribuzioni relative ad alcune combinazioni delle masse del Chargino e del Gluino): si vede, in linea con ciò che ci si aspettava, che quasi tutte le distribuzioni degli eventi di segnale presentano dei picchi spostati verso destra rispetto a quella dei pattern di background, ma tale fenomeno non è troppo accentuato e ciò suggerisce la necessità di pesare in maniera differente le otto diverse variabili (un confronto di questo tipo verrà svolto nella prossima sezione). Bisogna notare che il fatto di trovare distribuzioni della Loss con picchi sulla sinistra per gli eventi di background e sulla destra per quelli di segnale permetterà, una volta applicato il VAE sui dati reali per i quali la distinzione fondo-segnale non è nota a priori, di poter affermare che un evento con errore di ricostruzione alto è molto probabile che sia classificabile come segnale e non come background. \\
+A questa prima analisi qualitativa ne viene fatta seguire una quantitativa, con la quale si riesce a definire per quali combinazioni delle masse delle due particelle il VAE riesce a discriminare gli eventi di segnale da quelli di background.
 
