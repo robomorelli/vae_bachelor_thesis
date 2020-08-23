@@ -117,4 +117,30 @@ A queste domande si cercherà di rispondere nella prossima sezione.\\
 \subsection{Effetti della variazione degli iperparametri nel processo di apprendimento}
 \label{effetti variazione iperparametri}
 
-Come visto nella sezione precedente sono rimaste aperte un paio di domande alle quali si cercherà di dare una risposta. Per fare ciò bisogna provare a variare gli iperparametri del modello (già incontrati nella sezione~\ref{iperparametri e grid search}); in questo caso gli iperparametri sono i pesi delle otto variabili che vengono impostati all'inizio del processo di apprendimento. Nella sezione precedente si è fatta la scelta più ovvia, ovvero quella di impostare tutti i pesi uguali fra loro e pari ad uno, ma tale configurazione degli iperparametri ha lasciato a desiderare in alcuni punti.
+Come visto nella sezione precedente, sono rimaste aperte un paio di domande alle quali si cercherà di dare una risposta. Per fare ciò bisogna provare a variare gli iperparametri del modello (già incontrati nella sezione~\ref{iperparametri e grid search}); in questo caso gli iperparametri sono i pesi delle otto variabili che vengono impostati all'inizio del processo di apprendimento. Nella sezione precedente si è fatta la scelta più ovvia, ovvero quella di impostare tutti i pesi uguali fra loro e pari ad uno, ma tale configurazione degli iperparametri ha lasciato a desiderare in alcuni punti. \\
+In primo luogo è emerso che, nel processo di ricostruzione dei pattern da parte del VAE, il risultato per una delle otto variabili ($\textit{mbb}$) non è stato soddisfacente. Per questo motivo si è provato ad impostare un peso maggiore per questa variabile ed il risultato è riportato in figura~\ref{mbb_ottimizzazione} (nello specifico è stato scelto un peso pari a tre per la variabile $\textit{mbb}$ e ad uno per le altre).
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.65\textwidth]{figs/risultati_simulazione/verifica_mbb.png}
+	\caption{Esito processo di ricostruzione della variabile $\textit{mbb}$ dopo aver impostato un peso pari a tre per tale variabile e mantenendo quelli delle altre variabili pari ad uno. In rosso sono riportati i dati originali ed in blu quelli ricostruiti.}
+	\label{mbb_ottimizzazione}
+\end{figure}
+
+Risulta evidente che questo piccolo accorgimento in fase di simulazione ha permesso di ottenere un'ottima ricostruzione della variabile $\textit{mbb}$, mantenendo inalterata la qualità delle altre. 
+
+\newpage
+
+Si passa ora a verificare se nel processo di classificazione in segnale e background vi siano alcune variabili più discriminanti di altre; per far emergere ciò bisogna assegnare pesi diversi alle diverse variabili e osservare il conseguente risultato: emerge che ci sono effettivamente tre variabili più discriminanti delle altre, ovvero $\textit{met}$, $\textit{mt}$ e $\textit{mct2}$). Nello specifico sono stati assegnati i pesi rispettivamente pari a 5,10,10 a queste tre variabili ed il risultato finale ottenuto è stato riportato in figura~\ref{mix_ottimizzato}, per poter essere confrontato con il risultato in figura~\ref{mix} dove i pesi erano tutti pari ad uno.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.90\textwidth]{figs/risultati_simulazione/mix_ottimizzato.pdf}
+	\caption{Risultato analogo a quello riportato in figura~\ref{mix}, ma utilizzando pesi differenti per le variabili più discriminanti.}
+	\label{mix_ottimizzato}
+\end{figure}
+
+Emerge dal confronto fra le due figure che quest'ultima configurazione di iperparametri permette la distinzione del segnale di background per un numero maggiore di possibili combinazioni delle masse delle due particelle. Nel primo caso con pesi tutti pari ad uno il numero totale di combinazioni delle masse delle particelle e quindi di modelli è 82, mentre in questo secondo caso si arriva addirittura a quota 96. \\
+Si ottiene quindi una conferma sperimentale di ciò che era già stato introdotto nella sezione~\ref{iperparametri e grid search}, cioè che un modello di apprendimento automatico può essere migliorato andando ad agire sugli iperparametri, ovvero su parametri non soggetti al processo di aggiornamento.
+
+
