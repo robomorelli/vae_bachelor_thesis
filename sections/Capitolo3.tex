@@ -48,13 +48,13 @@ Come primo passo bisogna capire se, a seguito del processo di addestramento, il 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.70\textwidth]{figs/risultati_simulazione/ricostruzione.png}
-	\caption{Confronto tra gli input in ingresso del VAE (in rosso) e quelli ricostruiti (in blu) per le otto componenti dei pattern di input.}
+	\caption{Confronto tra gli input in ingresso del VAE (in blu) e quelli ricostruiti (in rosso) per le otto componenti dei pattern di input.}
 	\label{ricostruzione}
 \end{figure}
 
 \newpage
 
-Dall'osservazione qualitativa della figura~\ref{ricostruzione} emerge che il processo di ricostruzione del VAE risulta essere molto accurato per tutte le variabili, ad eccezione della $\textit{mbb}$. Si giunge a questa conclusione confrontando i pattern originali (in rosso) con quelli ricostruiti (in blu). \\
+Dall'osservazione qualitativa della figura~\ref{ricostruzione} emerge che il processo di ricostruzione del VAE risulta essere molto accurato per tutte le variabili, ad eccezione della $\textit{mbb}$. Si giunge a questa conclusione confrontando i pattern originali (in blu) con quelli ricostruiti (in rosso). \\
 Come detto, la sola variabile con ricostruzione non soddisfacente è la $\textit{mbb}$, ma questo problema può essere ovviato pesando in maniera maggiore tale variabile (per esempio impostando un peso pari a due o tre).\\
 Nel complesso si può affermare che il processo di addestramento del VAE ha avuto successo e che quindi è in grado di ricostruire gli eventi di background in maniera piuttosto accurata. \\ 
 Come noto, l'errore per ogni singolo evento viene calcolato sommando quello sulle otto variabili (differenza fra punto blu e rosso) e, da qui, si ottiene la distribuzione della $\textit{Loss}$. L'obiettivo è chiaramente quello di ottenere una distribuzione per la quale molti eventi di background hanno un errore basso mentre pochi ne hanno uno alto. A questo punto si forniscono al VAE i pattern di segnale (generati tramite metodo MC) e ci si aspetta che la loro distribuzione della $\textit{Loss}$ abbia un picco più spostato verso valori più alti dell'errore. In figura~\ref{distribuzione_loss} viene riportata la distribuzione della Loss per il segnale di background e per vari segnali di fondo relativi a diverse combinazioni delle masse del Chargino e del Gluino.
@@ -123,7 +123,7 @@ In primo luogo è emerso che, nel processo di ricostruzione dei pattern da parte
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.65\textwidth]{figs/risultati_simulazione/verifica_mbb.png}
-	\caption{Esito del processo di ricostruzione della variabile $\textit{mbb}$ dopo aver impostato un peso pari a tre per tale variabile e mantenendo quelli delle altre variabili pari ad uno. In rosso sono riportati i dati originali ed in blu quelli ricostruiti.}
+	\caption{Esito del processo di ricostruzione della variabile $\textit{mbb}$ dopo aver impostato un peso pari a tre per tale variabile e mantenendo quelli delle altre variabili pari ad uno. In blu sono riportati i dati originali ed in rosso quelli ricostruiti.}
 	\label{mbb_ottimizzazione}
 \end{figure}
 
