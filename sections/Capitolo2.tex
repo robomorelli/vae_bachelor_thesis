@@ -158,7 +158,7 @@ In Figura~\ref{fig:Grid Search} nella pagina seguente è riportato per chiarezza
 
 \begin{figure}[h!]
 	\includegraphics[width=\linewidth]{figs/Grid_immagine.png}
-	\caption{la figura illustra visivamente l'esito di un processo di ottimizzazione degli iperparametri attraverso il metodo Grid Search (~\cite{knuthwebsite})}
+	\caption{la figura illustra visivamente l'esito di un processo di ottimizzazione degli iperparametri attraverso il metodo Grid Search \cite{knuthwebsite}}
 	\label{fig:Grid Search}
 \end{figure}
 \newpage 
@@ -174,7 +174,7 @@ Un ulteriore accorgimento può  essere quello di arrestare le configurazioni men
 Le reti neurali sono probabilmente il metodo di apprendimento supervisionato più conosciuto ed utilizzato nel campo dell'analisi dati. \\
 La struttura di una rete neurale prevede la presenza di unità fondamentali, dette neuroni, che sono organizzate in strati e legate fra di loro mediante delle connessioni (sinapsi), ciascuna delle quali è caratterizzata da un peso. Sono proprio questi pesi a giocare un ruolo fondamentale nel processo di apprendimento della rete perché sono loro i parametri soggetti a modifica.\\
 Il nome rete neurale (artificiale) deriva dal fatto che la loro struttura è inspirata dalle corrispondenti strutture biologiche (seppur di molto semplificata). \\
-In una rete neurale è sempre presente uno strato di input ed uno di output, mentre il numero di livelli nascosti può variare a seconda della complessità della rete; In figura ~\ref{fig:schemaNN} è riportato un esempio di rete neurale con un singolo strato interno nascosto.
+In una rete neurale è sempre presente uno strato di input ed uno di output, mentre il numero di livelli nascosti può variare a seconda della complessità della rete; In figura \ref{fig:schemaNN} è riportato un esempio di rete neurale con un singolo strato interno nascosto.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.50\textwidth]{figs/schemaNN.png}
@@ -190,11 +190,11 @@ Gli elementi che caratterizzano il singolo neurone sono:
 	\item Un output e la relativa funzione di attivazione, che viene usata per limitarne l'ampiezza (tipicamente ad intervalli [0,1] o [-1,1]);
 	\item Un valore di soglia che viene usato per aumentare o diminuire il valore ottenuto dalla somma pesata.
 \end{enumerate}
-Si riporta in figura ~\ref{schema_neurone} lo schema grafico di un singolo neurone (k), dove $\textbf{x} = (x_1 ,..., x_m)$ è il vettore degli input input, $\textbf{w}_k = (w_{k1} ,..., w_{km})$ è il vettore dei pesi, $\phi$(x) è la funzione di attivazione, $b_k$ è il valore di soglia e $y_k$ è l'output.
+Si riporta in figura \ref{schema_neurone} lo schema grafico di un singolo neurone (k), dove $\textbf{x} = (x_1 ,..., x_m)$ è il vettore degli input input, $\textbf{w}_k = (w_{k1} ,..., w_{km})$ è il vettore dei pesi, $\phi$(x) è la funzione di attivazione, $b_k$ è il valore di soglia e $y_k$ è l'output.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.70\textwidth]{figs/schema_neurone.png}
-	\caption{Illustrazione della struttura di un neurone (~\cite{Intro_retiN}).}
+	\caption{Illustrazione della struttura di un neurone \cite{Intro_retiN}.}
 	\label{schema_neurone}	
 \end{figure} \\
 Quindi il neurone opera la seguente somma pesata:
@@ -299,8 +299,8 @@ Come ultima considerazione sulle reti neurali bisogna sottolineare che il coeffi
 \subsection{Alberi Decisionali}
 \label{alberi decisionali}
 Gli alberi decisionali sono, al pari delle reti neurali, un metodo ML di apprendimento supervisionato e  la loro caratteristica fondamentale è il presentarsi in maniera particolarmente intuitiva perché è possibile avere una semplice rappresentazione grafica del meccanismo del loro funzionamento.\\
-Gli alberi decisionali rappresentano un mezzo estremamente interessante per le operazioni di classificazione (sia per output continui che discreti) ed operano attraverso una serie di test sugli attributi degli input (con il termine attributo o $\textit{features}$ si intende una componente del vettore di input, come già specificato nella sezione introduttiva di questa tesi [~\ref{analisi multivariata e ML}] ). \\ 
-Come primo passo è utile discutere come è strutturato un albero decisionale, introducendo alcune notazioni (come ausilio alla trattazione si riporta in figura ~\ref{schemaDT} un esempio di albero decisionale molto semplice). \\
+Gli alberi decisionali rappresentano un mezzo estremamente interessante per le operazioni di classificazione (sia per output continui che discreti) ed operano attraverso una serie di test sugli attributi degli input (con il termine attributo o $\textit{features}$ si intende una componente del vettore di input, come già specificato nella sezione introduttiva di questa tesi [\ref{analisi multivariata e ML}] ). \\ 
+Come primo passo è utile discutere come è strutturato un albero decisionale, introducendo alcune notazioni (come ausilio alla trattazione si riporta in figura \ref{schemaDT} un esempio di albero decisionale molto semplice). \\
 
 \begin{figure} [h!]
 	\centering
@@ -312,7 +312,7 @@ Come primo passo è utile discutere come è strutturato un albero decisionale, i
 Gli elementi che caratterizzano un albero decisionale sono:
 \begin{itemize}
 	\item Nodo. \\
-	I nodi sono riportati in figura ~\ref{schemaDT} come dei cerchi colorati in azzurro e contrassegnati dalla lettera N. Ogni nodo si occupa di eseguire un test su di un singolo attributo (il nodo iniziale dove avviene il primo test e quindi la prima differenziazione degli input è detto "root node");
+	I nodi sono riportati in figura \ref{schemaDT} come dei cerchi colorati in azzurro e contrassegnati dalla lettera N. Ogni nodo si occupa di eseguire un test su di un singolo attributo (il nodo iniziale dove avviene il primo test e quindi la prima differenziazione degli input è detto "root node");
 	\item Ramo. \\
 	I rami (detti anche archi) determinano le regole di "splitting", ovvero le regole attraverso le quali vengono separati gli esempi nelle rispettive categorie a seconda dei loro attributi; tali rami determinano quindi i percorsi all'interno degli alberi decisionali e quindi, in ultima analisi, la classificazione finale;
 	\item Foglie. \\
@@ -383,7 +383,7 @@ Il processo di riduzione della dimensionalità può essere portato avanti attrav
 	\item Estrazione, dove viene creato un numero ridotto di nuove componenti a partire da quelle originali.
 \end{itemize}
 A prescindere da questa distinzione, bisogna sottolineare che tutti i processi di riduzione della dimensionalità hanno una struttura comune, ovvero sono caratterizzati da una fase di $\textit{encoding}$ (che rappresenta il vero e proprio processo di riduzione della dimensionalità) e da una fase di $\textit{decoding}$, nella quale si verifica quanta informazione è stata persa nel processo. \\ 
-Si riporta in figura ~\ref{encoder-decoder} l'illustrazione grafica del processo $\textit{encoding-decoding}$
+Si riporta in figura \ref{encoder-decoder} l'illustrazione grafica del processo $\textit{encoding-decoding}$
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.90\textwidth]{figs/encoder-decoder.png}
@@ -409,7 +409,7 @@ L'idea del PCA è quella di costruire un numero $\textit{n}_\textit{e}$ di nuove
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.50\textwidth]{figs/PCA.png}
-	\caption{Illustrazione del processo di PCA nel caso di uno spazio dei pattern iniziali bi-dimensionale (\cite{Understanding_VAEs}).}
+	\caption{Illustrazione del processo di PCA nel caso di uno spazio dei pattern iniziali bi-dimensionale \cite{Understanding_VAEs}.}
 	\label{PCA}
 \end{figure}
 
@@ -429,9 +429,9 @@ Gli autoencoders, come ogni altro metodo di riduzione della dimensionalità, son
 	\label{autoencoder}
 \end{figure}
 
-L'obiettivo è chiaramente quello di individuare la coppia encoder-decoder che ottimizza il processo di ricostruzione degli input e ciò viene fatto attraverso il seguente processo iterativo: si presentano all'encoder i pattern di partenza uno alla volta, subiscono un processo di riduzione della dimensionalità e poi vengono ricostruiti (tornando alla dimensionalità di partenza), viene calcolato l'errore dal confronto fra l'input iniziale e quello ricostruito ed avviene l'aggiornamento dei pesi della rete neurale mediante il meccanismo di backpropagation, già incontrato nella sezione ~\ref{reti neurali}. \\
+L'obiettivo è chiaramente quello di individuare la coppia encoder-decoder che ottimizza il processo di ricostruzione degli input e ciò viene fatto attraverso il seguente processo iterativo: si presentano all'encoder i pattern di partenza uno alla volta, subiscono un processo di riduzione della dimensionalità e poi vengono ricostruiti (tornando alla dimensionalità di partenza), viene calcolato l'errore dal confronto fra l'input iniziale e quello ricostruito ed avviene l'aggiornamento dei pesi della rete neurale mediante il meccanismo di backpropagation, già incontrato nella sezione \ref{reti neurali}. \\
 Intuitivamente l'autoencoder può essere pensato come un collo di bottiglia, attraverso il quale solo una parte dell'informazione riesce a passare oltre e a formare i vettori dello spazio latente.
-Facendo riferimento alla figura ~\ref{autoencoder} si osserva che, a partire dai pattern in input \textbf{x}, come primo passo si costruisce lo spazio latente degli $\textbf{z} = e(\textbf{x})$ per poi procedere alla fase di decodifica nella quale si ottengono i pattern ricostruiti $\hat{\textbf{x}} = d(\textbf{z})$; si procede successivamente al calcolo degli errori nel seguente modo:
+Facendo riferimento alla figura \ref{autoencoder} si osserva che, a partire dai pattern in input \textbf{x}, come primo passo si costruisce lo spazio latente degli $\textbf{z} = e(\textbf{x})$ per poi procedere alla fase di decodifica nella quale si ottengono i pattern ricostruiti $\hat{\textbf{x}} = d(\textbf{z})$; si procede successivamente al calcolo degli errori nel seguente modo:
 \begin{equation}
 	L = \Vert \textbf{x} - \hat{\textbf{x}} \Vert
 \end{equation}
@@ -440,13 +440,13 @@ Una considerazione necessaria circa l'errore, che potrebbe sembrare in contraddi
 Per fornire un esempio pratico di ciò che è stato appena affermato, si consideri un insieme di vettori di input N dimensionali; una possibilità è quella di prendere una per una le componenti dei pattern e disporle lungo una retta (spazio latente 1-dimensionale) nella fase di encoding, per poi procedere in maniera inversa nella fase di decodifica. L'errore con questo procedimento sarà nullo ma non si può essere soddisfati essenzialmente per due motivi, ovvero perché lo spazio latente non è interpretabile e sfruttabile e perché in un processo di riduzione della dimensionalità si vuole fare in modo che i dati continuino a conservare una qualche struttura. \\
 Una possibilità per evitare il risultato appena illustrato, che è in fin dei conti una sfaccettatura del concetto di overfitting, è di aggiungere alla funzione L un fattore di regolarizzazione che penalizza i risultati per i quali $\textbf{x} = \hat{\textbf{x}}$. \\
 Quindi bisogna sempre porre particolare attenzione alla scelta della profondità dell'encoder, ovvero alla sua capacità di riduzione della dimensionalità. \\
-Per completezza nella trattazione si osserva che gli autoencoder possono essere sia lineari che non; il primo caso si ottiene quando non si inserisce una funzione di attivazione non lineare e si utilizzano solo due strati, quindi le trasformazioni possono essere rappresentate come matrici e si ottiene un risultato simile a quello del PCA (~\ref{curse_dim}). \\
-Il caso di autoencoder non lineari ($\textit{deep autoencoder}$) può essere pensato come un passo successivo per quanto riguarda la riduzione della dimensionalità. Infatti, come è stato già detto, il PCA ricerca il miglior iperpiano nello spazio dei pattern originali sul quale questi possano essere proiettati in modo da ridurre la perdita di informazione; dall'altro lato gli autoencoder non lineari non si limitano alla ricerca di iperpiani, ma possono esplorare anche superfici più complesse, come si evince chiaramente dalla figura ~\ref{autoencoder_non_lineari}.
+Per completezza nella trattazione si osserva che gli autoencoder possono essere sia lineari che non; il primo caso si ottiene quando non si inserisce una funzione di attivazione non lineare e si utilizzano solo due strati, quindi le trasformazioni possono essere rappresentate come matrici e si ottiene un risultato simile a quello del PCA (\ref{curse_dim}). \\
+Il caso di autoencoder non lineari ($\textit{deep autoencoder}$) può essere pensato come un passo successivo per quanto riguarda la riduzione della dimensionalità. Infatti, come è stato già detto, il PCA ricerca il miglior iperpiano nello spazio dei pattern originali sul quale questi possano essere proiettati in modo da ridurre la perdita di informazione; dall'altro lato gli autoencoder non lineari non si limitano alla ricerca di iperpiani, ma possono esplorare anche superfici più complesse, come si evince chiaramente dalla figura \ref{autoencoder_non_lineari}.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.70\textwidth]{figs/Autoencoder_non_lineari.png}
-	\caption{Differenza fra i metodi lineari (PCA) e gli autoencoder non lineari (\cite{Autoencoders}).}
+	\caption{Differenza fra i metodi lineari (PCA) e gli autoencoder non lineari \cite{Autoencoders}.}
 	\label{autoencoder_non_lineari}
 \end{figure}
 
@@ -458,16 +458,21 @@ Il caso di autoencoder non lineari ($\textit{deep autoencoder}$) può essere pen
 
 Nella sezione precedente è stato presentato l'autoencoder come un metodo di riduzione della dimensionalità; tuttavia, apportando una sostanziale modifica, tale metodo può essere utilizzato per la generazione di pattern ed in questo caso si parla di Variational Autoencoders (VAEs). \\ 
 Bisogna domandarsi a questo punto in che modo si possa passare dalla riduzione della dimensionalità al generare nuovi pattern e perché il semplice autoencoder, così come è stato incontrato, non permette di raggiungere tale obiettivo e debba essere modificato opportunamente. \\
-Come primo passo è necessario capire perché gli autoencoders non siano adatti al processo di generazione e la risposta può essere intuita già da ciò che è stato detto nella sezione precedente ma si cercherà di argomentarla meglio. L'autoencoder, come noto, agisce su di un pattern originale \textbf{x} trasformandolo in un $\textbf{z} = e(\textbf{x})$ nello spazio latente (fase di encoding)  e poi trasforma nuovamente \textbf{z} per tornare allo spazio originale; si potrebbe pensare che, per far svolgere la funzione di generazione, si potrebbe scegliere un punto a caso dello spazio latente (che è stato costruito nella fase di encoding) e darlo in pasto al decoder, ottenendo così un nuovo pattern per nulla collegato a quelli originali. Il problema nel ragionamento appena esplicato sta nel non tenere in conto la regolarità dello spazio latente. Come detto nella sezione precedente, ottenere uno spazio latente regolare non è affatto semplice e quindi la regolarità non può essere assunta a priori; questo non deve affatto stupire perché l'autoencoder è pensato per codificare e decodificare informazioni cercando di ridurre al minimo la perdita delle stesse e quindi tenderà naturalmente all'overfitting. Il risultato sarà uno spazio latente non regolarizzato e quindi, campionando da esso un punto a caso, si otterrebbe un pattern ricostruito assolutamente privo di senso, come si può osservare, in maniera didattica, dalla figura ~\ref{limite autoencoder}. \\ 
+Come primo passo è necessario capire perché gli autoencoders non siano adatti al processo di generazione e la risposta può essere intuita già da ciò che è stato detto nella sezione precedente ma si cercherà di argomentarla meglio. L'autoencoder, come noto, agisce su di un pattern originale \textbf{x} trasformandolo in un $\textbf{z} = e(\textbf{x})$ nello spazio latente (fase di encoding)  e poi trasforma nuovamente \textbf{z} per tornare allo spazio originale; si potrebbe pensare che, per far svolgere la funzione di generazione, si potrebbe scegliere un punto a caso dello spazio latente (che è stato costruito nella fase di encoding) e darlo in pasto al decoder, ottenendo così un nuovo pattern per nulla collegato a quelli originali. Il problema nel ragionamento appena esplicato sta nel non tenere in conto la regolarità dello spazio latente.\\ 
+L'autoencoder codifica in modo puntuale ogni esempio associando ad ognuno di essi un punto specifico e diverso dagli altri all'interno dello spazio latente. In questo modo, se viene dato in input un esempio mai incontrato durante la fase di training, si presentano delle difficoltà nella sua successiva rigenerazione. In questo caso infatti il modello comincia la fase di rigenerazione a partire da un punto nello spazio latente a cui non è associato nessun significato, come se in quel punto lo spazio latente fosse discontinuo (un esempio didattico è riportato in figura \ref{limite autoencoder}). Per ovviare a questo problema la fase di encoding deve assumere un significato probabilistico, associando ai vari pattern non più un solo punto ma un'intera distribuzione. In questo modo lo spazio latente sarà meno soggetto ad avere discontinuità al suo interno, facilitando così il processo di generazione.
+
+%Come detto nella sezione precedente, ottenere uno spazio latente regolare non è affatto semplice e quindi la regolarità non può essere assunta a priori; questo non deve affatto stupire perché l'autoencoder è pensato per codificare e decodificare informazioni cercando di ridurre al minimo la perdita delle stesse e quindi tenderà naturalmente all'overfitting. Il risultato sarà uno spazio latente non regolarizzato e quindi, campionando da esso un punto a caso, si otterrebbe un pattern ricostruito assolutamente privo di senso, come si può osservare, in maniera didattica, dalla figura \ref{limite autoencoder}. \\ 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.99\textwidth]{figs/limite_autoencoder.png}
-	\caption{Illustrazione grafica e semplificata dei limiti nell'applicazione degli autoencoder per fini di generazione di nuovi pattern (\cite{Understanding_VAEs}).}
+	\caption{Illustrazione grafica e semplificata dei limiti nell'applicazione degli autoencoder per fini di generazione di nuovi pattern \cite{Understanding_VAEs}.}
 	\label{limite autoencoder}
 \end{figure}
 
-Quindi, per raggiungere l'obiettivo prefissato, si attua un processo di regolarizzazione durante la fase di addestramento e si può iniziare a parlare di Variational Autoencoders (VAEs). Si può quindi definire il VAEs come un autoencoder per il quale si attua una regolarizzazione dello spazio latente durante il processo di addestramento ed è quindi adatto alla generazione di nuovi pattern. \\
+%Quindi, per raggiungere l'obiettivo prefissato, si attua un processo di regolarizzazione durante la fase di addestramento e si può iniziare a parlare di Variational Autoencoders (VAEs). 
+
+Si può quindi pensare al VAEs come un autoencoder per il quale si attua una regolarizzazione dello spazio latente durante il processo di addestramento ed è quindi adatto alla generazione di nuovi pattern. \\
 I VAEs, al pari degli autoencoders, sono costituiti da una coppia di encoder e decoder con una sostanziale differenza, nel senso che per gli autoencoders il pattern di partenza viene codificato come un punto nello spazio latente ($\textbf{z}$), mentre per i VAEs la codifica avviene tramite una distribuzione nello spazio latente ($p(\textbf{z}|\textbf{x})$). Il processo seguito nella fase di addestramento è il seguente:
 \begin{enumerate}
 	\item Il pattern iniziale viene codificato nello spazio latente come una distribuzione di probabilità;
@@ -537,7 +542,7 @@ Le due proprietà fondamentale della \textit{KL divergency} sono le seguenti:
 		KL(p(x)||q(x)) \not = KL(q(x)||p(x))
 	\end{equation}
 \end{enumerate}
-Ora è possibile ricollegarsi al discorso sui VAEs e si definisca con \textbf{x} la grandezza osservabile e con \textbf{z} quella nascosta dello spazio latente. Il teorema di Bayes [~\cite{Statistica}] permette di scrivere:
+Ora è possibile ricollegarsi al discorso sui VAEs e si definisca con \textbf{x} la grandezza osservabile e con \textbf{z} quella nascosta dello spazio latente. Il teorema di Bayes \cite{Statistica} permette di scrivere:
 \begin{equation}
 	p(\textbf{z}|\textbf{x}) = \frac{p(\textbf{x}|\textbf{z}) p(\textbf{z})}{p(\textbf{x})}
 	\label{bayes}
@@ -547,8 +552,8 @@ dove
 	p(\textbf{x}) = \int p(\textbf{x}|\textbf{z}) p(\textbf{z}) dz
 	\label{integrale}
 \end{equation}
-tuttavia tale integrale è difficile da calcolare ed è in questo punto che entra in gioco l'inferenza variazionale per approssimare $p(\textbf{z}|\textbf{x})$ con una qualche funzione $q(\textbf{z}|\textbf{x})$. Si assume inoltre che quest'ultima debba essere scelta dalla famiglia delle distribuzioni Normali, andando a variare i parametri in modo che risulti il più possibile simile a $p(\textbf{z}|\textbf{x})$ e per quantificare ciò si utilizza la
-\textit{KL divergency}: 
+tuttavia tale integrale è difficile da calcolare ed è in questo punto che entra in gioco l'inferenza variazionale per approssimare $p(\textbf{z}|\textbf{x})$ con una qualche funzione $q(\textbf{z}|\textbf{x})$. Si assume inoltre che quest'ultima debba essere scelta dalla famiglia delle distribuzioni Normali, andando a variare i parametri in modo che risulti il più possibile simile a $p(\textbf{z}|\textbf{x})$, che viene detta \textit{prior} e rappresenta la scelta a priori per la modellizzazione dello spazio latente; generalmente viene scelta una distribuzione normale multivariata standard e la $q(\textbf{z}|\textbf{x})$ deve approssimare tale distribuzione durante la fase di addestramento. Per vincolare la forma di $q(\textbf{z}|\textbf{x})$ a quella di $p(\textbf{z}|\textbf{x})$ viene utilizzata la \textit{KL divergency}: 
+
 
 \begin{equation}
 	KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}|\textbf{x})) = -\sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{z}|\textbf{x})}{q(\textbf{z}|\textbf{x})}
@@ -574,21 +579,24 @@ Si arriva quindi al seguente risultato:
 	\label{introL}
 \end{equation}
 La sommatoria nell'equazione~\ref{introL} prende il nome di $\textit{Variational lower bound}$ e viene indicata con la lettera $\mathcal{L}$. \\
-A questo punto si deve osservare che $\textbf{x}$ è fissato e quindi il termine sinistro dell'equazione~\ref{introL} è una costante; di conseguenza minimizzare la $\textit{KL divergency}$ equivale a massimizzare la $\mathcal{L}$, che può essere riscritta in maniera semplificata:
+A questo punto si deve osservare che $\textbf{x}$ è fissato e quindi il termine sinistro dell'equazione \ref{introL} è una costante; di conseguenza minimizzare la $\textit{KL divergency}$ equivale a massimizzare la $\mathcal{L}$, che può essere riscritta in maniera semplificata:
 
 \begin{align*}
 	\mathcal{L} &= \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{x}|\textbf{z})p(\textbf{z})}{q(\textbf{z}|\textbf{x})} \\ &=
 	\sum q(\textbf{z}|\textbf{x}) \log p(\textbf{x}|\textbf{z}) + \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{z})}{q(\textbf{z}|\textbf{x})} \\ &= E_{q}\log p(\textbf{x}|\textbf{z}) - KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z})) 
 \end{align*}
 Quindi, ricapitolando, l'obiettivo iniziale è quello di trovare la distribuzione $p(\textbf{z}|\textbf{x})$ che però è molto complessa per essere calcolata; allora si cerca di approssimarla con una $q(\textbf{z}|\textbf{x})$ scelta tra un'opportuna famiglia e, per scegliere quella più vicina, si deve minimizzare $KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}|\textbf{x}))$, che come visto equivale a massimizzare la $\mathcal{L}$. \\
-In figura ~\ref{grafo} è possibile osservare in che modo si passa da $\textbf{x}$ a $\textbf{z}$ e viceversa.
+In figura \ref{grafo} è possibile osservare in che modo si passa da $\textbf{x}$ a $\textbf{z}$ e viceversa.
+
+\newpage
 
 \begin{figure}[h!]
 	\centering		\includegraphics[width=0.40\textwidth]{figs/grafoVAE.png}
 	\caption{Illustrazione grafica della modalità attraverso la quale si ottiene il passaggio dalla variabile $\textbf{x}$ osservabile alla $\textbf{z}$ nello spazio latente e viceversa.}
 	\label{grafo}
 \end{figure}
-Il significato del termine di $\textit{KL divergency}$ che compare in $\mathcal{L}$ suggerisce che la distribuzione $q(\textbf{z}|\textbf{x})$ debba essere il più possibile ad una distribuzione $p(\textbf{z})$ che può essere scelta e quindi si assume una distribuzione Normale. \\
+
+Il significato del termine di $\textit{KL divergency}$ che compare in $\mathcal{L}$ suggerisce che la distribuzione $q(\textbf{z}|\textbf{x})$ debba essere il più possibile simile ad una distribuzione $p(\textbf{z})$ che può essere scelta e quindi si assume una distribuzione Normale multivariata standard, per la quale la KL divergency è più facile da calcolare. \\
 L'altro termine in $\mathcal{L}$ è riconducibile ad un errore di ricostruzione, infatti il processo di decodifica, una volta campionato \textbf{z} è deterministico e quindi si ottiene che:
 \begin{equation}
 	p(\textbf{x}|\textbf{z}) = p(\textbf{x}|\hat{\textbf{x}})
@@ -611,7 +619,7 @@ Quindi si osserva che l'autoencoder tende a minimizzare semplicemente ${\lvert \
 	{\lvert \textbf{x}-\hat{\textbf{x}} \rvert}^2 + KL (q(\textbf{z}|\textbf{x})||N(\bm{\mu},\bm{\Sigma}))
 \end{equation}
 
-Nella pratica si costruisce la rete neurale che si occupa della fase di codifica in modo che restituisca i parametri della distribuzione Normale e quindi la media e la matrice di covarianza, che si impone essere diagonale per semplicità; da qui viene campionato un punto dello spazio latente a partire da tale distribuzione e avviato verso il decoder per ottenere il pattern ricostruito da confrontare con quello iniziale (nella fase di addestramento). Lo schema di questo processo è riportato in figura~\ref{schemaVAEs}.
+Nella pratica si costruisce la rete neurale che si occupa della fase di codifica in modo che restituisca i parametri della distribuzione Normale e quindi la media e la matrice di covarianza, che si impone essere diagonale per semplicità; da qui viene campionato un punto dello spazio latente a partire da tale distribuzione e avviato verso il decoder per ottenere il pattern ricostruito da confrontare con quello iniziale (nella fase di addestramento). Lo schema di questo processo è riportato in figura \ref{schemaVAEs}.
 \newpage
 
 \begin{figure}[h!]

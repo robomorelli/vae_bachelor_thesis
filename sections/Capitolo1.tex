@@ -36,7 +36,7 @@ Un primissimo semplice approccio prevede di adoperare dei tagli sulle varie comp
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.85\textwidth]{figs/Grid_example.png}
-	\caption{risultato grafico di un processo di taglio sulle due variabili $x_1$ e $x_2$ per la separazione del segnale dal background (\cite{Metodi_multivariati}).}
+	\caption{risultato grafico di un processo di taglio sulle due variabili $x_1$ e $x_2$ per la separazione del segnale dal background \cite{Metodi_multivariati}.}
 	\label{fig:grid_example}
 \end{figure}
 
@@ -48,7 +48,7 @@ In questo caso, nonostante si abbia a che fare con pattern multi-dimensionali, n
 \subsection{Processi multivariati e analisi discriminante lineare}
 \label{metodi lineari e discriminante di Fisher}
 
-Per poter fare un passo in avanti nella trattazione bisogna considerare la possibilità che le varie componenti dei vettori evento siano tra loro correlate o, più in generale, bisogna considerare tali pattern nella loro totalità, ovvero senza focalizzarsi sulle singole componenti in maniera separata (come è stato fatto con il sistema di tagli).  Per la ragione appena presentata è necessario considerare i processi multi-variati.	Dato che le componenti dei pattern possono essere tra loro correlate è possibile ridurre la dimensionalità dello spazio n-dimensionale da n a d (con d < n). Verrà posto un focus particolare sul problema della dimensionalità degli input della sezione ~\ref{curse_dim}, che servirà da trampolino di lancio per affrontare un metodo particolare del ML, il Variational Autoencoders. \\
+Per poter fare un passo in avanti nella trattazione bisogna considerare la possibilità che le varie componenti dei vettori evento siano tra loro correlate o, più in generale, bisogna considerare tali pattern nella loro totalità, ovvero senza focalizzarsi sulle singole componenti in maniera separata (come è stato fatto con il sistema di tagli).  Per la ragione appena presentata è necessario considerare i processi multi-variati.	Dato che le componenti dei pattern possono essere tra loro correlate è possibile ridurre la dimensionalità dello spazio n-dimensionale da n a d (con d < n). Verrà posto un focus particolare sul problema della dimensionalità degli input della sezione \ref{curse_dim}, che servirà da trampolino di lancio per affrontare un metodo particolare del ML, il Variational Autoencoders. \\
 Come detto nella sezione precedente, i sistemi di tagli possono essere utilizzati per la separazione del segnale dal fondo ma hanno dei limiti piuttosto considerevoli che sono già stati illustrati. L'analisi discriminante è un metodo che permette di raggiungere lo stesso obiettivo di separazione, ma in modo più efficiente. \\
 L'analisi discriminante si definisce lineare quando la funzione classificatrice è, appunto, lineare. \\
 Si immagini di avere a disposizione un determinato set di eventi in input $\textbf{x}_\textbf{i}$, ciascuno caratterizzato da un numero n di variabili (spazio n-dimensionale) e di volerli ripartire fra segnale e background.\\
