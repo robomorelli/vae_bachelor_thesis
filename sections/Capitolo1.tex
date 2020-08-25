@@ -14,13 +14,13 @@
 	Si ricava una funzione continua di una o più variabili a partire dai dati sperimentali.
 \end{enumerate}
 
-Questa trattazione si concentrerà essenzialmente sulle possibili metodologie di classificazione, proprio perché l'obiettivo è il discernimento fra segnale e background alla ricerca di nuova fisica. \\
+Questa trattazione si concentrerà essenzialmente sulle possibili metodologie di classificazione, proprio perché l'obiettivo è il discernimento fra segnale e background finalizzato alla ricerca di nuova fisica. \\
 Nelle prime righe di questo capitolo è stato introdotto il termine $\textit{evento}$ o $\textit{oggetto}$, senza meglio specificare come questo fosse collegato ai dati. Un evento può essere pensato come una collezione di dati e quindi lo si può rappresentare come un vettore in uno spazio n-dimensionale: 
 \begin{equation}
 \textbf{x} = (x_{1},...,x_{n})
 \end{equation}
-In realtà l'utilizzo del termine vettore è improprio ogni qual volta si abbia a che fare con componenti (i dati) disomogenee tra loro, tuttavia lo si continuerà ad utilizzare per una questione di comodità tenendo a mente questa specifica. Nelle pagine successive con i termini evento, oggetto, vettore di input e pattern ci si riferirà sempre alla stessa entità appena introdotta. \\ 
-Una volta presentate queste notazioni è possibile focalizzarsi sui diversi approcci che possono essere seguiti per tentare di separare il segnale dal background quando si ha a disposizione una grande mole di dati. Nelle righe che seguono verranno presentati tre diverse metodologie, dalla più semplice ed inefficiente a quella più complessa e raffinata:
+In realtà l'utilizzo del termine vettore è improprio ogni qual volta si abbia a che fare con componenti (i dati) disomogenee tra loro, tuttavia lo si continuerà ad utilizzare per una questione di comodità tenendo a mente questa specifica. Nelle pagine successive con i termini evento, oggetto, vettore di input e pattern ci si riferirà sempre alla stessa entità appena introdotta, mentre con il termine inglese $\textit{features}$ si indicheranno le varie componenti. \\ 
+Una volta presentate queste notazioni è possibile focalizzarsi sui diversi approcci che possono essere seguiti per tentare di separare il segnale dal background quando si ha a disposizione una grande mole di dati. Nelle righe che seguono verranno presentate tre diverse metodologie, dalla più semplice ed inefficiente a quella più complessa e raffinata:
 \begin{enumerate}
 	\item Sistema di tagli sulle variabili, ovvero il metodo più semplice ma anche meno efficiente. Non può essere considerato un metodo multi-variato per le ragioni che si vedranno a breve;
 	\item Analisi multi-variata e, nello specifico, l'analisi discriminante lineare;
@@ -58,9 +58,9 @@ D(x_1 , x_2 , ... , x_n) = c_0 + c_1x_1 + ... +c_nx_n = c_0 + \sum_{i=0}^{n} c_i
 \end{equation}
 quindi come una combinazione lineare delle componenti del vettore che rappresenta l'evento; il valore assunto dalla funzione per ogni singolo evento ne permette la separazione nelle due classi (nel presente caso segnale e background), utilizzando un valore di riferimento $D_0$. \\
 A questo punto l'obiettivo è quello di massimizzare la distanza fra le due classi, ovvero rendere massima la differenza dei valori assunti dalla funzione $D(\textbf{x})$ fra gli eventi appartenenti al background e quelli relativi al segnale. \\
-Un esempio di questo approccio è il metodo proposto da Fisher: si consideri un campione di eventi appartenenti al segnale e se ne definisca la media $\bm\mu_\textbf{s}$ e la deviazione standard $\sigma_s$ ed un campione appartenente al background, definendo anche qui la media $\bm\mu_\textbf{f}$ e la deviazione standard $\sigma_f$. A questo punto la migliore configurazione dei parametri è quella che massimizza la seguente funzione: 
+Un esempio di questo approccio è il metodo proposto da Fisher: si consideri un campione di eventi appartenenti al segnale e se ne definisca la media $\bm\mu_\textbf{s}$ e la deviazione standard $\sigma_s$ ed un campione appartenente al background, definendo anche qui la media $\bm\mu_\textbf{b}$ e la deviazione standard $\sigma_b$. A questo punto la migliore configurazione dei parametri è quella che massimizza la seguente funzione: 
 \begin{equation}
-F(\textbf{c}) = \frac{(\bm\mu_\textbf{s} - \bm\mu_\textbf{f})^2}{\sigma_s^2 + \sigma_f^2}
+F(\textbf{c}) = \frac{(\bm\mu_\textbf{s} - \bm\mu_\textbf{b})^2}{\sigma_s^2 + \sigma_b^2}
 \end{equation} 
 Il pregio di un'analisi di questo tipo è quello di non doversi necessariamente limitare a dei tagli paralleli agli assi. 
 
@@ -76,13 +76,12 @@ Quando si parla di machine learning la prospettiva viene ribaltata, perché il m
 Bisogna distinguere tre macro-tipologie di approccio all'analisi dati nel machine learning:
 \begin{itemize}
 	\item APPRENDIMENTO SUPERVISIONATO \\
-	In questa tipologia di apprendimento vengono presentati al computer degli input di esempio ed i relativi output desiderati, con lo scopo di apprendere una relazione generale che lega gli input con gli output; in questo caso si utilizza il così detto "training data set", mentre per testare il modello ottenuto si considera il "test data set" dove non vengono forniti al computer gli output. L'apprendimento supervisionato verrà trattato in maniera più approfondita nel prossimo paragrafo.
+	In questa tipologia di apprendimento vengono presentati all'algoritmo degli input di esempio ed i relativi output desiderati, con lo scopo di apprendere una relazione generale che lega gli input con gli output; in questo caso si utilizza il così detto $\textit{training data set}$, mentre per testare il modello ottenuto si considera il $\textit{test data set}$ dove non vengono forniti al computer gli output;
 	\item APPRENDIMENTO NON SUPERVISIONATO \\
-	In questo caso non vengono forniti al computer gli output attesi fin dalle prime fasi di apprendimento del modello e quindi lo scopo è quello di scoprire una qualche struttura fra i dati di input.%\comment{fare riferimento al variational autoencoder: La parte implementativa di questa tesi si basa sull'utilizzo di un algoritmo unsupervised meglio noto come variational autoencoder.
-	Come si vedrà, questo modello viene addestrato per identificare le caratteristiche peculiari degli eventi fisici di background in modo da contrapporli successivamente a quelle relative ad eventi di segnale.\\
-	Verrà posta attenzione su un particolare metodo di apprendimento non supervisionato, il Variational Autoencoder (VAEs), del quale verrà svolta una trattazione teorica approfondita ed una applicazione al campo della fisica delle particelle
+	In questo caso non vengono forniti al computer gli output attesi fin dalle prime fasi di apprendimento del modello e quindi lo scopo è quello di scoprire una qualche struttura fra i dati di input.\\
+	Verrà posta attenzione su un particolare metodo di apprendimento non supervisionato, il Variational Autoencoder (VAEs), del quale verrà svolta una trattazione teorica approfondita ed una applicazione al campo della fisica delle particelle;
 	\item APPRENDIMENTO PER RINFORZO \\
-	Il Reinforcement Learning è basato sul concetto di ricompensa, ovvero si permette all'algoritmo di esplorare un così detto ambiente e, in base all'azione compiuta, gli si fornisce un feedback positivo, negativo o indifferente. Un esempio classico prevede di voler addestrare un algoritmo per un particolare gioco: si farà in modo di fargli compiere una serie di partite in maniera iterativa e gli si assegnerà una ricompensa in caso di vittoria o un malus in caso di sconfitta. \\ 
+	Il $\textit{Reinforcement Learning}$ è basato sul concetto di ricompensa, ovvero si permette all'algoritmo di esplorare un così detto ambiente e, in base all'azione compiuta, gli si fornisce un feedback positivo, negativo o indifferente. Un esempio classico prevede di voler addestrare un algoritmo per un particolare gioco: si farà in modo di fargli compiere una serie di partite in maniera iterativa e gli si assegnerà una ricompensa in caso di vittoria o una penalità in caso di sconfitta. \\ 
 \end{itemize}
 
 \newpage
@@ -90,7 +89,7 @@ Bisogna distinguere tre macro-tipologie di approccio all'analisi dati nel machin
 Una ulteriore distinzione che è necessario fare è fra algoritmi di classificazione, regressione e clustering:
 \begin{itemize}
 	\item CLASSIFICAZIONE \\
-	Gli algoritmi di classificazione sono caratterizzati da un output discreto, cioè una serie di classi alle quali l'input può appartenere.Questa tipologia di meccanismo viene in genere portata avanti tramite metodi di apprendimento supervisionato. Un esempio di algoritmo di classificazione è quello che permette di distinguere se un particolare oggetto è presente o meno in un'immagine.
+	Gli algoritmi di classificazione sono caratterizzati da un output discreto, cioè una serie di classi alle quali l'input può appartenere. Questa tipologia di meccanismo viene in genere portata avanti tramite metodi di apprendimento supervisionato. Un esempio di algoritmo di classificazione è quello che permette di distinguere se un particolare oggetto è presente o meno in un'immagine.
 	\item REGRESSIONE \\
 	La regressione è simile alla classificazione con la differenza che, in questo caso, l'output è continuo. Anche gli algoritmi di regressione sono adatti ad essere trattati con metodologie di apprendimento supervisionato.
 	\item CLUSTERING \\
