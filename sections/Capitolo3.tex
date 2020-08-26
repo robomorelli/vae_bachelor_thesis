@@ -10,7 +10,7 @@ Successivamente, nel caso in cui l'algoritmo si dimostri efficace nella discrimi
 
 \subsection{Dataset}
 \label{dataset}
-Per l'addestramento del modello e per la successiva fase di verifica sono stati utilizzati i dati prodotti attraverso simulazioni Montecarlo (MC), in base alla teoria di riferimento (SUSY). Le variabili fisiche che definiscono ogni evento sono otto ($\textit{met}$, $\textit{mt}$, $\textit{mbb}$, $\textit{mct2}$, $\textit{mlb1}$, $\textit{lep1Pt}$, $\textit{njet30}$, $\textit{nBjet30-MV2c10}$), scelte perché sono le più discriminanti fra segnale e background per quanto riguarda la SUSY; di conseguenza lo spazio iniziale, che dovrà essere compresso e decompresso dal VAE, sarà 8-dimensionale. \\
+Per l'addestramento del modello e per la successiva fase di verifica sono stati utilizzati i dati prodotti attraverso simulazioni Montecarlo (MC), in base alla teoria di riferimento (SUSY). Le variabili fisiche che definiscono ogni evento sono otto ($\textit{met}$, $\textit{mt}$, $\textit{mbb}$, $\textit{mct2}$, $\textit{mlb1}$, $\textit{lep1Pt}$, $\textit{njet30}$, $\textit{nBjet30-MV2c10}$) e sono le stesse utilizzate nell'analisi fisica relativa allo studio \cite{susy_alberto}. Di conseguenza lo spazio iniziale, che dovrà essere compresso dal VAE, sarà 8-dimensionale. \\
 Attraverso la simulazione MC vengono prodotti eventi sia di background che di segnale e, nel caso in cui l'algoritmo sia capace di discriminare tra eventi di fondo e di segnale, potrà essere applicato ai dataset reali, nei quali chiaramente non vi è questo tipo di differenziazione.\\ 
 Prima di passare alla fase di codifica, gli eventi (sia di segnale che di background) sono stati sottoposti ad una serie di tagli di preselezione sulle variabili, come riportato nella tabella~\ref{tab:tagli di preselezione}.
 
@@ -20,8 +20,8 @@ Prima di passare alla fase di codifica, gli eventi (sia di segnale che di backgr
 		\hline
 		&Preselezione \\
 		\hline
-		Esattamente un segnale di leptone&Vero\\
-		met\ trigger fired&Vero\\
+		Esattamente un leptone di segnale&Vero\\
+		met\ trigger&Vero\\
 		$2-3$ jets con $p_{T}>30 GeV$&Vero\\
 		$b$-tagged jet&[1-3]\\
 		met\ &$> 220$ GeV\\
