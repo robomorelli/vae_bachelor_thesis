@@ -58,6 +58,9 @@ In ogni caso, verranno illustrati i risultati ottenuti pesando tutte le variabil
 
 \subsection{Risultati}
 \label{risultati}
+
+\subsubsection{Processo di rigenerazione degli eventi}
+\label{rigenerazione_eventi}
 Come primo passo bisogna capire se, a seguito del processo di addestramento, il VAE è in grado di ricostruire gli eventi di background in maniera ottimale. Il risultato del processo di ricostruzione è riportato in figura~\ref{ricostruzione}, dove vengono confrontate le distribuzioni dei dati in input (punti blu) con quelle ricostruite dal VAE (punti rossi). 
 \begin{figure}[h!]
 	\centering
@@ -69,6 +72,11 @@ Come primo passo bisogna capire se, a seguito del processo di addestramento, il 
 Dall'osservazione qualitativa della figura~\ref{ricostruzione} emerge che il processo di ricostruzione del VAE risulta piuttosto accurato per tutte le variabili ad eccezione della $\textit{mbb}$. \\
 Tuttavia, come si vedrà più avanti, è possibile correggere questo risultato impostando un peso maggiore per tale variabile (ad esempio un peso pari a due o tre rispetto agli tutti pari ad uno). Inoltre, dopo aver constatato che è possibile indirizzare particolare attenzione sulla ricostruzione di specifiche variabili, si capirà come sfruttare questa situazione per ottenere un modello più sensibile ai vari tipi di segnale\\
 %Nel complesso si può comunque affermare che il processo di addestramento del VAE ha avuto successo e che quindi è in grado di ricostruire gli eventi di background in maniera piuttosto accurata. \\ 
+
+
+\subsubsection{Distribuzione della loss di ricostruzione}
+\label{reco_loss}
+
 Per rendere un segnale riconoscibile è opportuno che il suo indice di anomalia lo contraddistingua rispetto a quello degli eventi di fondo. In questa tesi la misura adottata per discriminare tra fondo e segnale è l'errore di ricostruzione che il VAE commette durante la ricostruzione degli eventi. Si chiarisce che questa non era l'unica scelta possibile in quanto si sarebbe potuto utilizzare anche la loss totale data dalla somma della divergenza di Kullback-Lieber e della loss di ricostruzione oppure, al contrario, solo la divergenza di Kullback-Lieber. 
 Ad ogni modo, per ottenere l'errore di ricostruzione per ogni evento è sufficiente sommare quello sulle otto variabili. Da questi valori si ottiene quindi la distribuzione della $\textit{Loss}$, come quella riportata in figura \ref{distribuzione_loss}. In questa immagine, oltre alla distribuzione relativa agli eventi di background (istogramma blu) sia per il dataset di validation (sopra) che per quello di test (sotto), sono presenti anche le distribuzione relative ad alcune delle ipotesi di segnale (curve colorate) contraddistinte dalla diverse ipotesi sulle masse delle due particelle (chargino/neutralino). E' importante ricordare che le simulazioni MC degli eventi di segnale non sono mai state usate fino ad ora e solo in questa fase di test vengono date in input al modello. \\
 L'obiettivo è quello di ottenere una distribuzione della Loss con un picco verso valori bassi dell'errore di ricostruzione per gli eventi di background, infatti una situazione ideale prevede una distribuzione degli errori per gli eventi di background concentrata su valori della Loss inferiori rispetto alle analoghe distribuzioni relative agli eventi di segnale; in questo modo infatti la selezione del segnale risulta facilitata e il rapporto segnale/background aumenta.
