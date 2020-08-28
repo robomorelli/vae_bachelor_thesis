@@ -82,7 +82,7 @@ Ad ogni modo, per ottenere l'errore di ricostruzione per ogni evento è sufficie
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.99\textwidth]{figs/risultati_simulazione/distribuzioneLoss.png}
+	\includegraphics[width=0.99\textwidth]{figs/risultati_simulazione/distribuzioneLoss.pdf}
 	\caption{Distribuzione della $\textit{Loss}$ per i pattern di background e per quelli di segnale relativi ad alcune combinazioni delle masse di Chargino-Gluino. La prima immagine è relativa al Vaidation data set, mentre la seconda al test data set.}
 	\label{distribuzione_loss}
 \end{figure}
@@ -99,7 +99,15 @@ Un'ulteriore precisazione può essere fatta pensando ad una possibile applicazio
 \label{esperimento di conteggio e regione di esclusione}
 
 A questa prima analisi qualitativa ne viene fatta seguire una quantitativa, con la quale si riesce a definire per quali combinazioni delle masse delle due particelle il VAE riesce a discriminare, con una certa confidenza statistica, gli eventi di segnale da quelli di background. In questo modo sarà possibile delineare una regione di esclusione per i diversi segnali caratterizzati da diverse ipotesi circa le masse delle due particelle candidate.\\
-Per portare a termine questo obiettivo si designa un esperimento di conteggio per confrontare l'ipotesi nulla con una alternativa. Nello specifico, dopo aver determinato il numero di eventi di fondo $N_b$ da selezionare, si ricava il valore di soglia della Loss relativa a questo numero, facendo riferimento alla distribuzione della Loss solo degli eventi di background. Successivamente, utilizzando lo stesso valore di soglia, si selezionano anche tutti gli eventi di segnale $N_s$ alla destra di tale valore.\\
+Per portare a termine questo obiettivo si designa un esperimento di conteggio per confrontare l'ipotesi nulla con una alternativa. Nello specifico, dopo aver determinato il numero di eventi di fondo $N_b$ da selezionare, si ricava il valore di soglia della Loss relativa a questo numero, facendo riferimento alla distribuzione della Loss solo degli eventi di background. Successivamente, utilizzando lo stesso valore di soglia, si selezionano anche tutti gli eventi di segnale $N_s$ alla destra di tale valore. In figura \ref{distribuzioneLossRiga} è riportato il processo di selezione del numero di eventi di background sulla distribuzione della Loss. \\
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.99\textwidth]{figs/risultati_simulazione/distribuzioneLossRiga.pdf}
+	\caption{Figura analoga all \ref{distribuzione_loss}, dove però la linea in nero mette in evidenza il processo di selezione degli eventi di background nella parte destra della distribuzione.}
+	\label{distribuzioneLossRiga}
+\end{figure}
+
 Dopo aver ricavato $N_b$ ed $N_s$, si procede alla verifica dell'ipotesi nulla, ovvero la presenza di solo background nei dati; nello specifico si verifica che la probabilità di avere una somma $N_s + N_b$ sia compatibile con una distribuzione di Poisson centrata su di un valore pari a $N_b$ (in altre parole si calcola $p(N_b + N_s | N_b)$). Nel caso in cui tale probabilità sia inferiore al 5\%, si procede all'esclusione dell'ipotesi nulla in favore di quella alternativa di presenza di segnale nei dati.\\
 Nelle figure~\ref{test-25-50-80} e~\ref{test-100-200-400} sono riportati i risultati dell'esperimento di conteggio e rappresentano la cosidetta  regione di esclusione dove, lungo l'asse delle ascisse sono riportate \color{red} da chiedere \color{black} mentre lungo quello delle ordinate le \color{red} da chiedere \color{black}. Si osserva che i punti rossi rappresentano le particolari combinazioni delle masse delle due particelle per le quali il VAE è in grado di discriminare fra segnale e background con sufficiente confidenza statistica, mentre in verde quelle per le quali tale discriminazione non può essere compiuta.
 

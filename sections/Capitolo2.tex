@@ -581,13 +581,14 @@ Si arriva quindi al seguente risultato:
 La sommatoria nell'equazione~\ref{introL} prende il nome di $\textit{Variational lower bound}$ e viene indicata con la lettera $\mathcal{L}$. \\
 A questo punto si deve osservare che $\textbf{x}$ è fissato e quindi il termine sinistro dell'equazione \ref{introL} è una costante; di conseguenza minimizzare la $\textit{KL divergency}$ equivale a massimizzare la $\mathcal{L}$, che può essere riscritta in maniera semplificata:
 
-\begin{align*}\label{eq:lower_bound}
+\begin{equation}
+\label{eq:lower_bound}
 \begin{split}
 	\mathcal{L} &= \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{x}|\textbf{z})p(\textbf{z})}{q(\textbf{z}|\textbf{x})} \\
 	 &=\sum q(\textbf{z}|\textbf{x}) \log p(\textbf{x}|\textbf{z}) + \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{z})}{q(\textbf{z}|\textbf{x})} \\
 	  &= E_{q}\log p(\textbf{x}|\textbf{z}) - KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}))
 \end{split}
-\end{align*}
+\end{equation}
 
 %
 %\begin{align}\label{eq:3}
