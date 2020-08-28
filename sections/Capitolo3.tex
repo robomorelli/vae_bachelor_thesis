@@ -33,7 +33,16 @@ Prima di passare alla fase di codifica, gli eventi (sia di segnale che di backgr
 	\caption{Sono riportati i tagli di preselezione applicati sia agli eventi di segnale che di background, prodotti attraverso una simulazione MC.}
 	\label{tab:tagli di preselezione}
 \end{table} 
-Gli eventi prodotti con il metodo MC sono stati divisi, come si richiede in un processo di apprendimento automatico, in una training data set, un validation data set ed un test data set.
+Gli eventi prodotti con il metodo MC sono stati divisi, come si richiede in un processo di apprendimento automatico, in una training data set, un validation data set ed un test data set. Successivamente, per rendere coerente la selezione del segnale simulando una raccolta dati con le attuali capacità e specifiche del LHC, i sample di validation e test sono stati ripesati per ottenere la giusta luminosità.\\
+Per ottenere i nuovi pesi $w_{j}^{'}$ a partire da quelli validi prima dello split $w_{j}$, è stata usata la seguente formula ~\cite{HiggsChalllenge}:
+
+\begin{equation}\label{eq:ripesaggio}
+    w_j^{'}=  w_{j}\frac{\sum_{i} w_{i} \textbf{1} \lbrace y_{i}=fondo\rbrace }{\sum_{i\in S^{'}}w_{i} \textbf{1} \lbrace y_{i}=fondo\rbrace }  
+\end{equation}
+
+Dove $y_{i}$ è la label (segnale o fondo) dello i-th evento e \textbf{1} è la funzione indicatrice (\textbf{1} {$y_{i}$ = fondo} è zero per un evento di segnale e pari ad uno per un evento di fondo).
+
+%This is required to make the validation subset corresponding to the full 139 fb$^{-1}$ Run-2 \sqsthirt\  = 13 \TeV\ $pp$ collision data set~\cite{HiggsChalllenge}.
 
 \subsection{Architettura del modello}
 \label{architettura del modello}
@@ -88,9 +97,10 @@ Ad ogni modo, per ottenere l'errore di ricostruzione per ogni evento è sufficie
 \end{figure}
 
 In questa immagine, oltre alla distribuzione relativa agli eventi di background (istogramma blu) sia per il dataset di validation (sopra) che per quello di test (sotto), sono presenti anche le distribuzione relative ad alcune delle ipotesi di segnale (curve colorate) contraddistinte dalla diverse ipotesi sulle masse delle due particelle (chargino/neutralino). E' importante ricordare che le simulazioni MC degli eventi di segnale non sono mai state usate fino ad ora e solo in questa fase di test vengono date in input al modello. \\
-L'obiettivo è quello di ottenere una distribuzione della Loss con un picco verso valori bassi dell'errore di ricostruzione per gli eventi di background, infatti una situazione ideale prevede una distribuzione degli errori per gli eventi di background concentrata su valori della Loss inferiori rispetto alle analoghe distribuzioni relative agli eventi di segnale; in questo modo infatti la selezione del segnale risulta facilitata e il rapporto segnale/background aumenta.\\
-Come prima considerazione si ottiene una conferma della qualità del processo di addestramento perché, come da attese, la distribuzione della Loss per gli eventi di background presenta un picco spostato verso sinistra, e quindi verso valori dell'errore di ricostruzione inferiori rispetto alle relative distribuzione degli eventi di segnale. \\ 
-Allo stesso tempo però si può già intuire qualitativamente che questa separazione non risulta molto netta, in particolare per alcuni tipi di segnale. Per questo motivo si cercherà, a partire dalle prossime sezioni, di trovare un modello che risulti più efficace in questo compito sfruttando, ad esempio, una diversa pesatura delle variabili che caratterizzano un evento fisico. Con questo procedimento infatti si spera di dare la giusta importanza a quelle variabili che possono aumentare la distanza tra gli eventi di background e di segnale durante la ricostruzione.\\
+Una situazione ideale prevede una distribuzione degli errori per gli eventi di fondo concentrata su valori della Loss inferiori rispetto alle analoghe distribuzioni relative agli eventi di segnale. In questo modo, infatti, la selezione del segnale risulta facilitata e il rapporto segnale/background aumenta.\\
+Osservando le figure, una prima considerazione riguarda proprio questo aspetto. Infatti, la distribuzione della Loss per gli eventi di background presenta un picco spostato verso sinistra rispetto alle distribuzione relative agli eventi di segnale. \\ 
+Allo stesso tempo però si può già intuire che questa separazione non risulta molto netta, in particolare per alcuni tipi di segnale. Per questo motivo si cercherà, a partire dalle prossime sezioni, di trovare un modello che risulti più efficace in questo compito sfruttando, ad esempio, una diversa pesatura delle variabili che caratterizzano un evento fisico. Con questo procedimento infatti si spera di dare la giusta importanza a quelle variabili che possono aumentare la distanza tra gli eventi di background e di segnale durante la ricostruzione.\\
+Un'altro aspetto non trascurabile verificabile confrontando i due plot della stessa figura \ref{distribuzione_loss} riguarda un fenomeno introdotto durante la parte compilativa di questa tesi: l'overfitting. Infatti giudicando la distribuzione degli eventi di background nei due plot si può vedere come la forma sia pressochè la stessa indicando come il modello non abbia imparato in modo particolare un solo dataset di dati (validation) senza poi generalizzare con altrettanta capacità sul campione di test, mai visto durante l'addestramento.\\
 Un'ulteriore precisazione può essere fatta pensando ad una possibile applicazione di questo algoritmo sui dati sperimentali, laddove la distinzione fra background e segnale non è nota a priori; infatti, osservando come le distribuzioni dei segnali si pongono rispetto a quella degli eventi di fondo, non è difficile credere che andando a selezionare gli eventi sulla coda destra della distribuzione della Loss relativa ai dati, si possano filtrare una serie di eventi interessanti dal punto di vista fisico.
 
 \newpage
