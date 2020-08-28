@@ -581,10 +581,27 @@ Si arriva quindi al seguente risultato:
 La sommatoria nell'equazione~\ref{introL} prende il nome di $\textit{Variational lower bound}$ e viene indicata con la lettera $\mathcal{L}$. \\
 A questo punto si deve osservare che $\textbf{x}$ è fissato e quindi il termine sinistro dell'equazione \ref{introL} è una costante; di conseguenza minimizzare la $\textit{KL divergency}$ equivale a massimizzare la $\mathcal{L}$, che può essere riscritta in maniera semplificata:
 
-\begin{align*}
-	\mathcal{L} &= \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{x}|\textbf{z})p(\textbf{z})}{q(\textbf{z}|\textbf{x})} \\ &=
-	\sum q(\textbf{z}|\textbf{x}) \log p(\textbf{x}|\textbf{z}) + \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{z})}{q(\textbf{z}|\textbf{x})} \\ &= E_{q}\log p(\textbf{x}|\textbf{z}) - KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z})) 
+\begin{align*}\label{eq:lower_bound}
+\begin{split}
+	\mathcal{L} &= \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{x}|\textbf{z})p(\textbf{z})}{q(\textbf{z}|\textbf{x})} \\
+	 &=\sum q(\textbf{z}|\textbf{x}) \log p(\textbf{x}|\textbf{z}) + \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{z})}{q(\textbf{z}|\textbf{x})} \\
+	  &= E_{q}\log p(\textbf{x}|\textbf{z}) - KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}))
+\end{split}
 \end{align*}
+
+%
+%\begin{align}\label{eq:3}
+%\begin{split}
+%    Loss_{reco}&=  -\frac{1}{k} \sum_{i,j=1} \ln \left[
+%    P\left(x| \alpha_{1}, \alpha_{2},...\alpha_{n}\right)
+%    \right]   \\
+%    &=  -\frac{1}{k} \sum_{i,j=1} \ln \left[
+%    f_{i,j}\left(x_{i,j}| \alpha_{1}^{i,j}, \alpha_{2}^{i,j},...\alpha_{n}^{i,j}\right)
+%    \right]   
+%\end{split}
+%\end{align}
+
+
 Quindi, ricapitolando, l'obiettivo iniziale è quello di trovare la distribuzione $p(\textbf{z}|\textbf{x})$ che però è molto complessa per essere calcolata; allora si cerca di approssimarla con una $q(\textbf{z}|\textbf{x})$ scelta tra un'opportuna famiglia e, per scegliere quella più vicina, si deve minimizzare $KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}|\textbf{x}))$, che come visto equivale a massimizzare la $\mathcal{L}$. \\
 In figura \ref{grafo} è possibile osservare in che modo si passa da $\textbf{x}$ a $\textbf{z}$ e viceversa.
 
