@@ -1,37 +1,28 @@
 \section{Analisi multivariata e Machine Learning}
 \label{analisi multivariata e ML}
 
-	Quando si parla di analisi dati ci si può essenzialmente ricondurre a tre macro-categorie di operazioni:
-
-\begin{enumerate}
-	\item CLASSIFICAZIONE \\
-	Questa tipologia è probabilmente la principale quando si ha a che fare con la fisica delle alte energie e consiste nell'associare un evento/oggetto  ad una categoria. Nel caso specifico di questa trattazione l'obiettivo sarà esattamente quello di classificare gli eventi/oggetti nelle due categorie di background e segnale.
-
-	\item STIMA DI PARAMETRI \\
-	In questa tipologia ricadono tutti quei processi attraverso i quali si estraggono dei parametri (ad esempio la massa di una tipologia di particelle) attraverso un fitting del modello teorico con i dati sperimentali;
-	
-	\item STIMA DI FUNZIONI \\
-	Si ricava una funzione continua di una o più variabili a partire dai dati sperimentali.
-\end{enumerate}
-
-Questa trattazione si concentrerà essenzialmente sulle possibili metodologie di classificazione, proprio perché l'obiettivo è il discernimento fra segnale e background finalizzato alla ricerca di nuova fisica. \\
-Nelle prime righe di questo capitolo è stato introdotto il termine $\textit{evento}$ o $\textit{oggetto}$, senza meglio specificare come questo fosse collegato ai dati. Un evento può essere pensato come una collezione di dati e quindi lo si può rappresentare come un vettore in uno spazio n-dimensionale: 
+Le ricerche di eventi rari nella fisica delle alte energie hanno come scopo quello di riuscire a selezionare un campione il più puro possibile di eventi di segnale. Il parametro di merito della selezione e' la sensibilità al processo a cui si è interessati, che e' funzione del rapporto tra il numero di eventi di segnale attesi ed il numero di eventi di background: 
 \begin{equation}
-\textbf{x} = (x_{1},...,x_{n})
+	\sigma = N_s/\sqrt{N_s + N_b}
 \end{equation}
-In realtà l'utilizzo del termine vettore è improprio ogni qual volta si abbia a che fare con componenti (i dati) disomogenee tra loro, tuttavia lo si continuerà ad utilizzare per una questione di comodità tenendo a mente questa specifica. Nelle pagine successive con i termini evento, oggetto, vettore di input e pattern ci si riferirà sempre alla stessa entità appena introdotta, mentre con il termine inglese $\textit{features}$ si indicheranno le varie componenti. \\ 
-Una volta presentate queste notazioni è possibile focalizzarsi sui diversi approcci che possono essere seguiti per tentare di separare il segnale dal background quando si ha a disposizione una grande mole di dati. Nelle righe che seguono verranno presentate tre diverse metodologie, dalla più semplice ed inefficiente a quella più complessa e raffinata:
+In generale un evento può essere pensato come una collezione di dati e quindi lo si può rappresentare come un vettore in uno spazio n-dimensionale: 
+\begin{equation}
+\vec{x} = (x_{1},...,x_{n})
+\end{equation}
+dove $x_i$ sono le informazioni ottenute dalle particelle rivelate dal detector: ad esempio l'impulso di ciascuna particella, le masse invarianti ottenute sommando i quadrivettori di due o più particelle, il numero di hit in un detector, o l'energia trasversa mancante dovuta a particelle non rivelate. \\
+Una volta individuate le quantità che si vogliono utilizzare per separare il campione di segnale dal fondo, si possono utilizzare varie tecniche per ottimizzare la selezione, e quindi ottenere la migliore sensibilità al processo di interesse. Si possono individuare tre classi metodologiche:
+
 \begin{enumerate}
-	\item Sistema di tagli sulle variabili, ovvero il metodo più semplice ma anche meno efficiente. Non può essere considerato un metodo multi-variato per le ragioni che si vedranno a breve;
-	\item Analisi multi-variata e, nello specifico, l'analisi discriminante lineare;
-	\item Machine Learning, dove entra in gioco il concetto di apprendimento automatico e quindi si dispone di tecniche che permettono all'algoritmo di imparare in maniera autonoma direttamente dai dati che gli vengono forniti.
+	\item Sistema di tagli sulle variabili (\textit{cut and count}). Con questo metodo si selezionano sottoinsiemi dei valori di ciascuna variabile, in modo indipendente fra loro (Cut) per poi fare un esperimento di conteggio sulle regioni selezionate;
+	\item Analisi multi-variata come, ad esempio, l'analisi discriminante lineare;
+	\item Machine Learning, cioè sistemi che permettono l'apprendimento automatico e quindi l'algoritmo è in grado di imparare in maniera autonoma direttamente dai dati che gli vengono forniti.
 \end{enumerate}
 
 \newpage
 
 \subsection{Sistema di tagli}
 \label{sistema di tagli}
-Un primissimo semplice approccio prevede di adoperare dei tagli sulle varie componenti dei pattern, in modo da ricavare un ipercubo nello spazio n-dimensionale dei pattern stessi. Per capire meglio questa metodologia si consideri un caso semplificato nel quale lo spazio in questione è bi-dimensionale e quindi i vettori di input sono del tipo $\textbf{x} = (x_1,x_2)$; per raggiungere l'obiettivo di separazione bisognerà dunque applicare due tagli, uno sulla variabile $x_1$ ed uno su $x_2$, stabilendo un punto $\textbf{P} = (P_1,P_2)$ come riportato in figura ~\ref{fig:grid_example}.
+Con questo sistema si applicano delle selezioni sulle varie componenti $x_i$ che definiscono un evento, in modo da ricavare un ipercubo nello spazio n-dimensionale degli eventi stessi. Per capire meglio questa metodologia si consideri un caso semplificato nel quale lo spazio in questione è bi-dimensionale e quindi i vettori di input sono del tipo $\vec{x} = (x_1,x_2)$; per raggiungere l'obiettivo di separazione bisognerà dunque applicare due tagli, uno sulla variabile $x_1$ ed uno su $x_2$, come riportato in figura ~\ref{fig:grid_example}.
 
 \begin{figure}[h!]
 	\centering
@@ -40,8 +31,8 @@ Un primissimo semplice approccio prevede di adoperare dei tagli sulle varie comp
 	\label{fig:grid_example}
 \end{figure}
 
-Chiaramente la scelta del punto $\textbf{P}$ non è casuale e deve essere ottimizzata; un metodo per raggiungere tale obiettivo è il Random Grid Search (RGS) che verrà presentato nella sezione ~\ref{iperparametri e grid search}. \\
-In questo caso, nonostante si abbia a che fare con pattern multi-dimensionali, non è possibile parlare di approccio multivariato, perché i tagli sulle singole dimensioni sono indipendenti fra loro; ecco che si capisce che il prezzo da pagare per la grande semplicità di questo metodo è la sua scarsa efficienza, infatti i tagli che possono essere ottenuti sono paralleli agli assi e ciò è estremamente limitante.
+La scelta della regione in cui fare il conteggio e' ottenuta grazie a una ottimizzazione del rapporto segnale rumore al variare dei tagli. Questa ottimizzazione può essere ottenuta con molti metodi, di cui un esempio e' il Random Grid Search (RGS) che verrà presentato nella sezione \ref{iperparametri e grid search}. \\
+In questo caso le selezioni sulle variabili $x_i$ sono fatte in modo indipendente, di conseguenza non si tiene conto di eventuali correlazioni tra le variabili e, se le distribuzioni di tali variabili per segnale e fondo sono molto simili, questo sistema può non essere molto efficiente.
 
 \newpage
 
