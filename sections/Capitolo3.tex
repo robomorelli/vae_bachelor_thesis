@@ -64,7 +64,7 @@ In ogni caso, verranno illustrati i risultati ottenuti pesando tutte le variabil
 Come primo passo bisogna capire se, a seguito del processo di addestramento, il VAE è in grado di ricostruire gli eventi di background in maniera ottimale. Il risultato del processo di ricostruzione è riportato in figura~\ref{ricostruzione}, dove vengono confrontate le distribuzioni dei dati in input (punti blu) con quelle ricostruite dal VAE (punti rossi). 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.62\textwidth]{figs/risultati_simulazione/ricostruzione.png}
+	\includegraphics[width=0.56\textwidth]{figs/risultati_simulazione/ricostruzione.png}
 	\caption{Confronto tra gli input in ingresso del VAE (in blu) e quelli ricostruiti (in rosso) per le otto componenti dei pattern di input.}
 	\label{ricostruzione}
 \end{figure}
@@ -78,18 +78,22 @@ Tuttavia, come si vedrà più avanti, è possibile correggere questo risultato i
 \label{reco_loss}
 
 Per rendere un segnale riconoscibile è opportuno che il suo indice di anomalia lo contraddistingua rispetto a quello degli eventi di fondo. In questa tesi la misura adottata per discriminare tra fondo e segnale è l'errore di ricostruzione che il VAE commette durante la ricostruzione degli eventi. Si chiarisce che questa non era l'unica scelta possibile in quanto si sarebbe potuto utilizzare anche la loss totale data dalla somma della divergenza di Kullback-Lieber e della loss di ricostruzione oppure, al contrario, solo la divergenza di Kullback-Lieber. 
-Ad ogni modo, per ottenere l'errore di ricostruzione per ogni evento è sufficiente sommare quello sulle otto variabili. Da questi valori si ottiene quindi la distribuzione della $\textit{Loss}$, come quella riportata in figura \ref{distribuzione_loss}. In questa immagine, oltre alla distribuzione relativa agli eventi di background (istogramma blu) sia per il dataset di validation (sopra) che per quello di test (sotto), sono presenti anche le distribuzione relative ad alcune delle ipotesi di segnale (curve colorate) contraddistinte dalla diverse ipotesi sulle masse delle due particelle (chargino/neutralino). E' importante ricordare che le simulazioni MC degli eventi di segnale non sono mai state usate fino ad ora e solo in questa fase di test vengono date in input al modello. \\
-L'obiettivo è quello di ottenere una distribuzione della Loss con un picco verso valori bassi dell'errore di ricostruzione per gli eventi di background, infatti una situazione ideale prevede una distribuzione degli errori per gli eventi di background concentrata su valori della Loss inferiori rispetto alle analoghe distribuzioni relative agli eventi di segnale; in questo modo infatti la selezione del segnale risulta facilitata e il rapporto segnale/background aumenta.
+Ad ogni modo, per ottenere l'errore di ricostruzione per ogni evento è sufficiente sommare quello sulle otto variabili. Da questi valori si ottiene quindi la distribuzione della $\textit{Loss}$, come quella riportata in figura \ref{distribuzione_loss}. 
+
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.96\textwidth]{figs/risultati_simulazione/distribuzioneLoss.png}
+	\includegraphics[width=0.99\textwidth]{figs/risultati_simulazione/distribuzioneLoss.png}
 	\caption{Distribuzione della $\textit{Loss}$ per i pattern di background e per quelli di segnale relativi ad alcune combinazioni delle masse di Chargino-Gluino. La prima immagine è relativa al Vaidation data set, mentre la seconda al test data set.}
 	\label{distribuzione_loss}
 \end{figure}
 
+In questa immagine, oltre alla distribuzione relativa agli eventi di background (istogramma blu) sia per il dataset di validation (sopra) che per quello di test (sotto), sono presenti anche le distribuzione relative ad alcune delle ipotesi di segnale (curve colorate) contraddistinte dalla diverse ipotesi sulle masse delle due particelle (chargino/neutralino). E' importante ricordare che le simulazioni MC degli eventi di segnale non sono mai state usate fino ad ora e solo in questa fase di test vengono date in input al modello. \\
+L'obiettivo è quello di ottenere una distribuzione della Loss con un picco verso valori bassi dell'errore di ricostruzione per gli eventi di background, infatti una situazione ideale prevede una distribuzione degli errori per gli eventi di background concentrata su valori della Loss inferiori rispetto alle analoghe distribuzioni relative agli eventi di segnale; in questo modo infatti la selezione del segnale risulta facilitata e il rapporto segnale/background aumenta.\\
 Come prima considerazione si ottiene una conferma della qualità del processo di addestramento perché, come da attese, la distribuzione della Loss per gli eventi di background presenta un picco spostato verso sinistra, e quindi verso valori dell'errore di ricostruzione inferiori rispetto alle relative distribuzione degli eventi di segnale. \\ 
 Allo stesso tempo però si può già intuire qualitativamente che questa separazione non risulta molto netta, in particolare per alcuni tipi di segnale. Per questo motivo si cercherà, a partire dalle prossime sezioni, di trovare un modello che risulti più efficace in questo compito sfruttando, ad esempio, una diversa pesatura delle variabili che caratterizzano un evento fisico. Con questo procedimento infatti si spera di dare la giusta importanza a quelle variabili che possono aumentare la distanza tra gli eventi di background e di segnale durante la ricostruzione.\\
 Un'ulteriore precisazione può essere fatta pensando ad una possibile applicazione di questo algoritmo sui dati sperimentali, laddove la distinzione fra background e segnale non è nota a priori; infatti, osservando come le distribuzioni dei segnali si pongono rispetto a quella degli eventi di fondo, non è difficile credere che andando a selezionare gli eventi sulla coda destra della distribuzione della Loss relativa ai dati, si possano filtrare una serie di eventi interessanti dal punto di vista fisico.
+
+\newpage
 
 \subsubsection{Esperimento di conteggio e regione di esclusione}
 \label{esperimento di conteggio e regione di esclusione}
