@@ -138,7 +138,6 @@ A questo punto, se la distanza $d_{ij}$ fra due cluster seeker $\vec{C}_i$ e $\v
 Come osservazione finale bisogna dire che nei metodi che si basano sul concetto di distanza è importante ri-scalare i valori delle componenti dei pattern (in linea di principio si possono avere componenti diverse con ordini di grandezza di molto differenti) in modo da evitare che alcune componenti pesino più di altre. \\ 
 
 \color{red}
-Io sostituirei pattern con eventi e non con variabili \\
 Come definisco la misura\\
 Riscalare le componenti è importante... che riferimento devo fare alla fisica delle particelle? \\
 come scelgo il valore di $\epsilon$ e di $\delta$?
@@ -235,29 +234,20 @@ A questo punto è possibile passare ad un livello di complessità superiore, oss
 	\item Reti feedforward con uno o più strati: in questo caso il segnale si propaga dai nodi di input verso quelli di output, senza connessioni fra i neuroni di uno stesso strato;
 	\item Reti feedback: sono reti cicliche dove il segnale si propaga anche fra i neuroni di uno stesso strato.
 \end{enumerate}
-Bisogna chiedersi ora in che modo apprende il singolo neurone. Una delle possibilità (nel caso in cui sia noto l'output target) è l'apprendimento con correzione di errore, che viene presentato velocemente nel seguito.
+L'apprendimento di un singolo neurone dipende dalla struttura della rete e dal tipo di input ed output fornito alla rete. Nel caso in cui l'output target sia noto si può utilizzare il metodo dell'apprendimento con correzione di errore. \\
 Si consideri un singolo neurone che ha in ingresso una serie di input $(x_1,...,x_n)$ e quindi produce un valore di output $y$ attraverso la somma pesata già introdotta precedentemente; tale valore può quindi essere confrontata con il risultato atteso $R$, ottenendo così un errore $err = R - y$; si può quindi definire la funzione di costo
 \begin{equation}
 E = \frac{1}{2}err^2
 \end{equation}
 sulla quale si applicherà il metodo di discesa del gradiente già discusso nel paragrafo~\ref{discesa del gradiente} per ottimizzare i parametri.\\
-Una rete neurale può svolgere diverse funzioni, tuttavia quella principale che viene utilizzata in questa tesi prende il nome di riconoscimento. Il riconoscimento consiste nell'associazione da parte della rete di un vettore evento ad una delle varie categorie possibili. Tale obiettivo può essere ottenuto a seguito di una fase di addestramento dove vengono forniti alla rete sia i vettori in input che le categorie alle quali questi appartengono (si tratta chiaramente di un processo di apprendimento supervisionato). Si ipotizzi di avere a disposizione dei vettori evento con un numero n di componenti (i dati) e, chiaramente, possono essere pensati come dei punti in uno spazio n-dimensionale; questo spazio potrà essere allora diviso in delle regioni che corrispondono alle varie categorie di cui si è parlato precedentemente ed i confini di queste zone si ottengono a seguito del processo di addestramento. \\
-%Una volta capito in che modo avviene l'addestramento di un singolo neurone, è possibile trattare le diverse funzioni che può svolgere una rete neurale:
-%\begin{enumerate}
-%	\item L'associazione, a sua volta divisibile in autoassociazione ed eteroassociazione. Nel primo caso vengono presentati alla rete neurale una serie di vettori evento nella fase di training per poi verificare se uno di questi vettori, ripresentato parzialmente, viene nuovamente riconosciuto dalla rete e completato (tale funzione ben si presta ad essere ottenuta a seguito di un processo di apprendimento non supervisionato); nel secondo caso si utilizza un vettore non ancora noto alla rete neurale come richiamo di una già processato;
-%	\item Il riconoscimento consiste nell'associazione da parte della rete di un vettore evento ad una delle varie categorie possibili. Tale obiettivo può essere ottenuto a seguito di una fase di addestramento dove vengono forniti alla rete sia i vettori in input che le categorie alle quali questi appartengono (si tratta chiaramente di un processo di apprendimento supervisionato). Si ipotizzi di avere a disposizione dei vettori evento con un numero n di componenti (i dati) e, chiaramente, possono essere pensati come dei punti in uno spazio n-dimensionale; questo spazio potrà essere allora diviso in delle regioni che corrispondono alle varie categorie di cui si è parlato precedentemente ed i confini di queste zone si ottengono a seguito del processo di addestramento;
-	%\item L'approssimazione di funzioni, dove si hanno a disposizione gli input $\textbf{x}_\textbf{i}$ ed i corrispettivi output $\textbf{y}_\textbf{i}$. Quello che si cerca di fare è approssimare al meglio la funzione $\textbf{y} = f(\textbf{x})$ vera con una $g(\textbf{x})$, tale per cui la distanza euclidea è inferiore ad un valore prefissato positivo (piccolo) $\epsilon$:
-	%\begin{equation}
-	%\Vert g(\textbf{x}) - f(\textbf{x}) \Vert < \epsilon
-	%\end{equation}
-%\end{enumerate}
-Arrivati a questo punto è possibile esporre la trattazione su come una rete neurale viene addestrata. Precedentemente si è introdotta la struttura di una rete neurale, specificando le differenze fra lo strato di input, quello di output e gli strati nascosti. Ogni singolo neurone nel suo processo di addestramento deve aggiornare i suoi pesi, in modo che l'output della rete neurale sia simile a quello atteso.\\
+Una rete neurale può svolgere diverse funzioni, tuttavia quella principale che viene utilizzata in questa tesi prende il nome di riconoscimento. Il riconoscimento consiste nell'associazione da parte della rete di un vettore evento ad una delle varie categorie possibili. Tale obiettivo può essere ottenuto a seguito di una fase di addestramento dove vengono forniti alla rete sia i vettori in input che le categorie alle quali questi appartengono (si tratta chiaramente di un processo di apprendimento supervisionato). Si ipotizzi di avere a disposizione dei vettori evento con un numero n di componenti (i dati) che rappresentano dei punti in uno spazio n-dimensionale; questo spazio potrà essere allora diviso in delle regioni che corrispondono alle varie categorie ed i confini di queste regioni si ottengono a seguito del processo di addestramento. \\
+Durante l'addestramento ogni singolo neurone deve aggiornare i suoi pesi in modo che l'output della rete sia simile a quello atteso. \\
 Uno dei metodi migliori per addestrare la rete neurale è l'algoritmo di back-propagation. \\
-Una rete neurale è caratterizzata da due tipologie di segnale: da un lato vi è un segnale di funzione che si propaga dallo strato di input verso quello di output e, dall'altro, vi è un segnale di errore che ha origine nello strato di output e si propaga verso quello di input. E' il segnale di errore a giocare un ruolo fondamentale nel processo di apprendimento tramite ottimizzazione dei pesi che caratterizzano la rete neurale. \\
-Addentrandosi nell'algoritmo di back-propagation bisogna fare una distinzione fra il modo in cui esso viene applicato allo strato di output ed il modo in cui viene applicato agli strati nascosti:
+Per l'implementazione di questo algoritmo si introduce un segnale di input che deve propagarsi verso lo strato di output e, allo stesso tempo, si fa propagare un segnale di errore dallo strato di output verso quello di input.\\
+Nel caso della back-propagation bisogna fare una distinzione tra l'addestramento dei neuroni nello strato di output e negli strati nascosti:
 \begin{enumerate}
 	\item Neurone nello strato di output.\\
-	Si consideri uno strato di output con un numero n di neuroni e ci si focalizzi sul k-esimo. In un certo momento del processo di apprendimento, alla rete neurale si starà presentando il j-esimo elemento del training data set, quindi per il neurone k si otterrà il seguente segnale di errore:
+	Un neurone di output k, quando gli verrà fornito l'elemento j del \textbf{training data set}, avrà un errore:
 	\begin{equation}
 	err_k^{(j)} = R_k^{(j)} - y_k^{(j)}
 	\end{equation}
@@ -266,13 +256,13 @@ Addentrandosi nell'algoritmo di back-propagation bisogna fare una distinzione fr
 	\begin{equation}
 	E^{(j)} = \frac{1}{2} \sum_{k=1}^{n} (err_k^{(j)})^2
 	\end{equation}
+	dove n è il numero di neuroni nello strato di output. \\
 	Se poi N è il numero totale di elementi del training data set, allora la funzione di costo può essere definita nel seguente modo:
 	\begin{equation}
 	E_{tot} = \frac{1}{N}\sum_{j=1}^{N} E^{(j)}
 	\end{equation}
-	e l'obiettivo è quello di minimizzare tale funzione di costo. Per fare ciò si procede aggiustando i pesi a seguito della presentazione di ogni singolo vettore evento.
-	Si utilizza il metodo di discesa del gradiente, procedendo nel seguente modo: \\
-	il gradiente è dato da
+	e l'obiettivo è quello di minimizzare tale funzione di costo. Per fare ciò si procede variando i pesi a seguito della presentazione di ogni singolo vettore evento.
+	Si utilizza il metodo di discesa del gradiente, procedendo nel seguente modo: il gradiente è dato da
 	\begin{equation}
 	\frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}}
 	\end{equation}
@@ -280,7 +270,7 @@ Addentrandosi nell'algoritmo di back-propagation bisogna fare una distinzione fr
 	\begin{equation}
 	\Delta w_{ki}^{(j)} = -\mu \frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}}
 	\end{equation}
-	con $\mu$ fattore di apprendimento, definito nella sezione precedente come $\textit{learning rate}$.
+	con $\mu$ fattore di apprendimento, definito precedentemente come $\textit{learning rate}$.
 	Manca a questo punto il calcolo esplicito del gradiente, che può essere eseguito con la regola della catena 
 	\begin{equation}
 	\frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}} = \frac{\partial E^{(j)}}{\partial err_k^{(j)}}
@@ -302,14 +292,20 @@ Addentrandosi nell'algoritmo di back-propagation bisogna fare una distinzione fr
 	\item Neurone in uno strato nascosto \\
 	In questo caso l'output del neurone non ha un diretto valore con il quale può essere confrontato, quindi il segnale di errore deve essere determinato a partire dai segnali di errore di tutti i neuroni dello strato successivo, da cui il nome di back-propagation proprio perché il segnale di errore prosegue all'indietro dall'output verso l'input.
 \end{enumerate}
-Come ultima considerazione sulle reti neurali bisogna sottolineare che il coefficiente di apprendimento deve essere scelto in maniera accurata, infatti se fosse troppo piccolo si avrebbe una convergenza estremamente lenta e, viceversa, un valore troppo grande porterebbe ad una instabilità con comportamento oscillatorio. Per gestire meglio questo aspetto, nella pratica viene definito un learning rate variabile. Generalmente si fa in modo che questo fattore parta da un certo valore per decrescere mano mano che si ci avvicina ad una soluzione ottimale. In prima istanza infatti è utile avere un valore abbastanza grande da poter seguire in modo efficace la discesa del gradiente, rendendo più rapida la ricerca della soluzione ottimale. Successivamente, però, risulta utile diminuire questo stesso parametro per evitare oscillazioni attorno al punto di minimo.
+Come ultima considerazione sulle reti neurali bisogna sottolineare che il fattore di apprendimento deve essere scelto in maniera accurata, infatti se fosse troppo piccolo si avrebbe una convergenza estremamente lenta e, viceversa, un valore troppo grande porterebbe ad una instabilità con comportamento oscillatorio. Per gestire meglio questo aspetto, nella pratica viene definito un learning rate variabile. Generalmente si fa in modo che questo fattore parta da un certo valore per decrescere mano mano che si ci avvicina ad una soluzione ottimale. In prima istanza infatti è utile avere un valore abbastanza grande da poter seguire in modo efficace la discesa del gradiente, rendendo più rapida la ricerca della soluzione ottimale. Successivamente, però, risulta utile diminuire questo stesso parametro per evitare oscillazioni attorno al punto di minimo.
+
+\color{red}
+ultimo commento reti neurali $\rightarrow$ il fattore di apprendimento l'ho definito e si vede dove appare nella backpropagation \\
+\color{black}
 
 \newpage
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Alberi Decisionali}
 \label{alberi decisionali}
-Gli alberi decisionali sono, al pari delle reti neurali, un metodo ML di apprendimento supervisionato e  la loro caratteristica fondamentale è il presentarsi in maniera particolarmente intuitiva perché è possibile avere una semplice rappresentazione grafica del meccanismo del loro funzionamento.\\
-Gli alberi decisionali rappresentano un mezzo estremamente interessante per le operazioni di classificazione (sia per output continui che discreti) ed operano attraverso una serie di test sugli attributi degli input (con il termine attributo o $\textit{features}$ si intende una componente del vettore di input, come già specificato nella sezione introduttiva di questa tesi [\ref{analisi multivariata e ML}] ). \\ 
+Gli alberi decisionali sono, al pari delle reti neurali, un metodo ML di apprendimento supervisionato.\\
+Gli alberi decisionali rappresentano un mezzo estremamente interessante per le operazioni di classificazione (sia per output continui che discreti) ed operano attraverso una serie di test sugli attributi degli eventi di input. \\ 
 Come primo passo è utile discutere come è strutturato un albero decisionale, introducendo alcune notazioni (come ausilio alla trattazione si riporta in figura \ref{schemaDT} un esempio di albero decisionale molto semplice). \\
 
 \begin{figure} [h!]
@@ -324,13 +320,11 @@ Gli elementi che caratterizzano un albero decisionale sono:
 	\item Nodo. \\
 	I nodi sono riportati in figura \ref{schemaDT} come dei cerchi colorati in azzurro e contrassegnati dalla lettera N. Ogni nodo si occupa di eseguire un test su di un singolo attributo (il nodo iniziale dove avviene il primo test e quindi la prima differenziazione degli input è detto "root node");
 	\item Ramo. \\
-	I rami (detti anche archi) determinano le regole di "splitting", ovvero le regole attraverso le quali vengono separati gli esempi nelle rispettive categorie a seconda dei loro attributi; tali rami determinano quindi i percorsi all'interno degli alberi decisionali e quindi, in ultima analisi, la classificazione finale;
+	I rami (detti anche archi) determinano le regole di "splitting", ovvero le regole attraverso le quali vengono separati gli esempi nelle rispettive categorie a seconda dei loro attributi; tali rami determinano quindi i percorsi all'interno degli alberi decisionali e la classificazione finale;
 	\item Foglie. \\
 	Le foglie sono una classe particolare di nodi, ovvero i nodi finali che, in quanto tali, non generano nuove diramazioni ma rappresentano il risultato finale del processo di classificazione.
 \end{itemize}
 
-Bisogna tenere a mente che si sta parlando di una metodologia di ML, che è quindi volta ad estrarre dai dati di input (training data set) e dai corrispettivi output target l'informazione generale, per poter poi applicare l'algoritmo a casi per i quali non si è in possesso degli output di riferimento.\\
-Detto ciò è necessario capire in che modo possa essere costruito un albero decisionale e l'idea di base è quella di stabilire, di volta in volta, il criterio sugli attributi che più discrimina gli input. \\
 Nella costruzione degli alberi decisionali bisogna distinguere due fasi successive:
 \begin{itemize}
 	\item "Building", ovvero costruzione.\\
@@ -340,51 +334,38 @@ Nella costruzione degli alberi decisionali bisogna distinguere due fasi successi
 	
 \end{itemize} 
 
-Come già detto la prima fase è quella di "Building", durante la quale viene costruito l'albero decisionale aggiungendo nodi e rami, con il fine di ottenere una classificazione finale il più possibile omogenea; è altresì noto che ad ogni nodo corrisponde un attributo sul quale è effettuato un test, quindi è evidente che, dato un particolare numero di attributi, il numero di alberi possibili è molto elevato. Bisogna trovare un modo per disporre nella maniera più efficace i nodi all'interno dell'albero: l'idea è quella di scegliere per primo l'attributo attraverso il quale si ha una maggiore discriminazione dei dati in input. Per fare ciò si possono percorrere due strade distinte, utilizzando:
+Poiché ciascun nodo agisce su una singola variabile dei vettori di input, è possibile ottenere un gran numero di alberi differenti. Per questo motivo è necessario trovare un modo per ottimizzare la geometria dei nodi all'interno dell'albero: per farlo viene scelto per primo l'attributo attraverso il quale si ha una maggiore discriminazione dei dati in input. Per fare ciò si possono percorrere due strade distinte, utilizzando:
 \begin{itemize}
 	\item Coefficiente di impurità di Gini, ovvero un indicatore della frequenza con cui un elemento casuale, appartenente al data set, sia identificato in modo non corretto.
 	\item Guadagno informativo, ovvero un indicatore, preso in prestito dalla teoria dell'informazione e basato sul concetto di entropia, di quanto la scelta di uno specifico attributo consenta di ridurre l’entropia informativa dell'insieme (semplificando, la variabilità dei valori dell'attributo presenti all'interno di un nodo foglia). 
-\end{itemize} 
+\end{itemize}  
+
 E' chiaro che entrambi questi indici vengono utilizzati con la stessa finalità, tuttavia ogni algoritmo ha una differente logica di costruzione e quindi adotterà uno solo dei due indici, con la possibilità di ottenere risultati differenti. \\
-A questo punto l'albero decisionale è stato costruito e quindi si deve passare alla fase di "pruning", con l'obiettivo di ridurre le dimensioni dell'albero per evitare l'ormai noto overfitting. Per fare ciò le strade sono due, infatti da un lato si può seguire un approccio "top-down", partendo dalla radice e suddividendo l'intera struttura in sotto alberi e dall'altro un approccio "bottom-up", partendo dalle foglie ed analizzando l'impatto di ogni singola potatura; è altresì possibile introdurre nella fase di costruzione stessa un criterio di $\textit{early-stopping}$ o $\textit{pre-pruning}$ richiedendo un valore minimo di miglioramento dell'algoritmo fra un'iterazione e l'altra: ad ogni passaggio di separazione dell'albero decisionale viene fatto un controllo sulla Loss function e, se tale errore non diminuisce significativamente tra un passaggio e l'altro, si interrompe il processo di costruzione dell'albero. Il problema dell'$\textit{early stopping}$ è che potrebbe portare ad una classificazione non ottimale, infatti non è detto che nell passaggio successivo di separazione non ci sarebbe potuta essere una riduzione significativa dell'errore; per questa ragione in genere si utilizzano entrambi i metodi di $\textit{pruning}$ e di $\textit{early stopping}$ parallelamente, per poi confrontare i risultati. \\
+Una volta costruito l'albero decisionale, i metodi per il \textbf{pruning} sono sostanzialmente due: da un lato si può seguire un approccio "top-down", partendo dalla radice e suddividendo l'intera struttura in sotto alberi e dall'altro un approccio "bottom-up", partendo dalle foglie ed analizzando l'impatto di ogni singola potatura. E' altresì possibile introdurre nella fase di costruzione stessa un criterio di $\textbf{early-stopping}$ o $\textbf{pre-pruning}$ richiedendo un valore minimo di miglioramento dell'algoritmo fra un'iterazione e l'altra: ad ogni passaggio di separazione dell'albero decisionale viene fatto un controllo sulla \textbf{Loss function} e, se tale errore non diminuisce significativamente tra un passaggio e l'altro, si interrompe il processo di costruzione dell'albero. Il problema dell'\textbf{early stopping} è che non tiene conto dell'impatto della selezione sui nodi successivi; per questa ragione in genere si utilizzano entrambi i metodi di $\textbf{pruning}$ e di $\textbf{early stopping}$ parallelamente, per poi confrontare i risultati. \\
 
-In conclusione bisogna sottolineare che gli alberi decisionali sono particolarmente utilizzati per i seguenti motivi:
-\begin{itemize}
-	\item semplicità nell'interpretazione e nella visualizzazione;
-	\item tolleranza ad eventuali attributi mancanti per alcuni input nel training data set o nel test data set;
-	\item insensibilità ad eventuali attributi irrilevanti nella classificazione;
-	\item invarianza per trasformazioni monotone effettuate sugli attributi, che rende la fase di pre- processamento dei dati non necessaria. 
-\end{itemize}
-Gli alberi decisionali hanno tuttavia una serie di limiti elencati nelle righe che seguono:
-\begin{itemize}
-	\item instabilità rispetto al variare del training data set, cioè data set di allenamento di poco differenti fra loro producono risultati molto diversi;
-	\item frequente problema dell'overfitting.
-\end{itemize}
+Gli alberi decisionali hanno vari pregi, fra i quali quello di essere caratterizzati da una particolare semplicità nell'interpretazione e nella visualizzazione, ed essere insensibili ad eventuali componenti degli eventi irrilevanti nella classificazione; inoltre sono caratterizzati da una tolleranza ad eventuali attributi mancanti per alcuni input nel \textbf{training data set} o nel \textbf{test data set} e da una invarianza per trasformazioni monotone effettuate sulle variabili degli input, che rende la fase di pre-processamento dei dati non necessaria. Dall'altro lato ci sono una serie di limiti, come l'instabilità rispetto al variare del \textbf{training data set}, cioè data set di allenamento di poco differenti fra loro producono risultati molto diversi, oppure il frequente problema dell'\textbf{overfitting}. \\
+E' possibile anche combinare più alberi decisionali insieme per ottenere migliori prestazioni predittive. Una delle tecniche per tale combinazione è il $\textit{Bagging}$, dove vengono generati in maniera casuale dei sottogruppi del training data set ed ognuno di questi viene utilizzato per l'addestramento di un albero decisionale. Il risultato sarà una collezione di alberi decisionali e, come decisione finale, si utilizzerà la media delle decisioni dei singoli alberi. \\
+Esiste un'estensione di questo metodo conosciuta con il nome di $\textit{Random Forest}$; in questo caso viene aggiunto un passaggio ulteriore al processo appena illustrato perché viene scelto casualmente anche un sottogruppo delle componenti dei vettori di evento, ottenendo così un metodo capace di agire anche su data set ad alta dimensionalità e che permette di ridurre sensibilmente il problema dell'\textbf{overfitting}.
 
-Tuttavia è possibile combinare vari alberi decisionali insieme per ottenere migliori prestazioni predittive rispetto all'utilizzo di un solo albero; infatti, come è stato appena illustrato, gli alberi decisionali singoli hanno alcuni problemi non di poco conto, che possono però essere parzialmente arginati considerando più alberi e prendendo come decisione finale una media delle decisioni di ciascun albero.\\
-Arrivati a questo punto ci si chiede in che modo possano lavorare insieme vari alberi decisionali per ottenere una decisione finale migliore rispetto a quella del singolo albero; una nota tecnica prende il nome di $\textit{Bagging}$, nella quale si generano in maniera casuale dei sottogruppi del training data set ed ognuno di questi viene utilizzato per l'addestramento di un albero decisionale. Il risultato sarà una collezione di alberi decisionali e, come decisione finale, si utilizzerà la media delle decisioni dei singoli alberi. \\
-Esiste un'estensione di questo metodo conosciuta con il nome di $\textit{Random Forest}$; in questo caso viene aggiunto un passaggio ulteriore al processo appena illustrato perché viene scelto casualmente anche un sottogruppo degli attributi dei pattern, ottenendo così un metodo capace di agire anche su data set ad alta dimensionalità e che permette di ridurre sensibilmente il problema dell'overfitting.
+\color{red}
+feature o attributo io li intendo come le componenti dei vettori evento in input... cosa c'entrano le distribuzioni ?
+\color{black}
 
 \newpage
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Curse of dimensionality e riduzione della dimensionalità}
 \label{curse_dim}
 
-A questo punto si è giunti finalmente al cuore di questa trattazione, dove vengono illustrate le basi teoriche di un metodo di apprendimento non supervisionato, il Variational Autoencoders (VAEs), del quale si studierà nel prossimo capitolo un'applicazione al campo della fisica delle alte energie. \\
-Gli argomenti trattati nelle prossime pagine per presentare le basi teoriche del VAEs seguono la seguente struttura logica:
-\begin{itemize}
-	\item  Presentazione del problema della dimensionalità;
-	\item Una delle possibili soluzioni: Autoencoders;
-	\item Evoluzione dell'autoencoders: il Variational Autoencoders.
-\end{itemize}
-Come è stato più volte detto in questa trattazione, quando si parla di input (o pattern) ci si riferisce a dei vettori, le cui componenti sono i dati veri e propri; questi vettori, in quanto tali, possono essere pensati all'interno di un opportuno spazio n-dimensionale (con n=numero di componenti del vettore).\\
-Quando si parla di "Curse of dimensionality" (letteralmente "la maledizione della dimensionalità") ci si riferisce ad una serie di problemi che ci si trova ad affrontare quando bisogna trattare spazi con un'alta dimensionalità, che altrimenti non comparirebbero in spazi a bassa dimensionalità.  \\
-Dato che all'aumentare della dimensionalità i volumi nello spazio aumentano in maniera significativa, ci si troverà nella situazione per cui i pattern risultano sparsi nello spazio e questo è chiaramente un problema per ogni analisi che ne si vuole fare basata sulla statistica; infatti, per ottenere dei risultati significativi a livello statistico, la quantità di dati necessari aumenta in maniera esponenziale e questo risulta essere un problema a livello pratico. \\
-Quando si parla di riduzione della dimensionalità ci si riferisce ad una serie di tecniche, attraverso le quali viene ridotto il numero delle variabili che caratterizzano i vettori di input; l'obiettivo di base è quello di proiettare gli elementi dello spazio n-dimensionale (i vettori di input) su di uno spazio a dimensione inferiore, cogliendo l'essenza stessa dei dati.\\
-Ciò che è necessario notare è che avere degli input con più bassa dimensionalità permette di avere anche meno parametri (gradi di libertà) e quindi una struttura più semplice del modello. Il prediligere la semplicità alla complessità, oltre che per gli ovvi motivi, deriva dal fatto che la seconda è molto soggetta al fenomeno dell'overfitting. \\
-Il processo di riduzione della dimensionalità è una metodologia di preparazione dei dati, per poi essere presentati all'algoritmo di apprendimento, che si troverà di fronte delle informazioni più compatte e quindi più facilmente processabili. \\
-Inoltre bisogna notare che, se il processo di riduzione della dimensionalità viene svolto sul training data set, allora deve essere attuato anche sul test data set, per garantire un processo di verifica valido.
+I metodi di apprendimento supervisionato, come descritto, necessitano anche di output target per essere addestrati. Nel caso questi non fossero disponibili l'unica soluzione è utilizzare un metodo non supervisionato di ML. Un moderno esempio e' il Variational Autoencoder, di cui nel capitolo \ref{fisica_BSM_VAEs} verrà mostrata un'applicazione nel campo della fisica delle alte energie. \\
+Quando si parla di eventi di input ci si riferisce a dei vettori, le cui componenti sono i dati veri e propri; questi vettori, in quanto tali, possono essere pensati all'interno di un opportuno spazio n-dimensionale (con n=numero di componenti del vettore).\\
+Spesso, nel campo della fisica delle particelle, il numero di variabili che descrivono ciascun evento e' molto grande e  questo fa si che lo spazio di riferimento sia ad altissima dimensionalità. Come visto, in molti metodi l'aumento della dimensionalità crea delle problematiche riguardo la complessità dell'algoritmo e del tempo di computazione necessario per ottenere dei metodi ottimizzati. Questa problematica prende il nome di \textit{Curse of Dimensionality}. \\
+All'aumentare della dimensionalità la densità degli eventi nello spazio diminuisce, e questo fa si che il numero di dati necessari per poter avere dei risultati statisticamente significativi aumenta enormemente. Tutto ciò ha un grande impatto soprattutto quando si vuole fare una classificazione di eventi molto rari.\\
+Per ovviare a questo problema si possono utilizzare tecniche attraverso le quali viene ridotto il numero di variabili che caratterizzano gli eventi.; l'obiettivo di base è quello di proiettare gli elementi dello spazio n-dimensionale (i vettori di input) su di uno spazio a dimensione inferiore, limitando il più possibile la perdita di informazione.\\
+Degli input con più bassa dimensionalità permettono di avere anche meno parametri (gradi di libertà) e quindi una struttura più semplice del modello. Inoltre sistemi meno complessi sono meno soggetti all'\textbf{overfitting}, oltre a garantire una migliore efficacia statistica. \\
+Il processo di riduzione della dimensionalità è una metodologia di preparazione dei dati, per poi essere presentati all'algoritmo di apprendimento, che si troverà di fronte delle informazioni più compatte e quindi più facilmente processabili. Inoltre se tale processo viene svolto sul \textbf{training data set}, allora deve essere attuato anche sul \textbf{test data set}, per garantire un processo di verifica valido.
+
 \newpage
 
 Il processo di riduzione della dimensionalità può essere portato avanti attraverso due metodologie differenti:
@@ -401,57 +382,54 @@ Si riporta in figura \ref{encoder-decoder} l'illustrazione grafica del processo 
 	\label{encoder-decoder}
 \end{figure}
 
-Il vettore di input $\textbf{x}$ (n-dimensionale) viene compresso dall'encoder $\textbf{e}$ in un vettore $\textbf{e}(\textbf{x})$ di uno spazio m-dimensionale (con m<n), detto $\textit{spazio latente}$; l'encoder, come detto, può agire per selezione o per estrazione. \\
-Il decoder $\textbf{d}$ svolge la funzione opposta, ovvero decomprime il vettore $\textbf{e}(\textbf{x})$ in $\textbf{d}(\textbf{e}(\textbf{x}))$ per tornare allo spazio originario n-dimensionale. \\
-Nel caso in cui $\textbf{x} = \textbf{d}(\textbf{e}(\textbf{x}))$ (caso ideale) si dice che il processo è un $\textit{lossless encoding}$, ovvero non c'è stata perdita di informazioni nella riduzione della dimensionalità; viceversa, se $\textbf{x} \not= \textbf{d}(\textbf{e}(\textbf{x}))$, si parla di un $\textit{lossy encoding}$, cioè un processo nel quale parte dell'informazione viene persa e non può essere recuperata con la fase di decoding. \\
+Il vettore di input $\vec{x}$ (n-dimensionale) viene compresso dall'encoder $\textbf{e}$ in un vettore $\textbf{e}(\vec{x})$ di uno spazio m-dimensionale (con m<n), detto $\textit{spazio latente}$. \\
+Il decoder $\textbf{d}$ svolge la funzione opposta, ovvero decomprime il vettore $\textbf{e}(\vec{x})$ in $\textbf{d}(\textbf{e}(\vec{x}))$ per tornare allo spazio originario n-dimensionale. \\
+Nel caso in cui $\vec{x} = \textbf{d}(\textbf{e}(\vec{x}))$ (caso ideale) si dice che il processo è un $\textit{lossless encoding}$, ovvero non c'è stata perdita di informazioni nella riduzione della dimensionalità; viceversa, se $\vec{x} \not= \textbf{d}(\textbf{e}(\vec{x}))$, si parla di un $\textit{lossy encoding}$, cioè un processo nel quale parte dell'informazione viene persa e non può essere recuperata con la fase di decodifica. \\
 \newpage
 Come conseguenza di ciò che è stato appena illustrato, l'obiettivo di un processo di riduzione della dimensionalità è quello di trovare la coppia encoder-decoder (e,d) fra una famiglia di encoder E e di decoder D, che minimizzi l'informazione persa:
 \begin{equation}
-(e,d) = \min_{E \times D} \epsilon (\textbf{x},\textbf{d}(\textbf{e}(\textbf{x})))
+(e,d) = \min_{E \times D} \epsilon (\vec{x},\textbf{d}(\textbf{e}(\vec{x})))
 \end{equation}
-dove $\epsilon (\textbf{x},\textbf{d}(\textbf{e}(\textbf{x})))$ è la grandezza attraverso la quale viene  quantificata la quantità di informazione persa nel processo di riduzione. \\ \\
-A questo punto è possibile illustrare le varie metodologie di riduzione della dimensionalità, secondo la distinzione già incontrata fra selezione ed estrazione. \\
+dove $\epsilon (\vec{x},\textbf{d}(\textbf{e}(\vec{x})))$ è la grandezza attraverso la quale viene  quantificata la quantità di informazione persa nel processo di riduzione. \\
 I metodi di selezione ("$\textit{Feature Selection Methods}$ (FSM)") sono metodi attraverso i quali vengono selezionate le componenti dei vettori di input da tenere e quelle da eliminare perché irrilevanti per le analisi successive. I FSM si includo i $\textit{wrapper methods}$ ed i $\textit{filter methods}$: i primi valutano il modello con varie combinazioni di subset delle variabili originali e selezionano quella per la quale si ha la maggiore accuratezza del modello, mentre i secondi si basano maggiormente sulle caratteristiche intrinseche dei dati (correlazioni, contenuto informativo, etc...). \\
-I metodi di estrazione, invece, si basano fortemente sull'algebra lineare; in particolare vengono utilizzati spesso per la riduzione della dimensionalità i metodi di fattorizzazione delle matrici per cogliere la parte più importante dei dati. \\
-Il più comune di questi metodi prende il nome di $\textit{Principal Component Analysis}$ (PCA), del quale verrà presentata brevemente l'idea di base, evitando di addentrarsi troppo nella trattazione matematica che è essenzialmente riconducibile ad un calcolo di autovalori ed autovettori. \\
-L'idea del PCA è quella di costruire un numero $\textit{n}_\textit{e}$ di nuove variabili indipendenti che siano combinazione lineare delle $\textit{n}$ variabili di partenza; tale costruzione viene fatta in modo tale che la proiezione delle vecchie variabili sul nuovo sottospazio generato da quelle nuove sia il più possibile vicina ai dati iniziali, dove la vicinanza è da intendere in termini della distanza euclidea. In altre parole con il PCA si ricerca il sottospazio dello spazio dei pattern di partenza per il quale l'errore che viene compiuto nell'approssimazione dei dati tramite proiezioni sia il più piccolo possibile. Si riporta in figura ~\ref{PCA} un'illustrazione di ciò che è stato appena detto.
-\\
+I metodi di estrazione, invece, si basano fortemente sull'algebra lineare; in particolare vengono utilizzati spesso per la riduzione della dimensionalità i metodi di fattorizzazione delle matrici per cogliere la parte più importante dei dati, cioè quella per la quale la perdita di informazione nel processo di ricostruzione è minore. \\
+Il più comune di questi metodi prende il nome di $\textit{Principal Component Analysis}$ (PCA). L'idea del PCA è quella di costruire un numero $\textit{n}_\textit{e}$ di nuove variabili indipendenti che siano combinazione lineare delle $\textit{n}$ variabili di partenza; tale costruzione viene fatta in modo tale che la proiezione delle vecchie variabili sul nuovo sottospazio generato da quelle nuove sia il più possibile vicina ai dati iniziali, dove la vicinanza è da intendere in termini della distanza euclidea. In altre parole con il PCA si ricerca il sottospazio dello spazio degli eventi di partenza per il quale l'errore che viene compiuto nell'approssimazione dei dati tramite proiezioni sia il più piccolo possibile. Un esempio grafico è riportato in figura \ref{PCA}.
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.50\textwidth]{figs/PCA.png}
+	\includegraphics[width=0.70\textwidth]{figs/PCA.png}
 	\caption{Illustrazione del processo di PCA nel caso di uno spazio dei pattern iniziali bi-dimensionale \cite{Understanding_VAEs}.}
 	\label{PCA}
 \end{figure}
 
 \newpage
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Autoencoders}
-
-%per gli autoencoder posso rivedere la struttura del paragrafo ed impostarla in maniera simile al video su youtube (https://www.youtube.com/watch?v=uaaqyVS9-rM), in particolare nell'inizio dove si parla di deep autoencoder e di applicazioni non solo per la riduzione della dimensionalità.
-
 \label{autoencoders}
+
 Gli autoencoders, come ogni altro metodo di riduzione della dimensionalità, sono costituiti da un encoder e da un decoder; tuttavia in questo caso la peculiarità è che sia l'encoder che il decoder sono delle reti neurali, come è possibile vedere in figura ~\ref{autoencoder}. 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.70\textwidth]{figs/autoencoder.png}
-	\caption{Struttura di un generico autoencoder (\cite{Understanding_VAEs}).}
+	\caption{Struttura di un generico autoencoder \cite{Understanding_VAEs}.}
 	\label{autoencoder}
 \end{figure}
 
-L'obiettivo è chiaramente quello di individuare la coppia encoder-decoder che ottimizza il processo di ricostruzione degli input e ciò viene fatto attraverso il seguente processo iterativo: si presentano all'encoder i pattern di partenza uno alla volta, subiscono un processo di riduzione della dimensionalità e poi vengono ricostruiti (tornando alla dimensionalità di partenza), viene calcolato l'errore dal confronto fra l'input iniziale e quello ricostruito ed avviene l'aggiornamento dei pesi della rete neurale mediante il meccanismo di backpropagation, già incontrato nella sezione \ref{reti neurali}. \\
+L'obiettivo è anche in questo caso quello di individuare la coppia encoder-decoder che ottimizza il processo di ricostruzione degli input e ciò viene fatto attraverso il seguente processo iterativo: si presentano all'encoder gli eventi di input uno alla volta, subiscono un processo di riduzione della dimensionalità e poi vengono ricostruiti (tornando alla dimensionalità di partenza), viene calcolato l'errore dal confronto fra l'input iniziale e quello ricostruito ed avviene l'aggiornamento dei pesi della rete neurale mediante il meccanismo di backpropagation, già incontrato nella sezione \ref{reti neurali}. \\
 Intuitivamente l'autoencoder può essere pensato come un collo di bottiglia, attraverso il quale solo una parte dell'informazione riesce a passare oltre e a formare i vettori dello spazio latente.
-Facendo riferimento alla figura \ref{autoencoder} si osserva che, a partire dai pattern in input \textbf{x}, come primo passo si costruisce lo spazio latente degli $\textbf{z} = e(\textbf{x})$ per poi procedere alla fase di decodifica nella quale si ottengono i pattern ricostruiti $\hat{\textbf{x}} = d(\textbf{z})$; si procede successivamente al calcolo degli errori nel seguente modo:
+Facendo riferimento alla figura \ref{autoencoder} si osserva che, a partire dagli eventi di input $\vec{x}$, come primo passo si costruisce lo spazio latente degli $\vec{z} = e(\vec{x})$ per poi procedere alla fase di decodifica nella quale si ottengono gli eventi ricostruiti $\hat{\vec{x}} = d(\vec{z})$; si procede successivamente al calcolo degli errori nel seguente modo:
 \begin{equation}
-	L = \Vert \textbf{x} - \hat{\textbf{x}} \Vert
+	L = \Vert \vec{x} - \hat{\vec{x}} \Vert
 \end{equation}
 dove L è l'errore di ricostruzione.\\
-Una considerazione necessaria circa l'errore, che potrebbe sembrare in contraddizione con quanto detto fino ad ora sul concetto di ottimizzazione, è che si vuole di norma evitare che $\textbf{x} = \hat{\textbf{x}}$, perché questo vuol dire che l'autoencoder ha imparato la funzione identità e, come conseguenza, la struttura dello spazio latente, che è quella interessante per il processo di riduzione della dimensionalità, non porta alcuna informazione interessante; ciò è dovuto al fatto che l'encoder non impara se vi siano variabili più o meno importanti di altre o se esse possano essere compattate in nuove variabili di dimensionalità minore. \\
-Per fornire un esempio pratico di ciò che è stato appena affermato, si consideri un insieme di vettori di input N dimensionali; una possibilità è quella di prendere una per una le componenti dei pattern e disporle lungo una retta (spazio latente 1-dimensionale) nella fase di encoding, per poi procedere in maniera inversa nella fase di decodifica. L'errore con questo procedimento sarà nullo ma non si può essere soddisfati essenzialmente per due motivi, ovvero perché lo spazio latente non è interpretabile e sfruttabile e perché in un processo di riduzione della dimensionalità si vuole fare in modo che i dati continuino a conservare una qualche struttura. \\
-Una possibilità per evitare il risultato appena illustrato, che è in fin dei conti una sfaccettatura del concetto di overfitting, è di aggiungere alla funzione L un fattore di regolarizzazione che penalizza i risultati per i quali $\textbf{x} = \hat{\textbf{x}}$. \\
+Una considerazione necessaria circa l'errore, che potrebbe sembrare in contraddizione con quanto detto fino ad ora sul concetto di ottimizzazione, è che si vuole di norma evitare che $\vec{x} = \hat{\vec{x}}$, perché questo vuol dire che l'autoencoder ha imparato la funzione identità e, come conseguenza, la struttura dello spazio latente, che è quella interessante per il processo di riduzione della dimensionalità, non porta alcuna informazione interessante; ciò è dovuto al fatto che l'encoder non impara se vi siano variabili più o meno importanti di altre o se esse possano essere compattate in nuove variabili di dimensionalità minore. \\
+Per fornire un esempio pratico si consideri un insieme di vettori di input N dimensionali; una possibilità è quella di prendere una per una le componenti degli eventi e disporle lungo una retta (spazio latente 1-dimensionale) nella fase di codifica, per poi procedere in maniera inversa nella fase di decodifica. L'errore con questo procedimento sarà nullo ma non si può essere soddisfati essenzialmente per due motivi: da un lato lo spazio latente non è interpretabile e sfruttabile e, dall'altro, in un processo di riduzione della dimensionalità si vuole fare in modo che i dati continuino a conservare una qualche struttura. \\
+Una possibilità per evitare il risultato appena illustrato è di aggiungere alla funzione L un fattore di regolarizzazione che penalizza i risultati per i quali $\vec{x} = \hat{\vec{x}}$. \\
 Quindi bisogna sempre porre particolare attenzione alla scelta della profondità dell'encoder, ovvero alla sua capacità di riduzione della dimensionalità. \\
 Per completezza nella trattazione si osserva che gli autoencoder possono essere sia lineari che non; il primo caso si ottiene quando non si inserisce una funzione di attivazione non lineare e si utilizzano solo due strati, quindi le trasformazioni possono essere rappresentate come matrici e si ottiene un risultato simile a quello del PCA (\ref{curse_dim}). \\
-Il caso di autoencoder non lineari ($\textit{deep autoencoder}$) può essere pensato come un passo successivo per quanto riguarda la riduzione della dimensionalità. Infatti, come è stato già detto, il PCA ricerca il miglior iperpiano nello spazio dei pattern originali sul quale questi possano essere proiettati in modo da ridurre la perdita di informazione; dall'altro lato gli autoencoder non lineari non si limitano alla ricerca di iperpiani, ma possono esplorare anche superfici più complesse, come si evince chiaramente dalla figura \ref{autoencoder_non_lineari}.
+Il caso di autoencoder non lineari ($\textit{deep autoencoder}$) può essere pensato come un passo successivo per quanto riguarda la riduzione della dimensionalità. Infatti, come è stato già detto, il PCA ricerca il miglior iperpiano nello spazio degli eventi originali sul quale questi possano essere proiettati in modo da ridurre la perdita di informazione; dall'altro lato gli autoencoder non lineari non si limitano alla ricerca di iperpiani, ma possono esplorare anche superfici più complesse, come illustrato in figura \ref{autoencoder_non_lineari}.
 
 \begin{figure}[h!]
 	\centering
@@ -463,15 +441,14 @@ Il caso di autoencoder non lineari ($\textit{deep autoencoder}$) può essere pen
 
 \newpage
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Variational Autoencoders (VAEs)}
 \label{VAEs}
 
-Nella sezione precedente è stato presentato l'autoencoder come un metodo di riduzione della dimensionalità; tuttavia, apportando una sostanziale modifica, tale metodo può essere utilizzato per la generazione di pattern ed in questo caso si parla di Variational Autoencoders (VAEs). \\ 
-Bisogna domandarsi a questo punto in che modo si possa passare dalla riduzione della dimensionalità al generare nuovi pattern e perché il semplice autoencoder, così come è stato incontrato, non permette di raggiungere tale obiettivo e debba essere modificato opportunamente. \\
-Come primo passo è necessario capire perché gli autoencoders non siano adatti al processo di generazione e la risposta può essere intuita già da ciò che è stato detto nella sezione precedente ma si cercherà di argomentarla meglio. L'autoencoder, come noto, agisce su di un pattern originale \textbf{x} trasformandolo in un $\textbf{z} = e(\textbf{x})$ nello spazio latente (fase di encoding)  e poi trasforma nuovamente \textbf{z} per tornare allo spazio originale; si potrebbe pensare che, per far svolgere la funzione di generazione, si potrebbe scegliere un punto a caso dello spazio latente (che è stato costruito nella fase di encoding) e darlo in pasto al decoder, ottenendo così un nuovo pattern per nulla collegato a quelli originali. Il problema nel ragionamento appena esplicato sta nel non tenere in conto la regolarità dello spazio latente.\\ 
-L'autoencoder codifica in modo puntuale ogni esempio associando ad ognuno di essi un punto specifico e diverso dagli altri all'interno dello spazio latente. In questo modo, se viene dato in input un esempio mai incontrato durante la fase di training, si presentano delle difficoltà nella sua successiva rigenerazione. In questo caso infatti il modello comincia la fase di rigenerazione a partire da un punto nello spazio latente a cui non è associato nessun significato, come se in quel punto lo spazio latente fosse discontinuo (un esempio didattico è riportato in figura \ref{limite autoencoder}). Per ovviare a questo problema la fase di encoding deve assumere un significato probabilistico, associando ai vari pattern non più un solo punto ma un'intera distribuzione. In questo modo lo spazio latente sarà meno soggetto ad avere discontinuità al suo interno, facilitando così il processo di generazione.
-
-%Come detto nella sezione precedente, ottenere uno spazio latente regolare non è affatto semplice e quindi la regolarità non può essere assunta a priori; questo non deve affatto stupire perché l'autoencoder è pensato per codificare e decodificare informazioni cercando di ridurre al minimo la perdita delle stesse e quindi tenderà naturalmente all'overfitting. Il risultato sarà uno spazio latente non regolarizzato e quindi, campionando da esso un punto a caso, si otterrebbe un pattern ricostruito assolutamente privo di senso, come si può osservare, in maniera didattica, dalla figura \ref{limite autoencoder}. \\ 
+Nella sezione precedente è stato presentato l'autoencoder come un metodo di riduzione della dimensionalità; tuttavia, apportando una sostanziale modifica, tale metodo può essere utilizzato per la generazione di eventi ed in questo caso si parla di Variational Autoencoders (VAEs). \\ 
+L'autoencoder agisce su di un evento originale $\vec{x}$ trasformandolo in un $\vec{z} = e(\vec{x})$ nello spazio latente (fase di \textbf{encoding}) e poi trasforma nuovamente $\vec{z}$ per tornare allo spazio originale. Per la generazione, basterebbe prendere un punto a caso nello spazio latente, e quindi decodificarlo, ottenendo un nuovo evento non legato direttamente a quello di input, ma solo alla distribuzione nello spazio latente. Questo non tiene pero' conto della regolarità dello spazio latente.\\ 
+L'autoencoder codifica in modo puntuale ogni evento associando ad ognuno di essi un punto specifico e diverso dagli altri all'interno dello spazio latente. In questo modo, se viene dato in input un evento mai incontrato durante la fase di addestramento, si presentano delle difficoltà nella sua successiva rigenerazione. In questo caso infatti il modello comincia la fase di rigenerazione a partire da un punto nello spazio latente a cui non è associato nessun input, come se in quel punto lo spazio latente fosse discontinuo (un esempio è riportato in figura \ref{limite autoencoder}). Per ovviare a questo problema, la fase di codifica deve assumere un significato probabilistico, associando ai vari vettori evento non più un solo punto ma un'intera distribuzione. In questo modo lo spazio latente sarà meno soggetto ad avere discontinuità al suo interno, facilitando così il processo di generazione.
 
 \begin{figure}[h!]
 	\centering
@@ -479,67 +456,54 @@ L'autoencoder codifica in modo puntuale ogni esempio associando ad ognuno di ess
 	\caption{Illustrazione grafica e semplificata dei limiti nell'applicazione degli autoencoder per fini di generazione di nuovi pattern \cite{Understanding_VAEs}.}
 	\label{limite autoencoder}
 \end{figure}
-
-%Quindi, per raggiungere l'obiettivo prefissato, si attua un processo di regolarizzazione durante la fase di addestramento e si può iniziare a parlare di Variational Autoencoders (VAEs). 
+ 
 
 Si può quindi pensare al VAEs come un autoencoder per il quale si attua una regolarizzazione dello spazio latente durante il processo di addestramento ed è quindi adatto alla generazione di nuovi pattern. \\
-I VAEs, al pari degli autoencoders, sono costituiti da una coppia di encoder e decoder con una sostanziale differenza, nel senso che per gli autoencoders il pattern di partenza viene codificato come un punto nello spazio latente ($\textbf{z}$), mentre per i VAEs la codifica avviene tramite una distribuzione nello spazio latente ($p(\textbf{z}|\textbf{x})$). Il processo seguito nella fase di addestramento è il seguente:
-\begin{enumerate}
-	\item Il pattern iniziale viene codificato nello spazio latente come una distribuzione di probabilità;
-	\item Si campiona un punto dello spazio latente a partire dalla distribuzione del punto precedente;
-	\item Tale punto viene decodificato dal decoder, ottenendo il pattern ricostruito;
-	\item Avviene il confronto fra il pattern iniziale e quello ricostruito da cui si calcola l'errore, che viene poi propagato mediante il meccanismo della backpropagation.
-\end{enumerate}
-
-Nella pratica si cerca di fare in modo che la distribuzione ottenuta alla fine del processo di codifica sia il più possibile vicina ad una distribuzione Normale, perché come si vedrà in seguito si riesce a garantire una certa regolarità dello spazio latente; in particolare si farà in modo che l'encoder restituisca la media e la matrice di covarianza della distribuzione Normale. \\ 
-Seguendo questa linea, si ottiene che il processo di addestramento è regolato da una funzione di perdita, composta da un termine relativo alla ricostruzione ed uno relativo alla regolarizzazione dello spazio latente; tale termine di regolarizzazione viene espresso mediante la $\textit{Divergenza di Kullback-Leibler}$, che rappresenta una misura della differenza ta due distribuzioni di probabilità. \\
-Nelle righe precedenti è stata richiesta la regolarità dello spazio latente ed è giusto chiarire cosa si intenda effettivamente. Lo spazio latente è regolare se:
+Lo spazio latente si dice regolare se:
 \begin{itemize}
 	\item è continuo, ovvero due punti vicini portano ad un risultato simile una volta decodificati;
 	\item è completo, nel senso che un qualunque punto porta ad un risultato sensato una volta decodificato.  
 \end{itemize}
-Il solo fatto di codificare i pattern come delle distribuzioni non garantisce la continuità e la completezza, perché se non si inserisce il termine di regolarizzazione nella funzione di perdita il VAE continuerà a comportarsi come un semplice autoencoder, tendendo semplicemente a minimizzare l'errore di ricostruzione. Questo può avvenire in due modi, ovvero codificando i pattern come distribuzioni o con varianze molto piccole (quasi come singoli punti) o con medie molto diverse fra loro (punti molto lontani nello spazio latente); nel primo caso non viene garantita la continuità e nel secondo la completezza. \\ 
-Per ottenere la regolarità dello spazio latente si richiede allora che le distribuzioni con cui vengono codificati i pattern siano il più possibile vicine a distribuzioni Normali con media zero e matrice di covarianza uguale all'identità; le medie saranno allora vicine con conseguente sovrapposizione delle distribuzioni, anche perché la matrice di covarianza così fatta impedisce la codifica come punti nello spazio latente. Il prezzo da pagare sarà chiaramente un più alto errore nella fase di ricostruzione.\\ 
+I VAEs, al pari degli autoencoders, sono costituiti da una coppia di encoder e decoder con la differenza che, per gli autoencoders l'evento di partenza viene codificato come un punto nello spazio latente ($\vec{z}$), mentre per i VAEs la codifica avviene tramite una distribuzione nello spazio latente ($p(\vec{z}|\vec{x})$). Il processo seguito nella fase di addestramento è il seguente:
+\begin{enumerate}
+	\item L'evento iniziale viene codificato nello spazio latente come una distribuzione di probabilità;
+	\item Si campiona un punto dello spazio latente a partire dalla distribuzione del punto precedente;
+	\item Tale punto viene decodificato dal decoder, ottenendo un evento ricostruito;
+	\item Avviene il confronto fra l'evento iniziale e quello ricostruito da cui si calcola l'errore, che viene poi propagato mediante il meccanismo della \textbf{backpropagation}.
+\end{enumerate}
+
+Nella pratica si cerca di fare in modo che la distribuzione ottenuta alla fine del processo di codifica sia il più possibile vicina ad una distribuzione Normale. In particolare si farà in modo che l'encoder restituisca la media e la matrice di covarianza della distribuzione Normale. \\ 
+Seguendo questa linea, si ottiene che il processo di addestramento è regolato da una funzione di perdita, composta da un termine relativo alla ricostruzione ed uno relativo alla regolarizzazione dello spazio latente; tale termine di regolarizzazione viene espresso mediante la $\textit{Divergenza di Kullback-Leibler}$, che rappresenta una misura della differenza ta due distribuzioni di probabilità. \\
+Il solo fatto di codificare gli eventi di input come delle distribuzioni non garantisce la continuità e la completezza, perché se non si inserisce il termine di regolarizzazione nella funzione di perdita il VAE continuerà a comportarsi come un semplice autoencoder, tendendo semplicemente a minimizzare l'errore di ricostruzione in due possibili modi, cioè codificando gli eventi come distribuzioni da un lato con varianze molto piccole (quasi come singoli punti) e dall'altro con medie molto diverse fra loro (punti molto lontani nello spazio latente); nel primo caso non viene garantita la continuità e nel secondo la completezza. \\ 
+Per ottenere la regolarità dello spazio latente si richiede allora che le distribuzioni con cui vengono codificati gli eventi siano il più possibile vicine a distribuzioni Normali con media zero e matrice di covarianza uguale all'identità; le medie saranno allora vicine con conseguente sovrapposizione delle distribuzioni, anche perché la matrice di covarianza così fatta impedisce la codifica come punti nello spazio latente. Il prezzo da pagare sarà un più alto errore nella fase di ricostruzione.\\ \color{red} da chiedere \color{black} \\
 Prima di passare alla formulazione matematica dei VAEs, bisogna notare che la regolarità dello spazio latente implica la presenza di un gradiente, il quale permette di mischiare le caratteristiche dei pattern in input e quindi di dare un significato al campionamento nello spazio latente. \\
 
+\color{red}
+da chiedere l'ultimo commento
+\color{black}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Formulazione matematica dei VAEs}
 \label{matematica dei VAEs}
-%La differenza sostanziale fra autoencoders e VAEs è che i primi sono strutturati come una coppia encoder-decoder deterministici, mentre i secondi sono probabilistici. Nel primo caso, una volta terminato il processo di addestramento, un particolare pattern iniziale $\textbf{x}$ viene sempre codificato in un dato $\textbf{z}$ nello spazio latente e decodifica in un dato $\hat{\textbf{x}}$ ed è per questo che si parla di processo deterministico. Tutto ciò non avviene nel caso dei VAEs, dove entra in gioco un processo probabilistico. \\
-%Ci si focalizzi ora sulla generazione di nuovi pattern: viene campionato $\textbf{z}$ a partire dalla distribuzione a priori $p(\textbf{z})$ nello spazio latente e poi viene campionato $\textbf{x}$ a partire dalla distribuzione di probabilità condizionata $p(\textbf{x}|\textbf{z})$; quindi si potrà dire che il decoder "probabilistico" è definito da $p(\textbf{x}|\textbf{z})$ e l'encoder "probabilistico" da $p(\textbf{z}|\textbf{x})$. \\
-%A questo punto il teorema di Bayes [~\cite{Statistica}] permette di legare le due distribuzioni di probabilità condizionata nel seguente modo:
-%\begin{equation}
-	%p(\textbf{z}|\textbf{x}) = \frac{p(\textbf{x}|\textbf{z}) p(\textbf{z})}{p(\textbf{x})}
-%\end{equation}
-%dove
-%\begin{equation}
-	%p(\textbf{x}) = \int p(\textbf{x}|\textbf{z}) p(\textbf{z}) dz
-	%\label{integrale}
-%\end{equation}
-%A questo punto si assume che $p(\textbf{z})$ sia una distribuzione Normale standard e che $p(\textbf{x}|\textbf{z})$ sia una distribuzione Normale con media data da una funzione $f(\textbf{z})$ e matrice di covarianza data dal prodotto della matrice identità per un costante positiva c:
-%\begin{equation}
-%	p(\textbf{z}) = N(0,I) 
-%\end{equation}
-%\begin{equation}
-%p(\textbf{x}|\textbf{z}) = N(f(\textbf{z}),cI)
-%\end{equation}
-%Arrivati a questo punto si potrebbe pensare di poter procedere con il calcolo di $p(\textbf{z}|\textbf{x})$, in quanto si hanno tutti gli elementi necessari a disposizione; tuttavia tale strada è alquanto impercorribile per via della difficoltà nel calcolo dell'integrale ~\ref{integrale} e sarà necessario utilizzare delle tecniche di approssimazione, come l'inferenza variazionale.
 
 Per formulare in maniera rigorosa i VAEs è necessario utilizzare l' inferenza variazionale e verranno dati alcuni concetti fondamentali della teoria dell'informazione. \\
-Per prima cosa bisogna introdurre una grandezza, che è in grado di quantificare la quantità di informazione di una proposizione ed è appunto detta \textit{Informazione}:
+La quantità di informazione in una preposizione (nel nostro caso l'evento) è definita come:
 \begin{equation}
 	I = \log p(x)
 \end{equation}
 dove x è l'evento. \\
-Questo concetto di informazione coincide con quello che si possiede intuitivamente, ovvero che ad eventi certi o molto probabili corrisponde una quantità di informazione nulla o molto bassa, mentre ad eventi poco probabili corrisponde una quantità di informazione più alta. \\ 
+Quindi ad eventi certi o molto probabili corrisponde una quantità di informazione nulla o molto bassa, mentre ad eventi poco probabili corrisponde una quantità di informazione più alta. \\ 
 Un'altra quantità fondamentale nella teoria dell'informazione è l'\textit{entropia}, ovvero l'informazione media, ed è definita nel seguente modo:
 \begin{equation}
 	H = \sum p(x) \log p(x)
 \end{equation}
-A questo punto si introduce la \textit{KL divergency} (già accennata precedentemente) che è di fondamentale importanza nel processo di addestramento dei VAEs; si tratta di una misura della dissimilarità di due distribuzioni (p(x) e q(x)):
+La divergenza di KL è la misura di dissimilarità tra due distribuzioni (p(x) e q(x)):
 \begin{equation}
 	KL(p(x)||q(x)) = -\sum p(x) \log q(x) + \sum p(x) \log p(x) = -\sum p(x) \log \frac{q(x)}{p(x)}
 \end{equation}
-si nota come essa sia molto simile alla differenza delle entropie delle due distribuzioni e ciò è in linea con l'intuizione perché due distribuzioni che hanno un'informazione media uguale saranno pressoché uguali.
+e si nota come essa sia molto simile alla differenza delle entropie delle due distribuzioni perché due distribuzioni che hanno un'informazione media uguale saranno pressoché uguali.
 Le due proprietà fondamentale della \textit{KL divergency} sono le seguenti:
 \begin{enumerate}
 	\item 
@@ -552,102 +516,90 @@ Le due proprietà fondamentale della \textit{KL divergency} sono le seguenti:
 		KL(p(x)||q(x)) \not = KL(q(x)||p(x))
 	\end{equation}
 \end{enumerate}
-Ora è possibile ricollegarsi al discorso sui VAEs e si definisca con \textbf{x} la grandezza osservabile e con \textbf{z} quella nascosta dello spazio latente. Il teorema di Bayes \cite{Statistica} permette di scrivere:
+cioè la divergenza di KL è semi-definita positiva e non è simmetrica. \\
+Ora è possibile ricollegarsi al discorso sui VAEs e si definisca con $\vec{x}$ la grandezza osservabile e con $\vec{z}$ quella nascosta dello spazio latente. Il teorema di Bayes \cite{Statistica} permette di scrivere:
 \begin{equation}
-	p(\textbf{z}|\textbf{x}) = \frac{p(\textbf{x}|\textbf{z}) p(\textbf{z})}{p(\textbf{x})}
+	p(\vec{z}|\vec{x}) = \frac{p(\vec{x}|\vec{z}) p(\vec{z})}{p(\vec{x})}
 	\label{bayes}
 \end{equation}
 dove
 \begin{equation}
-	p(\textbf{x}) = \int p(\textbf{x}|\textbf{z}) p(\textbf{z}) dz
+	p(\vec{x}) = \int p(\vec{x}|\vec{z}) p(\vec{z}) dz
 	\label{integrale}
 \end{equation}
-tuttavia tale integrale è difficile da calcolare ed è in questo punto che entra in gioco l'inferenza variazionale per approssimare $p(\textbf{z}|\textbf{x})$ con una qualche funzione $q(\textbf{z}|\textbf{x})$. Si assume inoltre che quest'ultima debba essere scelta dalla famiglia delle distribuzioni Normali, andando a variare i parametri in modo che risulti il più possibile simile a $p(\textbf{z}|\textbf{x})$, che viene detta \textit{prior} e rappresenta la scelta a priori per la modellizzazione dello spazio latente; generalmente viene scelta una distribuzione normale multivariata standard e la $q(\textbf{z}|\textbf{x})$ deve approssimare tale distribuzione durante la fase di addestramento. Per vincolare la forma di $q(\textbf{z}|\textbf{x})$ a quella di $p(\textbf{z}|\textbf{x})$ viene utilizzata la \textit{KL divergency}: 
+tuttavia tale integrale è difficile da calcolare e quindi è possibile approssimare $p(\vec{z}|\vec{x})$ con $q(\vec{z}|\vec{x})$ utilizzando l'inferenza variazionale. Si assume inoltre che quest'ultima debba essere scelta dalla famiglia delle distribuzioni Normali, andando a variare i parametri in modo che risulti il più possibile simile a $p(\vec{z}|\vec{x})$, che viene detta \textit{prior} e rappresenta la scelta a priori per la modellizzazione dello spazio latente; generalmente viene scelta una distribuzione normale multivariata standard e la $q(\vec{z}|\vec{x})$ deve approssimare tale distribuzione durante la fase di addestramento. Per vincolare la forma di $q(\vec{z}|\vec{x})$ a quella di $p(\vec{z}|\vec{x})$ viene utilizzata la \textbf{KL divergency}: 
 
 
 \begin{equation}
-	KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}|\textbf{x})) = -\sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{z}|\textbf{x})}{q(\textbf{z}|\textbf{x})}
+	KL (q(\vec{z}|\vec{x}) || p(\vec{z}|\vec{x})) = -\sum q(\vec{z}|\vec{x}) \log \frac{p(\vec{z}|\vec{x})}{q(\vec{z}|\vec{x})}
 \end{equation}
 
-e sostituendo $p(z|x)$ con la~\ref{bayes} si ottiene:
+e sostituendo $p(\vec{z}|\vec{x})$ con la~\ref{bayes} si ottiene:
 
 
 \begin{align*} 
-	KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}|\textbf{x})) &=  -\sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{x}|\textbf{z})p(\textbf{z})}{p(\textbf{x})q(\textbf{z}|\textbf{x})} \\ &=  -\sum q(\textbf{z}|\textbf{x})\log \frac{p(\textbf{x}|\textbf{z})p(\textbf{z})}{q(\textbf{z}|\textbf{x})} + \sum q(\textbf{z}|\textbf{x})\log p(\textbf{x})
+	KL (q(\vec{z}|\vec{x}) || p(\vec{z}|\vec{x})) &=  -\sum q(\vec{z}|\vec{x}) \log \frac{p(\vec{x}|\vec{z})p(\vec{z})}{p(\vec{x})q(\textbf{z}|\vec{x})} \\ &=  -\sum q(\vec{z}|\vec{x})\log \frac{p(\vec{x}|\vec{z})p(\vec{z})}{q(\vec{z}|\vec{x})} + \sum q(\vec{z}|\vec{x})\log p(\vec{x})
 \end{align*}
 ma in entrambi i termini della somma la sommatoria è estesa sulle z, quindi:
 
 \begin{align*}
-	\sum q(\textbf{z}|\textbf{x})\log p(\textbf{x}) =
-	\log (\textbf{x}) \sum q(\textbf{z}|\textbf{x}) =
-	\log p(\textbf{x})
+	\sum q(\vec{z}|\vec{x})\log p(\vec{x}) =
+	\log (\vec{x}) \sum q(\vec{z}|\vec{x}) =
+	\log p(\vec{x})
 \end{align*}
-perché $\sum q(\textbf{z}|\textbf{x})=1$. \\
+perché $\sum q(\vec{z}|\vec{x})=1$. \\
 Si arriva quindi al seguente risultato:
 \begin{equation}
-	\log p(\textbf{x}) = KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}|\textbf{x})) + \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{x}|\textbf{z})p(\textbf{z})}{q(\textbf{z}|\textbf{x})}
+	\log p(\vec{x}) = KL (q(\vec{z}|\vec{x}) || p(\vec{z}|\vec{x})) + \sum q(\vec{z}|\vec{x}) \log \frac{p(\vec{x}|\vec{z})p(\vec{z})}{q(\vec{z}|\vec{x})}
 	\label{introL}
 \end{equation}
 La sommatoria nell'equazione~\ref{introL} prende il nome di $\textit{Variational lower bound}$ e viene indicata con la lettera $\mathcal{L}$. \\
-A questo punto si deve osservare che $\textbf{x}$ è fissato e quindi il termine sinistro dell'equazione \ref{introL} è una costante; di conseguenza minimizzare la $\textit{KL divergency}$ equivale a massimizzare la $\mathcal{L}$, che può essere riscritta in maniera semplificata:
+A questo punto si deve osservare che $\vec{x}$ è fissato e quindi il termine sinistro dell'equazione \ref{introL} è una costante; di conseguenza minimizzare la $\textbf{KL divergency}$ equivale a massimizzare la $\mathcal{L}$, che può essere riscritta in maniera semplificata:
 
 \begin{equation}
 \label{eq:lower_bound}
 \begin{split}
-	\mathcal{L} &= \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{x}|\textbf{z})p(\textbf{z})}{q(\textbf{z}|\textbf{x})} \\
-	 &=\sum q(\textbf{z}|\textbf{x}) \log p(\textbf{x}|\textbf{z}) + \sum q(\textbf{z}|\textbf{x}) \log \frac{p(\textbf{z})}{q(\textbf{z}|\textbf{x})} \\
-	  &= E_{q}\log p(\textbf{x}|\textbf{z}) - KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}))
+	\mathcal{L} &= \sum q(\vec{z}|\vec{x}) \log \frac{p(\vec{x}|\vec{z})p(\vec{z})}{q(\vec{z}|\vec{x})} \\
+	 &=\sum q(\vec{z}|\vec{x}) \log p(\vec{x}|\vec{z}) + \sum q(\vec{z}|\vec{x}) \log \frac{p(\vec{z})}{q(\vec{z}|\vec{x})} \\
+	  &= E_{q}\log p(\vec{x}|\vec{z}) - KL (q(\vec{z}|\vec{x}) || p(\vec{z}))
 \end{split}
 \end{equation}
 
-%
-%\begin{align}\label{eq:3}
-%\begin{split}
-%    Loss_{reco}&=  -\frac{1}{k} \sum_{i,j=1} \ln \left[
-%    P\left(x| \alpha_{1}, \alpha_{2},...\alpha_{n}\right)
-%    \right]   \\
-%    &=  -\frac{1}{k} \sum_{i,j=1} \ln \left[
-%    f_{i,j}\left(x_{i,j}| \alpha_{1}^{i,j}, \alpha_{2}^{i,j},...\alpha_{n}^{i,j}\right)
-%    \right]   
-%\end{split}
-%\end{align}
-
-
-Quindi, ricapitolando, l'obiettivo iniziale è quello di trovare la distribuzione $p(\textbf{z}|\textbf{x})$ che però è molto complessa per essere calcolata; allora si cerca di approssimarla con una $q(\textbf{z}|\textbf{x})$ scelta tra un'opportuna famiglia e, per scegliere quella più vicina, si deve minimizzare $KL (q(\textbf{z}|\textbf{x}) || p(\textbf{z}|\textbf{x}))$, che come visto equivale a massimizzare la $\mathcal{L}$. \\
-In figura \ref{grafo} è possibile osservare in che modo si passa da $\textbf{x}$ a $\textbf{z}$ e viceversa.
+Quindi l'obiettivo è quello di trovare la distribuzione $p(\vec{z}|\vec{x})$ che è troppo complessa per essere calcolata in modo analitico: si cerca di approssimarla con una $q(\vec{z}|\vec{x})$ scelta tra un'opportuna famiglia e, per scegliere quella più vicina, si deve minimizzare $KL (q(\vec{z}|\vec{x}) || p(\vec{z}|\vec{x}))$, che come visto equivale a massimizzare la $\mathcal{L}$. \\
+In figura \ref{grafo} è possibile osservare in che modo si passa da $\vec{x}$ a $\vec{z}$ e viceversa.
 
 \newpage
 
 \begin{figure}[h!]
 	\centering		\includegraphics[width=0.40\textwidth]{figs/grafoVAE.png}
-	\caption{Illustrazione grafica della modalità attraverso la quale si ottiene il passaggio dalla variabile $\textbf{x}$ osservabile alla $\textbf{z}$ nello spazio latente e viceversa.}
+	\caption{Illustrazione grafica della modalità attraverso la quale si ottiene il passaggio dalla variabile $\vec{x}$ osservabile alla $\vec{z}$ nello spazio latente e viceversa.}
 	\label{grafo}
 \end{figure}
 
-Il significato del termine di $\textit{KL divergency}$ che compare in $\mathcal{L}$ suggerisce che la distribuzione $q(\textbf{z}|\textbf{x})$ debba essere il più possibile simile ad una distribuzione $p(\textbf{z})$ che può essere scelta e quindi si assume una distribuzione Normale multivariata standard, per la quale la KL divergency è più facile da calcolare. \\
-L'altro termine in $\mathcal{L}$ è riconducibile ad un errore di ricostruzione, infatti il processo di decodifica, una volta campionato \textbf{z} è deterministico e quindi si ottiene che:
+Il significato del termine di $\textbf{KL divergency}$ che compare in $\mathcal{L}$ suggerisce che la distribuzione $q(\vec{z}|\vec{x})$ debba essere il più possibile simile ad una distribuzione $p(\vec{z})$ che può essere scelta e quindi si assume una distribuzione Normale multivariata standard, per la quale la KL divergency è più facile da calcolare. \\
+L'altro termine in $\mathcal{L}$ è riconducibile ad un errore di ricostruzione, infatti il processo di decodifica, una volta campionato $\vec{z}$ è deterministico e quindi si ottiene che:
 \begin{equation}
-	p(\textbf{x}|\textbf{z}) = p(\textbf{x}|\hat{\textbf{x}})
+	p(\vec{x}|\vec{z}) = p(\vec{x}|\hat{\vec{x}})
 \end{equation}
-dove $\hat{\textbf{x}}$ è il pattern ricostruito. Inoltre se si considerano distribuzioni gaussiane si troverà che:
+dove $\hat{\vec{x}}$ è l'evento ricostruito. Inoltre se si considerano distribuzioni gaussiane si troverà che:
 
 \begin{equation}
-	p(\textbf{x}|\hat{\textbf{x}}) \propto e^{{-{\lvert \textbf{x}-\hat{\textbf{x}}} \rvert}^2}
+	p(\vec{x}|\hat{\vec{x}}) \propto e^{{-{\lvert \vec{x}-\hat{\vec{x}}} \rvert}^2}
 \end{equation}
 
 e quindi
 
 \begin{equation}
-	\log p(\textbf{x}|\hat{\textbf{x}}) \propto -{\lvert \textbf{x}-\hat{\textbf{x}} \rvert}^2
+	\log p(\vec{x}|\hat{\vec{x}}) \propto -{\lvert \vec{x}-\hat{\vec{x}} \rvert}^2
 \end{equation}
 
-Quindi si osserva che l'autoencoder tende a minimizzare semplicemente ${\lvert \textbf{x}-\hat{\textbf{x}} \rvert}^2$, mentre il VAE tende a minimizzare la seguente quantità:
+Quindi si osserva che l'autoencoder tende a minimizzare semplicemente ${\lvert \vec{x}-\hat{\vec{x}} \rvert}^2$, mentre il VAE tende a minimizzare la seguente quantità:
 
 \begin{equation}
-	{\lvert \textbf{x}-\hat{\textbf{x}} \rvert}^2 + KL (q(\textbf{z}|\textbf{x})||N(\bm{\mu},\bm{\Sigma}))
+	{\lvert \vec{x}-\hat{\vec{x}} \rvert}^2 + KL (q(\vec{z}|\vec{x})||N(\vec{\mu},\vec{\Sigma}))
 \end{equation}
 
-Nella pratica si costruisce la rete neurale che si occupa della fase di codifica in modo che restituisca i parametri della distribuzione Normale e quindi la media e la matrice di covarianza, che si impone essere diagonale per semplicità; da qui viene campionato un punto dello spazio latente a partire da tale distribuzione e avviato verso il decoder per ottenere il pattern ricostruito da confrontare con quello iniziale (nella fase di addestramento). Lo schema di questo processo è riportato in figura \ref{schemaVAEs}.
+Nella pratica si costruisce la rete neurale che si occupa della fase di codifica in modo che restituisca i parametri della distribuzione Normale e quindi la media e la matrice di covarianza, che si impone essere diagonale per semplicità; da qui viene campionato un punto dello spazio latente a partire da tale distribuzione e avviato verso il decoder per ottenere l'evento ricostruito da confrontare con quello iniziale (nella fase di addestramento). Lo schema di questo processo è riportato in figura \ref{schemaVAEs}.
 \newpage
 
 \begin{figure}[h!]
@@ -657,8 +609,10 @@ Nella pratica si costruisce la rete neurale che si occupa della fase di codifica
 \end{figure}
 
 
-Infine, per la fase di generazione di nuovi pattern, sarà sufficiente eliminare l'encoder e campionare dalla distribuzione che si è ottenuta alla fine dell'addestramento e fornire tale punto al decoder per costruire un nuovo pattern.
+Infine, per la fase di generazione di nuovi eventi, sarà sufficiente eliminare l'encoder e campionare dalla distribuzione che si è ottenuta alla fine dell'addestramento e fornire tale punto al decoder per costruire un nuovo evento.
 
-
+\color{red}
+commento: cosa significano le proprietà della KL divergency ?
+\color{black}
 
 \newpage
