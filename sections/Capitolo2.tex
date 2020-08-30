@@ -1,14 +1,16 @@
 \section{Machine Learning : metodi e caratteristiche}
 \label{ML: metodi e caratteristiche}
 
-Lo schema logico che verrà seguito in questo capitolo prevede di approfondire inizialmente i due approcci principali al ML, ovvero l'apprendimento supervisionato(\ref{app_sup}) e non supervisionato (\ref{app_non_sup}), per poi presentare due metodi di apprendimento supervisionato, ovvero le $\textit{Reti Neurali}$ (\ref{reti neurali}) e gli $\textit{Alberi Decisionali}$ (\ref{alberi decisionali}) ed un metodo di apprendimento non supervisionato, il $\textit{Variational Autoencoders}$ (\ref{VAEs}). Nel fare ciò verranno presentati due importanti concetti del ML, come quello di $\textit{Iperparametro}$ (\ref{iperparametri e grid search}) ed il $\textit{Curse of dimensionality}$ (\ref{curse_dim}).
+In questo capitolo da prima verranno descritti i due approcci principali al ML: l'apprendimento supervisionato(\ref{app_sup}) e non supervisionato (\ref{app_non_sup}). Successivamente verranno presentati due metodi di apprendimento supervisionato, cioè le $\textit{Reti Neurali}$ (\ref{reti neurali}) e gli $\textit{Alberi Decisionali}$ (\ref{alberi decisionali}), ed un metodo di apprendimento non supervisionato, cioè il $\textit{Variational Autoencoders}$ (\ref{VAEs}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Apprendimento supervisionato}
 \label{app_sup}
-In questa sezione viene portata avanti una descrizione più approfondita e formale dell'apprendimento supervisionato.\\
-Come già accennato precedentemente, quando si parla di apprendimento supervisionato si hanno a disposizione sia gli input \textbf{x} che i corrispettivi target di output \textbf{y}; esisterà quindi una funzione 
-\textbf{y} = f(\textbf{x}) che mette in relazione gli input con gli output. Tuttavia, come detto, tale funzione è incognita ed è quindi ciò che viene ricercato con l'algoritmo di apprendimento.
-Nella pratica si cerca di approssimare la funzione agendo su una serie di parametri $\bm{\theta}$, quindi si avrà un qualcosa del tipo: $\hat{\textbf{y}} = f(\textbf{x},\bm{\theta})$. \\
+Come già accennato nella sezione \ref{ML}, quando si parla di apprendimento supervisionato si hanno a disposizione sia gli input $\vec{x}$ che i corrispettivi target di output $\vec{y}$ (nella fase di addestramento); esisterà quindi una funzione 
+$\vec{y} = f(\vec{x})$ che mette in relazione gli input con gli output. Tuttavia tale funzione non e' conosciuta a priori, ed e' quindi l'obiettivo dell'algoritmo ricostruirne la migliore approssimazione possibile.
+Nella pratica si cerca di approssimare la funzione agendo su una serie di parametri $\vec{\theta}$, in modo da ottenere una funzione del tipo: $\hat{\vec{y}} = f(\vec{x},\vec{\theta})$. \\
+Lo schema logico seguito durante l'addestramento di un algoritmo di apprendimento supervisionato è riportato in figura \ref{fig:schema_app_sup}.
 
 \begin{figure}[h!]
 	\centering
@@ -18,42 +20,39 @@ Nella pratica si cerca di approssimare la funzione agendo su una serie di parame
 \end{figure}
 
 
-Per ogni vettore \textbf{x} del training data set è possibile definire una particolare funzione detta $\textit{Loss Function}$ L(\textbf{y},f(\textbf{x},$\bm{\theta}$)); a questo punto è possibile fare una media di tale funzione sull'intero set di dati a disposizione, ottenendo la funzione di rischio: \\
+Per ogni vettore $\vec{x}$ del \textbf{training data set} è possibile definire una particolare funzione detta $\textit{Loss Function}$ $L(\vec{y},f(\vec{x},\vec{\theta}))$. Questa funzione rappresenta una misura della differenza fra l'output dell'algoritmo e quello atteso.\\ 
+A questo punto è possibile fare una media di tale funzione sull'intero set di dati a disposizione, ottenendo la funzione di rischio: \\
 \begin{equation}
-R(\bm{\theta}) = \frac{1}{N}\sum_{k=1}^{N}L(\textbf{y},f(\textbf{x},\bm{\theta}))
+R(\vec{\theta}) = \frac{1}{N}\sum_{k=1}^{N}L(\vec{y},f(\vec{x},\vec{\theta}))
 \end{equation}
 dove N è il numero di eventi del training data set. \\
+Quindi, mentre la \textbf{Loss Function} rappresenta una misura dell'errore compiuto dall'algoritmo nel fornire l'output per un singolo evento di input, la funzione di rischio è una media di tale errore sull'intero campione di dati di addestramento.\\
 Un esempio di funzione di rischio molto diffusa è l'errore quadratico medio:
 \begin{equation}
-R(\bm{\theta}) = \frac{1}{N}\sum_{k=1}^{N}(\textbf{y}_k - f(\textbf{x}_k , \bm{\theta}))^2
+R(\vec{\theta}) = \frac{1}{N}\sum_{k=1}^{N}(\vec{y}_k - f(\vec{x}_k , \vec{\theta}))^2
 \end{equation}
-Quando si addestra un modello si vuole inoltre evitare il così detto $\textit{overfitting}$, che consiste in un eccessivo adattamento del modello ai dati di training e che di conseguenza porta al non raggiungimento di una sufficiente generalità. Un modo per verificare un eventuale overfitting è quello di verificare se il modello è nettamente migliore per il data set di allenamento rispetto al data set di test. \\
-Per arginare questo problema è possibile modificare la funzione di rischio, aggiungendo una funzione $Q(\bm{\theta})$; in questo modo si ottiene la funzione di costo:
+Quando si addestra un modello si vuole inoltre evitare il così detto $\textit{overfitting}$, che consiste in un eccessivo adattamento del modello ai dati di training e che di conseguenza porta al non raggiungimento di una sufficiente generalità; in tal caso infatti l'algoritmo costruisce una funzione $f(\vec{x},\vec{\theta})$, che ha una forte potenza nella classificazione del campione di addestramento, ma non ha la stessa potenza di classificazione su altri campioni statistici. \\
+Un modo per verificare un eventuale overfitting è quello di verificare se il modello è nettamente migliore per il data set di allenamento rispetto al data set di test. \\
+Per arginare questo problema è possibile modificare la funzione di rischio, aggiungendo una funzione $Q(\vec{\theta})$; in questo modo si ottiene la funzione di costo:
 \begin{equation}
-C(\bm{\theta}) = R(\bm{\theta}) + \lambda Q(\bm{\theta})
+C(\vec{\theta}) = R(\vec{\theta}) + \lambda Q(\vec{\theta})
 \end{equation}
 con $\lambda$ parametro che esprime la rigidità del vincolo.\\
-A questo punto l'obiettivo è quello di minimizzare la funzione di rischio (o di costo in caso di overfitting) e per fare ciò esistono diversi metodi, fra i quali il più comune è il metodo di discesa del gradiente.
-
-\newpage
-
-
-\subsection{Discesa del gradiente}
-\label{discesa del gradiente}
-La discesa del gradiente è una tecnica di ottimizzazione utilizzata per minimizzare l'errore che si introduce stimando la $\hat{\textbf{y}} = f(\textbf{x},\bm{\theta})$ rispetto alla funzione "vera" $\textbf{y} = f(\textbf{x})$; quindi si avranno una Loss function $L(\textbf{y},f(\textbf{x},\bm{\theta}))$ ed un vettore dei parametri $\bm{\theta}$.\\
+A questo punto l'obiettivo è quello di minimizzare la funzione di costo ed uno dei metodi più comuni per tale scopo è il metodo di discesa del gradiente.\\
+Discesa del gradiente è una tecnica di ottimizzazione utilizzata per minimizzare l'errore che si introduce stimando la $\hat{\vec{y}} = f(\vec{x},\vec{\theta})$ rispetto alla funzione "vera" $\vec{y} = f(\vec{x})$. Un processo di questo tipo è caratterizzato, per quanto detto precedentemente, da una \textbf{Loss Function} $L(\vec{y},f(\vec{x},\vec{\theta}))$ ed un vettore $\vec{\theta}$, le cui componenti sono i parametri che devono essere ottimizzati nel processo di addestramento al fine di ridurre il più possibile l'errore che viene commesso dall'algoritmo nello stimare l'output, rispetto all'output target.\\
 Esistono tre varianti del metodo di discesa del gradiente:
 
 \begin{itemize}
 	\item $\textit{Batch Gradient Descent}$. \\
-	 L'aggiornamento del vettore dei pesi $\bm{\theta}$ avviene solo dopo che sono stati presentati tutti i pattern all'algoritmo. Si calcola
+	 L'aggiornamento del vettore dei parametri $\vec{\theta}$ avviene una volta sola durante il processo di addestramento e, nello specifico, solo dopo che l'algoritmo ha processato tutto il campione di addestramento degli eventi di input.  Per fare ciò si calcola il vettore $\vec{G}$ come la media su tutto il \textbf{training data set} del gradiente (nello spazio dei parametri) della \textbf{Loss Function}:
 	 	\begin{equation}
-	 	\textbf{G} = \frac{1}{N} \sum_{k=1}^{N} \boldsymbol{\nabla}_\theta L(\textbf{y}_k,f(\textbf{x}_k,\bm{\theta})) 
+	 	\vec{G} = \frac{1}{N} \sum_{k=1}^{N} \vec{\nabla}_{\vec{\theta}} L(\vec{y}_k,f(\vec{x}_k,\vec{\theta})) 
 	 	\end{equation}
-	 e con tale risultato viene aggiornato il vettore dei parametri nel seguente modo: 
+	 e, con tale risultato, viene aggiornato il vettore dei parametri nel seguente modo: 
 	 	\begin{equation}
-	 	\bm{\theta} - \epsilon\textbf{G} \rightarrow \bm{\theta}
+	 	\vec{\theta} - \epsilon\vec{G} \rightarrow \vec{\theta}
 	 	\end{equation}
-	 Qui $\epsilon$ prende il nome di $\textit{learning rate}$ e regola l'aggiornamento del vettore dei pesi nella direzione opposta a quella del gradiente $\textbf{G}$.\\
+	 Qui $\epsilon$ prende il nome di $\textit{learning rate}$ e regola l'aggiornamento del vettore dei parametri nella direzione opposta a quella del gradiente $\vec{G}$.\\
 	 Quindi con questa tecnica si calcola la discesa del gradiente una sola volta, tuttavia si impiega molto tempo per arrivare ad una convergenza ed è quindi poco adatta quando si hanno grandi moli di dati a disposizione. \\
 	 
 	\item $\textit{Stochastic Gradient Descent}$. \\
@@ -72,15 +71,22 @@ Esistono tre varianti del metodo di discesa del gradiente:
 	
 \end{itemize}
 
+\color{red}
+Chiedere chiarimento su funzione Q($\theta$) \\
+termini inglesi \\
+spiegazione discesa del gradiente \\
+\color{black}
 
 \newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Apprendimento non supervisionato}
 \label{app_non_sup}
 
-Come si è visto, gli algoritmi di apprendimento supervisionato risultano essere molto utili nel caso in cui si abbiano a disposizione sia i vettori di input che i corrispettivi output target, perché si riesce ad ottenere un'approssimazione della relazione esistente input-output.
-Tuttavia non è sempre possibile avere a disposizione gli output target e bisogna capire se si riesce comunque ad estrarre informazione utile dai dati. \\
-Come già accennato nelle prime pagine di questa trattazione quando non si hanno a disposizione gli output target si possono applicare tecniche di apprendimento non supervisionato, dove l'obiettivo è quello di trovare eventuali partizioni degli input (Clustering). \\
+Gli algoritmi di apprendimento supervisionato risultano essere molto utili nel caso in cui si abbiano a disposizione sia i vettori di input che i corrispettivi output target, perché si riesce ad ottenere un'approssimazione della relazione esistente input-output; nel caso della fisica delle alte energie questo significa conoscere le proprietà degli eventi di segnale che si vogliono individuare.\\
+Tuttavia nel caso di ricerche ad ampio spettro, che non dipendano fortemente da un modello, e che quindi non hanno una descrizione precisa degli eventi di interesse, non e' possibile avere a priori un campione di segnali con il relativo output di riferimento. \\
+In questo caso si può ricorrere all'uso di tecniche di apprendimento non supervisionato, dove l'obiettivo è quello di trovare eventuali partizioni degli input (Clustering), cioè vengono ricercati all'interno degli input quelli che sono diversi dalle aspettative perché hanno proprietà non affini a tutti gli alti eventi del campione. \\
 Si consideri la figura \ref{Unsup} dove sono riportate tre diverse configurazioni possibili nel caso di input bidimensionali: nel caso a) è possibile la separazione in due sotto-gruppi e nel caso b) in un unico sotto-gruppo, mentre nel caso c) sembrerebbe non si possano stabilire graficamente eventuali separazioni.
 
 \begin{figure}[h!]
@@ -92,68 +98,70 @@ Si consideri la figura \ref{Unsup} dove sono riportate tre diverse configurazion
 
 Quindi un algoritmo di clustering si occupa della suddivisione del set di input $\Sigma$ in un numero N di sottogruppi $\Sigma_1$,...,$\Sigma_n$, detti appunto cluster; si noti che lo stesso numero N non viene stabilito a priori e fornito all'algoritmo, ma viene anch'esso ricavato a partire dai dati. Una volta fatto sarà possibile implementare un classificatore per collegare nuovi vettori di input con i cluster precedentemente individuati.\\
 Inoltre, aumentando il livello di complessità, è possibile trovare eventuali gerarchie di partizionamento, ovvero cluster di cluster.\\
-Nella prossima sezione verrà presentato un metodo di clustering geometrico basato sulla distanza euclidea.
-
-\newpage
-
-\subsection{Metodo di clustering basato sulla distanza euclidea}
-\label{metodo distanza euclidea}
-Gli algoritmi di apprendimento non supervisionato sfruttano una qualche misura di similarità per separare i pattern di input nei vari cluster. Una possibilità è quella di utilizzare la semplice distanza euclidea per poter separare lo spazio n-dimensionale dei pattern in delle sotto-aree, che sono appunto i cluster. \\
-Per fare ciò viene implementato un metodo iterativo, basato sulla definizione di alcuni punti particolari nello spazio dei pattern, detti $\textit{cluster seekers}$ (letteralmente "cercatori di cluster"). \\
-Si definiscono M punti nello spazio n-dimensionale $\textbf{C}_\textbf{1},...,\textbf{C}_\textbf{M}$ e l'obiettivo è quello di fare in modo che ogni punto si muova verso il centro di ogni singolo cluster, in modo che ogni cluster abbia al suo centro uno di questi cluster seekers. \\
-Come è già stato spiegato precedentemente, l'algoritmo non conosce a prescindere il numero di cluster ma riesce a ricavarlo dai pattern stessi; per questa ragione il numero di cluster seekers M è inizialmente casuale ed esiste un procedura per ottimizzarlo, che verrà illustrata in seguito. \\
-I pattern del training data set $\Sigma$ vengono presentati all'algoritmo uno alla volta: per ognuno di essi ($\textbf{x}_\textbf{i}$) si cerca il cluster seekers più vicino ($\textbf{C}_\textbf{k}$) e lo si sposta verso $\textbf{x}_\textbf{i}$ nel seguente modo:
+Un esempio di clustering è quello basato sulla distanza euclidea. \\
+E' di fondamentale importanza osservare che nei metodi che si basano sul concetto di distanza è importante ri-scalare i valori delle componenti degli eventi (in linea di principio si possono avere componenti diverse con ordini di grandezza di molto differenti) in modo da evitare che alcune componenti pesino più di altre. \\
+Gli algoritmi di apprendimento non supervisionato sfruttano una misura di similarità per separare gli eventi di input nei vari cluster. Una possibilità è quella di utilizzare la semplice distanza euclidea per poter separare lo spazio n-dimensionale degli eventi in delle sotto-aree (i cluster). \\
+Per fare ciò viene implementato un metodo iterativo, basato sulla definizione di alcuni punti particolari nello spazio degli eventi, detti $\textit{cluster seekers}$ (letteralmente "cercatori di cluster"). \\
+Si definiscono M punti nello spazio n-dimensionale $\vec{C}_{1},...,\vec{C}_{M}$ e l'obiettivo è quello di fare in modo che ogni punto si muova verso il centro di ogni singolo cluster, in modo che ogni cluster abbia al suo centro uno di questi cluster seekers. Inoltre, dato che il numero di cluster non e' conosciuto a priori, il numero M durante la prima iterazione e' arbitrario. \\
+Gli eventi del training data set $\Sigma$ vengono presentati all'algoritmo uno alla volta: per ognuno di essi ($\vec{x}_i$) si cerca il cluster seekers più vicino ($\vec{C}_k$) e lo si sposta verso $\vec{x}_i$ nel seguente modo:
 \begin{equation}
-\textbf{C}_\textbf{k} + \alpha_k(\textbf{x}_\textbf{i} - \textbf{C}_\textbf{k}) \rightarrow \textbf{C}_\textbf{k}
+\vec{C}_k + \alpha_k(\vec{x}_i - \vec{C}_k) \rightarrow \vec{C}_k
 \end{equation}
-dove $\alpha_k$ è un parametro di apprendimento che determina di quanto il cluster seeker k-esimo si muove verso il punto $\textbf{x}_\textbf{i}$. \\
-A questo punto è utile fare in modo che più il cluster seeker è soggetto a spostamenti minore diventa l'entità dello spostamento. Per fare ciò si definisce una massa $m_k$ e le si assegna un valore pari al numero di volte in cui $\textbf{C}_\textbf{k}$ è stato soggetto a spostamenti (quindi anche il valore della massa verrà aggiornato di volta in volta); dopodiché si assegna ad $\alpha_k$ il seguente valore
+dove $\alpha_k$ è un parametro di apprendimento che determina di quanto $\vec{C}_k$ si muove verso il punto $\vec{x}_i$. \\
+Dato che l'algoritmo deve spostare ciascun $\vec{C}_k$ al centro del cluster k-esimo, i suoi spostamenti devono essere di entità, in media, sempre minore. Per evitare che $\vec{C}_k$ abbia spostamenti sempre più ampi al crescere delle iterazioni si definisce una massa $m_k$ e le si assegna un valore pari al numero di volte in cui $\vec{C}_k$ è stato soggetto a spostamenti (quindi anche il valore della massa verrà aggiornato di volta in volta); dopodiché si assegna ad $\alpha_k$ il seguente valore
 \begin{equation}
 \alpha_k = \frac{1}{1 + m_k}
 \end{equation} 
-e, dato che ad ogni iterazione che coinvolge $\textbf{C}_\textbf{k}$ il valore di $m_k$ aumenta di una unità, il parametro di apprendimento $\alpha_k$ diminuisce di volta in volta. \\
+e, dato che ad ogni iterazione che coinvolge $\vec{C}_k$ il valore di $m_k$ aumenta di una unità, il parametro di apprendimento $\alpha_k$ diminuisce di volta in volta. \\
 Il risultato di questo aggiustamento è che il cluster seeker si trova sempre nel punto che rappresenta la media dei punti del cluster. \\
-Una volta che sono stati presentati tutti i pattern del training data set all'algoritmo, i vari cluster seeker andranno a convergere ai "centri di massa" dei cluster e la classificazione (cioè la delimitazione dei cluster nello spazio n-dimensionale) può essere fatta con una partizione dello spazio di Voronoi, di cui si riporta la seguente definizione:
-\begin{quotation} \small
-	\textit{In ogni insieme (topologicamente) discreto S di punti in uno spazio euclideo e per quasi ogni punto x, c'è un punto in S che è il più vicino a x. Il "quasi" è una precisazione necessaria dato che alcuni punti x possono essere equidistanti da 2 o più punti di S.
-		Se S contiene solo due punti, a e b, allora il luogo geometrico dei punti equidistanti da a e b è un iperpiano, ovvero un sottospazio affine di codimensione 1. Tale iperpiano sarà il confine tra l'insieme di tutti punti più vicini ad a che a b e l'insieme di tutti i punti più vicini a b che ad a. È l'asse del segmento ab.
-		In generale, l'insieme dei punti più vicini a un punto c $\in$ S che ad ogni altro punto di S è la parte interna di un politopo (eventualmente privo di bordi) detto dominio di Dirichlet o cella di Voronoi di c. L'insieme di tali politopi è una tassellatura dell'intero spazio e viene detta tassellatura di Voronoi corrispondente all'insieme S. Se la dimensione dello spazio è solo 2, è facile rappresentare graficamente le tassellazioni di Voronoi; è a questo caso che si riferisce solitamente l'accezione diagramma di Voronoi. \\
-		(Wikipedia, Diagramma di Voronoi.)} 
-\end{quotation}
-
+Una volta che sono stati presentati tutti gli eventi del campione di addestramento all'algoritmo, i vari cluster seeker andranno a convergere ai "centri di massa" dei cluster e la classificazione (cioè la delimitazione dei cluster nello spazio n-dimensionale) può essere fatta con una partizione dello spazio di Voronoi, ossia un generico punto (evento) $\vec{x}_i$ viene inserito nel cluster k-esimo se la distanza di tale punto dal cluster seeker $\vec{C}_k$ è minore rispetto alla sua distanza da tutti gli altri cluster seeker. \\
 Un esempio didattico del risultato di questa partizione è riportato in figura ~\ref{Voronoi}.
+
+\newpage
+
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.70\textwidth]{figs/Voronoi.png}
-	\caption{Si riporta un esempio di partizione dello spazio (bi-dimensionale) di Voronoi in tre sotto regioni . L'immagine è presa da \cite{IntroML}}
+	\caption{Si riporta un esempio di partizione dello spazio (bi-dimensionale) di Voronoi in tre sotto regioni, dove i punti $C_1$, $C_2$ e $C_3$ sono i cluster seeker. L'immagine è presa da \cite{IntroML}}
 	\label{Voronoi}
 \end{figure}
 
-Si è accennato qualche riga fa che il numero di cluster seeker è inizialmente scelto in maniera casuale, per poi essere ottimizzato; per il processo di ottimizzazione si utilizza la varianza dei pattern $\{\textbf{x}_\textbf{i}\}$ per ogni cluster:
+Si è accennato qualche riga fa che il numero di cluster seeker è inizialmente scelto in maniera casuale, per poi essere ottimizzato; per il processo di ottimizzazione si utilizza la varianza degli eventi $\vec{x}_i$ per ogni cluster:
 \begin{equation}
-\sigma^2 = \frac{1}{L}\sum_{i=1}^{L} (\textbf{x}_\textbf{i} - \bm{\mu})^2
+\sigma^2 = \frac{1}{L}\sum_{i=1}^{L} (\vec{x}_i - \vec{\mu})^2
 \end{equation}
-dove L è il numero di pattern nel cluster e $\bm{\mu}$ ne è la media:
+dove L è il numero di eventi nel cluster e $\vec{\mu}$ ne è la media:
 \begin{equation}
-\bm{\mu} = \frac{1}{L}\sum_{i=1}^{L} \textbf{x}_\textbf{i}
+\vec{\mu} = \frac{1}{L}\sum_{i=1}^{L} \vec{x}_i
 \end{equation}
-A questo punto, se la distanza $d_{ij}$ fra due cluster seeker $\textbf{C}_\textbf{i}$ e $\textbf{C}_\textbf{j}$ è minore di un determinato valore $\epsilon$, allora si sostituiscono i due cluster seeker con uno nuovo posto nel loro centro di massa (tenendo conto delle due masse $m_i$ e $m_j$); dall'altro lato, se vi è un cluster per il quale la varianza $\sigma^2$ è più grande di un valore $\delta$, si aggiunge un nuovo cluster seeker vicino a quello già esistente e si eguagliano entrambe le loro masse a zero.\\
+A questo punto, se la distanza $d_{ij}$ fra due cluster seeker $\vec{C}_i$ e $\vec{C}_j$ è minore di un determinato valore $\epsilon$, allora si sostituiscono i due cluster seeker con uno nuovo posto nel loro centro di massa (tenendo conto delle due masse $m_i$ e $m_j$); dall'altro lato, se vi è un cluster per il quale la varianza $\sigma^2$ è più grande di un valore $\delta$, si aggiunge un nuovo cluster seeker vicino a quello già esistente e si eguagliano entrambe le loro masse a zero.\\
 Come osservazione finale bisogna dire che nei metodi che si basano sul concetto di distanza è importante ri-scalare i valori delle componenti dei pattern (in linea di principio si possono avere componenti diverse con ordini di grandezza di molto differenti) in modo da evitare che alcune componenti pesino più di altre. \\ 
 
+\color{red}
+Io sostituirei pattern con eventi e non con variabili \\
+Come definisco la misura\\
+Riscalare le componenti è importante... che riferimento devo fare alla fisica delle particelle? \\
+come scelgo il valore di $\epsilon$ e di $\delta$?
+\color{black}
+
+
 \newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Iperparametri e Grid Search}
 \label{iperparametri e grid search}
 
-Prima di parlare del Grid Search è necessario introdurre il concetto di \textbf{iperparametro}. Come detto nelle sezioni precedenti, un modello di apprendimento è caratterizzato da una serie di parametri che vengono modificati in maniera iterativa in modo da minimizzare la Loss function e, come noto, tale processo avviene attraverso un continuo confronto con il training data set. Quando si parla di iperparametri si intende invece una serie di parametri che caratterizzano il modello implementato che non sono modificati nel processo di addestramento con il training data set ma vengono prestabiliti dall'utente. \\
-Chiaramente al variare degli iperparametri cambia anche la qualità del processo di apprendimento del modello e quindi anch'essi devono essere ottimizzati. A questo punto entra in gioco il metodo del Grid Search che è appunto un metodo di ottimizzazione degli iperparametri. \\
-Il Grid Search è piuttosto semplice sia da comprendere concettualmente sia da implementare nella pratica; fa parte dei così detti $\textit{Brute-Force Search}$, cioè di quei metodi che si basano sulla sistematica verifica di tutte le possibili soluzioni ad un problema per poi considerare la migliore. Per esempio si consideri il problema di dover cercare i divisori di un numero n: un approccio "Brute-Force" prevedrebbe di considerare tutti i numeri minori di n e verificare quelli per i quali la divisione non dà resto. Questo esempio permette anche di mettere in evidenza il limite principale di tale tipologia di approccio: il numero di possibilità da esplorare può aumentare molto velocemente, soprattutto se si considera un processo multivariato. \\
-Tornando ora nello specifico al Grid Search, si consideri un modello caratterizzato da un numero k di iperparametri. Si può definire, in analogia a ciò che è stato fatto con i parametri, un vettore le cui componenti sono appunto gli iperparametri: 
+Un modello di apprendimento è caratterizzato da una serie di parametri che vengono modificati in maniera iterativa in modo da minimizzare la \textbf{Loss function} e tale processo avviene attraverso un continuo confronto con il \textbf{training data set}.\\ 
+Gli iperparametri sono invece una serie di parametri che caratterizzano il modello implementato che non sono modificati nel processo di addestramento ma vengono prestabiliti dall'utente. Gli iperparametri rappresentano delle caratteristiche dell'algoritmo, che possono essere modificate prima di avviare il processo di addestramento, come ad esempio il numero di neuroni in una rete neurale (\ref{reti neurali}), oppure il numero di epoche, cioè il numero di volte in cui viene ripresentato all'algoritmo l'intero campione di dati di addestramento.\\
+E' molto probabile che ci siano configurazioni di iperparametri migliori di altre, cioè per le quali l'addestramento dell'algoritmo produce esiti migliori; di conseguenza anche gli iperparametri devono essere sottoposti ad un processo di ottimizzazione. \\
+Uno dei metodi utilizzati per tale scopo è il \textit{Grid Search}, che è piuttosto semplice da implementare nella pratica. Fa parte dei così detti \textit{Brute-Force Search}, cioè di quei metodi che si basano sulla sistematica verifica di tutte le possibili soluzioni ad un problema per poi considerare la migliore. Per esempio si consideri il problema di dover cercare i divisori di un numero n: un approccio "Brute-Force" prevedrebbe di considerare tutti i numeri minori di n e verificare quelli per i quali la divisione non dà resto. Questo esempio permette anche di mettere in evidenza il limite principale di tale tipologia di approccio: il numero di possibilità da esplorare può aumentare molto velocemente, soprattutto se si considera un processo multivariato. \\
+Per il Grid Search si consideri un modello caratterizzato da un numero k di iperparametri, quindi e' possibile creare un vettore le cui componenti siano gli iperparametri stessi:
 \begin{equation}
-\bm{\mu} = (\mu_1,...,\mu_k)
+\vec{\mu} = (\mu_1,...,\mu_k)
 \end{equation}
-Tale vettore apparterrà ovviamente ad uno spazio k-dimensionale, sul quale può essere costruita una griglia i cui nodi corrispondono a particolari combinazioni degli iperparametri. \\
-A questo punto si può avviare l'apprendimento del modello per ogni particolare configurazione degli iperparametri ed ottenere un valore per la Loss function. Si arriva allora ad avere una valore della Loss per ogni nodo della griglia e quindi basta considerare quello per il quale tale valore è minore, ottenendo la miglior configurazione degli iperparametri. \\
+Tale vettore appartiene ad uno spazio k-dimensionale, sul quale può essere costruita una griglia i cui nodi corrispondono a particolari combinazioni degli iperparametri. \\
+A questo punto si può avviare l'apprendimento del modello per ogni particolare configurazione degli iperparametri ed ottenere un valore per la \textbf{Loss function}, e quindi la miglior configurazione sarà quella che minimizza tale funzione. \\
 In Figura~\ref{fig:Grid Search} nella pagina seguente è riportato per chiarezza un esempio visivo dell'esito di un processo di ottimizzazione degli iperparametri attraverso il metodo Grid Search.
 
 \begin{figure}[h!]
@@ -164,16 +172,18 @@ In Figura~\ref{fig:Grid Search} nella pagina seguente è riportato per chiarezza
 \newpage 
 
 Come accennato precedentemente, man mano che aumenta la complessità del modello è molto probabile che aumenti il numero degli iperparametri e quindi la dimensionalità dello spazio introdotto precedentemente; ciò implica l'aumento considerevole del numero di configurazioni degli iperparametri da esplorare attraverso il Grid Search e quindi il tempo necessario per concludere l'ottimizzazione.\\
-E' possibile ovviare parzialmente a questo problema attraverso il Random Grid Search (RGS), dove non sono considerati tutti i nodi della griglia, ma solo una loro parte selezionata in maniera casuale secondo una particolare distribuzione (ciò permette anche di tener conto di conoscenze pregresse). \\
-Un ulteriore accorgimento può  essere quello di arrestare le configurazioni meno promettenti prima di portarle a termine, risparmiando tempo e risorse computazionali. Per far ciò, basta impelmentare degli $\textit{scheduler}$ che tengano conto dell'andamento dei diversi training relativi alle diverse configurazioni. Un altra possibilità riguarda l'esplorazione di nuove varianti a partire dalle configurazioni iniziali. In quest'ultimo caso non è nemmeno necessario definire in modo rigido lo spazio degli iperparamentri da esplorare dato che le nuove configurazioni vengono ricercate a partire dall'andamento delle precedenti ($\textit{popultion based training}$).
+E' possibile ovviare parzialmente a questo problema attraverso il Random Grid Search (RGS), dove non sono considerati tutti i nodi della griglia, ma solo una loro parte selezionata in maniera casuale secondo una particolare distribuzione, scelta in modo arbitrario al momento dell'implementazione del RGS. \\
+Un ulteriore accorgimento può  essere quello di bloccare l'ottimizzazione di alcune configurazioni che sembrano meno promettenti, ad esempio quando superano un certo valore della \textbf{Loss function}, evitando che il processo di apprendimento venga completato su tutti i nodi. Per far ciò, è possibile implementare degli $\textit{scheduler}$ che tengano conto dell'andamento dei diversi training relativi alle diverse configurazioni. Un approccio diverso è quello di esplorare nuove varianti a partire dalle configurazioni iniziali. In quest'ultimo caso non è nemmeno necessario definire in modo rigido lo spazio degli iperparamentri da esplorare dato che le nuove configurazioni vengono ricercate a partire dall'andamento delle precedenti ($\textit{popultion based training}$).
 
 \newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Reti Neurali}
 \label{reti neurali}
 Le reti neurali sono probabilmente il metodo di apprendimento supervisionato più conosciuto ed utilizzato nel campo dell'analisi dati. \\
 La struttura di una rete neurale prevede la presenza di unità fondamentali, dette neuroni, che sono organizzate in strati e legate fra di loro mediante delle connessioni (sinapsi), ciascuna delle quali è caratterizzata da un peso. Sono proprio questi pesi a giocare un ruolo fondamentale nel processo di apprendimento della rete perché sono loro i parametri soggetti a modifica.\\
-Il nome rete neurale (artificiale) deriva dal fatto che la loro struttura è inspirata dalle corrispondenti strutture biologiche (seppur di molto semplificata). \\
+Il nome rete neurale (artificiale) deriva dal fatto che la loro struttura è inspirata dalle corrispondenti strutture biologiche. \\
 In una rete neurale è sempre presente uno strato di input ed uno di output, mentre il numero di livelli nascosti può variare a seconda della complessità della rete; In figura \ref{fig:schemaNN} è riportato un esempio di rete neurale con un singolo strato interno nascosto.
 \begin{figure}[h!]
 	\centering
@@ -190,7 +200,7 @@ Gli elementi che caratterizzano il singolo neurone sono:
 	\item Un output e la relativa funzione di attivazione, che viene usata per limitarne l'ampiezza (tipicamente ad intervalli [0,1] o [-1,1]);
 	\item Un valore di soglia che viene usato per aumentare o diminuire il valore ottenuto dalla somma pesata.
 \end{enumerate}
-Si riporta in figura \ref{schema_neurone} lo schema grafico di un singolo neurone (k), dove $\textbf{x} = (x_1 ,..., x_m)$ è il vettore degli input input, $\textbf{w}_k = (w_{k1} ,..., w_{km})$ è il vettore dei pesi, $\phi$(x) è la funzione di attivazione, $b_k$ è il valore di soglia e $y_k$ è l'output.
+Si riporta in figura \ref{schema_neurone} lo schema grafico di un singolo neurone (k), dove $\vec{x} = (x_1 ,..., x_m)$ è il vettore degli input input, $\vec{w}_k = (w_{k1} ,..., w_{km})$ è il vettore dei pesi, $\phi$(x) è la funzione di attivazione, $b_k$ è il valore di soglia e $y_k$ è l'output.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.70\textwidth]{figs/schema_neurone.png}
@@ -199,7 +209,7 @@ Si riporta in figura \ref{schema_neurone} lo schema grafico di un singolo neuron
 \end{figure} \\
 Quindi il neurone opera la seguente somma pesata:
 \begin{equation}
-s_k = \textbf{x}\bullet\textbf{w}_\textbf{k} = \sum_{i=1}^{m}x_iw_{ki}
+s_k = \vec{x}\bullet\vec{w}_\textbf{k} = \sum_{i=1}^{m}x_iw_{ki}
 \label{sk}
 \end{equation}
 e si ottiene l'output attraverso la funzione di attivazione: 
@@ -218,7 +228,7 @@ dove $\alpha$ è un parametro che permette di regolare la pendenza della curva, 
 	\label{sigmoide}
 \end{figure}
 \newpage
-Un singolo neurone è l'ingrediente fondamentale di una rete neurale e nella gran parte dei casi non è in grado di svolgere da solo nessun compito interessante ma deve sempre essere inserito in una rete. Tuttavia esiste una caso particolare nel quale un singolo neurone può portare a termine un compito di classificazione; affinché ciò sia possibile è necessario che i vettori evento siano riconducibili a due sole categorie e che il loro spazio possa essere separato (in relazione alle due categorie) da un singolo iper-piano. In questo caso esiste un teorema di convergenza che garantisce appunto la convergenza dei pesi nel processo di addestramento.
+Un singolo neurone è l'ingrediente fondamentale di una rete neurale e nella gran parte dei casi non è in grado di ottenere da solo nessuna classificazione degli input. Tuttavia esiste una caso particolare nel quale un singolo neurone può portare a termine un compito di classificazione; affinché ciò sia possibile è necessario che i vettori evento siano riconducibili a due sole categorie e che il loro spazio possa essere separato (in relazione alle due categorie) da un singolo iper-piano. In questo caso esiste un teorema di convergenza che garantisce la convergenza dei pesi nel processo di addestramento.
 
 A questo punto è possibile passare ad un livello di complessità superiore, osservando in che modo possono essere organizzati i neuroni per formare la rete neurale; si distinguono due tipologie di reti:
 \begin{enumerate}
