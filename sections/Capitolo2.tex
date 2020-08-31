@@ -73,6 +73,8 @@ Esistono tre varianti del metodo di discesa del gradiente:
 
 \color{red}
 Chiedere chiarimento su funzione Q($\theta$) \\
+
+
 termini inglesi \\
 spiegazione discesa del gradiente \\
 \color{black}
@@ -139,8 +141,18 @@ Come osservazione finale bisogna dire che nei metodi che si basano sul concetto 
 
 \color{red}
 Come definisco la misura\\
+distanza euclidea = distanza iperpiano... devo specificare meglio come è definita
+
 Riscalare le componenti è importante... che riferimento devo fare alla fisica delle particelle? \\
+bisogna trovare un modo per rendere le quantità omogenee -> bin
+
+
 come scelgo il valore di $\epsilon$ e di $\delta$?
+devo specificare che dipendono dai volumi dei cluster che voglio costruire... volgio che all'interno del cluster gli eventi siano abbastanza compatti -> relazione con signma
+epsilon -> due cerchi vicini e compatti in realtà sono un unico. 
+epsilon dipende dalla risoluzione
+delta dipende dal tipo di analisi statistica che volgio portare avanti
+
 \color{black}
 
 
@@ -270,7 +282,7 @@ Nel caso della back-propagation bisogna fare una distinzione tra l'addestramento
 	\begin{equation}
 	\Delta w_{ki}^{(j)} = -\mu \frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}}
 	\end{equation}
-	con $\mu$ fattore di apprendimento, definito precedentemente come $\textit{learning rate}$.
+	dove $\mu$ è il $\textit{learning rate}$.
 	Manca a questo punto il calcolo esplicito del gradiente, che può essere eseguito con la regola della catena 
 	\begin{equation}
 	\frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}} = \frac{\partial E^{(j)}}{\partial err_k^{(j)}}
@@ -292,11 +304,7 @@ Nel caso della back-propagation bisogna fare una distinzione tra l'addestramento
 	\item Neurone in uno strato nascosto \\
 	In questo caso l'output del neurone non ha un diretto valore con il quale può essere confrontato, quindi il segnale di errore deve essere determinato a partire dai segnali di errore di tutti i neuroni dello strato successivo, da cui il nome di back-propagation proprio perché il segnale di errore prosegue all'indietro dall'output verso l'input.
 \end{enumerate}
-Come ultima considerazione sulle reti neurali bisogna sottolineare che il fattore di apprendimento deve essere scelto in maniera accurata, infatti se fosse troppo piccolo si avrebbe una convergenza estremamente lenta e, viceversa, un valore troppo grande porterebbe ad una instabilità con comportamento oscillatorio. Per gestire meglio questo aspetto, nella pratica viene definito un learning rate variabile. Generalmente si fa in modo che questo fattore parta da un certo valore per decrescere mano mano che si ci avvicina ad una soluzione ottimale. In prima istanza infatti è utile avere un valore abbastanza grande da poter seguire in modo efficace la discesa del gradiente, rendendo più rapida la ricerca della soluzione ottimale. Successivamente, però, risulta utile diminuire questo stesso parametro per evitare oscillazioni attorno al punto di minimo.
-
-\color{red}
-ultimo commento reti neurali $\rightarrow$ il fattore di apprendimento l'ho definito e si vede dove appare nella backpropagation \\
-\color{black}
+Come ultima considerazione sulle reti neurali bisogna sottolineare che il \textit{learning rate} deve essere scelto in maniera accurata, infatti se fosse troppo piccolo si avrebbe una convergenza estremamente lenta e, viceversa, un valore troppo grande porterebbe ad una instabilità con comportamento oscillatorio. Per gestire meglio questo aspetto, nella pratica viene definito un learning rate variabile. Generalmente si fa in modo che questo fattore parta da un certo valore per decrescere mano mano che si ci avvicina ad una soluzione ottimale. In prima istanza infatti è utile avere un valore abbastanza grande da poter seguire in modo efficace la discesa del gradiente, rendendo più rapida la ricerca della soluzione ottimale. Successivamente, però, risulta utile diminuire questo stesso parametro per evitare oscillazioni attorno al punto di minimo.
 
 \newpage
 
@@ -346,10 +354,6 @@ Una volta costruito l'albero decisionale, i metodi per il \textbf{pruning} sono 
 Gli alberi decisionali hanno vari pregi, fra i quali quello di essere caratterizzati da una particolare semplicità nell'interpretazione e nella visualizzazione, ed essere insensibili ad eventuali componenti degli eventi irrilevanti nella classificazione; inoltre sono caratterizzati da una tolleranza ad eventuali attributi mancanti per alcuni input nel \textbf{training data set} o nel \textbf{test data set} e da una invarianza per trasformazioni monotone effettuate sulle variabili degli input, che rende la fase di pre-processamento dei dati non necessaria. Dall'altro lato ci sono una serie di limiti, come l'instabilità rispetto al variare del \textbf{training data set}, cioè data set di allenamento di poco differenti fra loro producono risultati molto diversi, oppure il frequente problema dell'\textbf{overfitting}. \\
 E' possibile anche combinare più alberi decisionali insieme per ottenere migliori prestazioni predittive. Una delle tecniche per tale combinazione è il $\textit{Bagging}$, dove vengono generati in maniera casuale dei sottogruppi del training data set ed ognuno di questi viene utilizzato per l'addestramento di un albero decisionale. Il risultato sarà una collezione di alberi decisionali e, come decisione finale, si utilizzerà la media delle decisioni dei singoli alberi. \\
 Esiste un'estensione di questo metodo conosciuta con il nome di $\textit{Random Forest}$; in questo caso viene aggiunto un passaggio ulteriore al processo appena illustrato perché viene scelto casualmente anche un sottogruppo delle componenti dei vettori di evento, ottenendo così un metodo capace di agire anche su data set ad alta dimensionalità e che permette di ridurre sensibilmente il problema dell'\textbf{overfitting}.
-
-\color{red}
-feature o attributo io li intendo come le componenti dei vettori evento in input... cosa c'entrano le distribuzioni ?
-\color{black}
 
 \newpage
 
@@ -475,12 +479,8 @@ I VAEs, al pari degli autoencoders, sono costituiti da una coppia di encoder e d
 Nella pratica si cerca di fare in modo che la distribuzione ottenuta alla fine del processo di codifica sia il più possibile vicina ad una distribuzione Normale. In particolare si farà in modo che l'encoder restituisca la media e la matrice di covarianza della distribuzione Normale. \\ 
 Seguendo questa linea, si ottiene che il processo di addestramento è regolato da una funzione di perdita, composta da un termine relativo alla ricostruzione ed uno relativo alla regolarizzazione dello spazio latente; tale termine di regolarizzazione viene espresso mediante la $\textit{Divergenza di Kullback-Leibler}$, che rappresenta una misura della differenza ta due distribuzioni di probabilità. \\
 Il solo fatto di codificare gli eventi di input come delle distribuzioni non garantisce la continuità e la completezza, perché se non si inserisce il termine di regolarizzazione nella funzione di perdita il VAE continuerà a comportarsi come un semplice autoencoder, tendendo semplicemente a minimizzare l'errore di ricostruzione in due possibili modi, cioè codificando gli eventi come distribuzioni da un lato con varianze molto piccole (quasi come singoli punti) e dall'altro con medie molto diverse fra loro (punti molto lontani nello spazio latente); nel primo caso non viene garantita la continuità e nel secondo la completezza. \\ 
-Per ottenere la regolarità dello spazio latente si richiede allora che le distribuzioni con cui vengono codificati gli eventi siano il più possibile vicine a distribuzioni Normali con media zero e matrice di covarianza uguale all'identità; le medie saranno allora vicine con conseguente sovrapposizione delle distribuzioni, anche perché la matrice di covarianza così fatta impedisce la codifica come punti nello spazio latente. Il prezzo da pagare sarà un più alto errore nella fase di ricostruzione.\\ \color{red} da chiedere \color{black} \\
-Prima di passare alla formulazione matematica dei VAEs, bisogna notare che la regolarità dello spazio latente implica la presenza di un gradiente, il quale permette di mischiare le caratteristiche dei pattern in input e quindi di dare un significato al campionamento nello spazio latente. \\
-
-\color{red}
-da chiedere l'ultimo commento
-\color{black}
+Per ottenere la regolarità dello spazio latente si richiede allora che le distribuzioni con cui vengono codificati gli eventi siano il più possibile vicine a distribuzioni Normali con media zero e matrice di covarianza uguale all'identità; le medie saranno allora vicine con conseguente sovrapposizione delle distribuzioni, anche perché la matrice di covarianza così fatta impedisce la codifica come punti nello spazio latente. Il prezzo da pagare sarà un più alto errore nella fase di ricostruzione. Questo fatto deriva direttamente dal differente modo in cui gli \textit{autoencoders} ed i VAEs codificano gli eventi di input, infatti per i primi vi è una relazione biunivoca fra input ed output e si ha perdita di informazione solo nella fase di compressione, mentre per i secondi si ha una doppia perdita di informazione, cioè sia nella fase di codifica sia in quella di ricostruzione a seguito del campionamento dalla distribuzione nello spazio latente.\\
+Prima di passare alla formulazione matematica dei VAEs, bisogna notare che la regolarità dello spazio latente implica la presenza di un gradiente, il quale permette di mischiare le caratteristiche degli eventi in input e quindi di dare un significato al campionamento nello spazio latente. \\
 
 \newpage
 
@@ -502,6 +502,7 @@ Un'altra quantità fondamentale nella teoria dell'informazione è l'\textit{entr
 La divergenza di KL è la misura di dissimilarità tra due distribuzioni (p(x) e q(x)):
 \begin{equation}
 	KL(p(x)||q(x)) = -\sum p(x) \log q(x) + \sum p(x) \log p(x) = -\sum p(x) \log \frac{q(x)}{p(x)}
+	\label{def_KL}
 \end{equation}
 e si nota come essa sia molto simile alla differenza delle entropie delle due distribuzioni perché due distribuzioni che hanno un'informazione media uguale saranno pressoché uguali.
 Le due proprietà fondamentale della \textit{KL divergency} sono le seguenti:
@@ -516,7 +517,7 @@ Le due proprietà fondamentale della \textit{KL divergency} sono le seguenti:
 		KL(p(x)||q(x)) \not = KL(q(x)||p(x))
 	\end{equation}
 \end{enumerate}
-cioè la divergenza di KL è semi-definita positiva e non è simmetrica. \\
+cioè la divergenza di KL è semi-definita positiva (perché vi è un aumento dell'entropia) e non è simmetrica (come conseguenza del modo in cui è stata definita nell'equazione \ref{def_KL}). \\
 Ora è possibile ricollegarsi al discorso sui VAEs e si definisca con $\vec{x}$ la grandezza osservabile e con $\vec{z}$ quella nascosta dello spazio latente. Il teorema di Bayes \cite{Statistica} permette di scrivere:
 \begin{equation}
 	p(\vec{z}|\vec{x}) = \frac{p(\vec{x}|\vec{z}) p(\vec{z})}{p(\vec{x})}
@@ -610,9 +611,5 @@ Nella pratica si costruisce la rete neurale che si occupa della fase di codifica
 
 
 Infine, per la fase di generazione di nuovi eventi, sarà sufficiente eliminare l'encoder e campionare dalla distribuzione che si è ottenuta alla fine dell'addestramento e fornire tale punto al decoder per costruire un nuovo evento.
-
-\color{red}
-commento: cosa significano le proprietà della KL divergency ?
-\color{black}
 
 \newpage

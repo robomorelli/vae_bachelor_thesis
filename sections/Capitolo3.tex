@@ -4,14 +4,10 @@
 In quest'ultimo capitolo verrà presentata una possibile applicazione dei Variational Autoencoders nel campo della fisica delle alte energie, con lo scopo di ricercare segnali di nuova fisica BSM, cioè oltre il Modello Standard. \\
 Gli esperimenti portati avanti al \textit{Large Hadron Collider} hanno l'obiettivo di esplorare la fisica spingendosi sempre a più alte energie; attualmente, nonostante la scoperta del bosone di Higgs abbia confermato la validità dello SM, questo modello non riesce a dare alcune risposte a domande aperte nel campo della fisica delle alte energie, quali lo \textbf{Hierarchy problem} e l'origine della materia oscura. \\
 Nella ricerca di nuova fisica possono essere portati avanti due approcci, detti \textit{model dependent} e \textit{model independent}. Nel primo caso la ricerca di nuova fisica avviene con un particolare modello in mente, così che è possibile creare un algoritmo di ricerca ottimizzato per il modello target. D'altra parte questo approccio fa si che si focalizzi solo su un particolare canale di ricerca, e quindi manchi di generalità. Dall'altro lato una ricerca model independent ha il pregio di non essere legata ad una particolare teoria fisica e quindi è capace di ricercare eventuali segnali di nuova fisica senza fare alcuna ipotesi sulla loro natura, o la loro origine. Come descritto nel capitolo \ref{ML: metodi e caratteristiche} quest'ultimo approccio ha molte analogie con il modo in cui i metodi di ML non supervisionati classificano i dati.\\
-Nel caso descritto il VAE verrà addestrato su dati SM simulati, in modo da fare un modello del fondo. L'approccio seguito sarà model dependent: infatti la ricerca sarà ottimizzata per un processo supersimmetrico di produzione elettrodebole di una coppia chargino/neutralino (partner fermionici dei bosoni elettrodeboli). In questo canale il chargino decadrà [descrivi il processo]. \\
+Nel caso descritto il VAE verrà addestrato su dati SM simulati, in modo da fare un modello del fondo. L'approccio seguito sarà model dependent: infatti la ricerca sarà ottimizzata per un processo supersimmetrico di produzione elettrodebole di una coppia chargino/neutralino (partner fermionici dei bosoni elettrodeboli). In questo canale il Chargino $\tilde{\chi}_1^\pm$ decade in un Bosone W ed in un Neutralino $\tilde{\chi}_1^0$, mentre il Neutralino pesante decade in un Bosone di Higgs h ed in un altro Neutralino leggero.\\
 Se l'addestramento si dovesse rivelare efficace, e la sensibilità al processo a cui si è interessati fosse buona, il processo verrà ripetuto utilizzando i dati dell'esperimento, per cercare di osservare l'anomalia direttamente nel campione di dati raccolti. \\
 Questo ulteriore passaggio è possibile solo in virtù dell'approccio \textit{Unsupervised} per cui non è necessario dare all'algoritmo le etichette fondo/segnale durante la fase di addestramento. Per lo stesso motivo si capisce perché un algoritmo \textit{Supervised} non possa essere in generale direttamente applicato ai dati sperimentali; infatti questa seconda categoria di modelli richiede nella fase di addestramento le etichette fondo/segnale per ciascun evento fisico al fine di impararne la distinzione. Si deve perciò ricorrere necessariamente alle simulazioni MC con tutte le incertezze modellistiche annesse. 
 
-\color{red}
-approfondire il discorso model dependent/independent \\
-descrivi il processo ... cosa devo mettere ? \\
-\color{black}
 
 \newpage
 
@@ -21,7 +17,7 @@ descrivi il processo ... cosa devo mettere ? \\
 \label{dataset}
 Per l'addestramento del modello e per la successiva fase di verifica sono stati utilizzati i dati prodotti attraverso simulazioni Montecarlo (MC), in base alla teoria di riferimento (SUSY). Le variabili fisiche che verranno utilizzate per descrivere ogni evento sono otto ($\textit{met}$, $\textit{mt}$, $\textit{mbb}$, $\textit{mct2}$, $\textit{mlb1}$, $\textit{lep1Pt}$, $\textit{njet30}$, $\textit{nBjet30-MV2c10}$) e sono le stesse utilizzate nell'analisi fisica relativa allo studio \cite{susy_alberto}. Di conseguenza lo spazio iniziale, che dovrà essere compresso dal VAE, sarà 8-dimensionale. \\
 Attraverso la simulazione MC vengono prodotti eventi sia di background che di segnale.\\ 
-Prima di passare alla fase di codifica, gli eventi (sia di segnale che di background) sono stati sottoposti ad una serie di tagli di preselezione sulle variabili, come riportato nella tabella~\ref{tab:tagli di preselezione}.
+Prima di passare alla fase di codifica, gli eventi (sia di segnale che di background) sono stati sottoposti ad una serie di tagli di preselezione sulle variabili, come riportato nella tabella~\ref{tab:tagli di preselezione}. Questo viene fatto per selezionare, fra tutti gli eventi di fondo, quelli più simili al segnale. Se non si applicassero questi tagli di preselezione, l'algoritmo verrebbe addestrato su tutto il fondo e quindi sia sugli eventi di fondo molto diversi dal segnale sia su quelli simili; come risultato si otterrebbe un algoritmo non sensibile al segnale, perché non riuscirebbe a rilevare le piccole variazioni esistenti fra gli eventi di segnale e quelli di fondo simili al segnale stesso. Si può affermare che, adoperando i tagli di preselezione, è come se si facesse uno zoom per aumentare la sensibilità dell'algoritmo. 
 
 \begin{table}[h!]
 	\centering
@@ -42,7 +38,10 @@ Prima di passare alla fase di codifica, gli eventi (sia di segnale che di backgr
 	\caption{Sono riportati i tagli di preselezione applicati sia agli eventi di segnale che di background, prodotti attraverso una simulazione MC.}
 	\label{tab:tagli di preselezione}
 \end{table} 
-Gli eventi prodotti con il metodo MC sono stati divisi, come si richiede in un processo di apprendimento automatico, in una training data set, un validation data set ed un test data set. Successivamente, per rendere coerente la selezione del segnale simulando una raccolta dati con le attuali capacità e specifiche del LHC, gli eventi di validation e test sono stati ripesati per ottenere la giusta luminosità.\\
+Gli eventi di background prodotti con il metodo MC sono stati divisi, come si richiede in un processo di apprendimento automatico, in una \textbf{training data set} (30 \%), un \textbf{validation data set} (30 \%) ed un \textbf{test data set} (40 \%). Successivamente, per rendere coerente la selezione del segnale simulando una raccolta dati con le attuali capacità e specifiche del LHC, gli eventi di validation e test sono stati ripesati per ottenere la giusta luminosità.\\
+Il numero di eventi prodotti per ciascun processo dello SM e SUSY é di solito molto più grande di quello che e' stato prodotto ad LHC. Quindi, per ottenere un modello di fondo e segnale affine alla realtà, a ciascun evento simulato viene associato un peso (di solito minore di 1) in modo che la somma di tali pesi sia uguale al numero di eventi attesi per la luminosità dei nostri dati.
+
+
 Per ottenere i nuovi pesi $w_{j}^{'}$ a partire da quelli validi prima dello split $w_{j}$, è stata usata la seguente formula ~\cite{HiggsChalllenge}:
 
 \begin{equation}
@@ -57,6 +56,18 @@ qui è da chiedere per tutte le correzioni
 \color{black}
 
 \newpage
+
+
+
+per rendere realistica la simulazione deve essere ripesata (per esempio peso ogni evento per 0.5)
+
+splitting dei dati train 30 \% , validation 30 \% , test 40 \%
+(sul validation non avviene aggiornamento dei pesi) -> solo per il fondo
+
+100 \% per il segnale
+
+applicazione dei pesi avviene prima del taglio di preselezione...
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -78,9 +89,6 @@ In linea con ciò che è già stato illustrato nel capitolo \ref{VAEs}, gli even
 Dopo la fase di addestramento si verifica che il VAE abbia imparato come ricostruire gli eventi fisici di background usati per l'addestramento, dopo averli compressi nello spazio latente. A tal proposito vengono confrontate le distribuzioni originali date in input con quelle rigenerate dalla rete. Allo stesso tempo, si ci aspetta che il modello  commetta un errore di ricostruzione maggiore quando, invece che eventi di background, vengono dati in input eventi di segnale. La limitata capacità di generalizzare su questa nuova categoria di eventi mai visti durante la procedura di addestramento dovrebbe indurre il VAE ad una ricostruzione meno accurata. Come si vedrà è possibile allora usare la distribuzione dell'errore di ricostruzione per eventi di background e segnale per discriminare tra queste due tipologie di eventi.\\
 Tra i contributi originali di questa tesi vi è anche la possibilità di pesare in maniera diversa il contributo che le diverse variabili fisiche che definiscono un evento possono apportare al processo di discriminazione e, per questo motivo, verranno presentati due casi: nel primo le otto variabili avranno tutte lo stesso peso, mentre nel secondo si proverà a capire se, dando maggiore importanza ad alcune di esse, si otterrà un processo di discriminazione più efficiente. E' infatti possibile che il VAE, concentrandosi su di una variabile più significativa per la ricostruzione del background ma non altrettanto per il segnale, possa sfruttare questa differenza per aumentare la forbice di errore di ricostruzione tra background e segnale. Rimane a questo punto da capire quali delle variabili possano aiutare in questo compito. Le possibilità sono almeno due: da un lato si possono sfruttare conoscenze o intuizioni teoriche riguardo il potere discriminante di alcune delle variabili, mentre dall'altro si può procedere in maniera brute-force(\ref{iperparametri e grid search}) sulle possibili configurazioni dei pesi da dare alle diverse variabili.\\
 
-\color{red}
-qui mi ha lasciato il VAE come approccio model independet
-\color{black}
 
 \newpage
 
@@ -100,11 +108,15 @@ Come primo passo bisogna capire se, a seguito del processo di addestramento, il 
 \end{figure}
 
 Dall'osservazione qualitativa della figura~\ref{ricostruzione} emerge che il processo di ricostruzione del VAE risulta piuttosto accurato per tutte le variabili ad eccezione della $\textit{mbb}$. \\
-Tuttavia, come si vedrà più avanti, è possibile correggere questo risultato impostando un peso maggiore per tale variabile (ad esempio un peso pari a due o tre rispetto agli altri tutti pari ad uno). Inoltre, dopo aver constatato che è possibile indirizzare particolare attenzione sulla ricostruzione di specifiche variabili, si capirà come sfruttare questa situazione per ottenere un modello più sensibile ai vari tipi di segnale.\\
+Tuttavia, come si vedrà più avanti, è possibile correggere questo risultato impostando un peso maggiore per tale variabile (ad esempio un peso pari a due o tre rispetto agli altri tutti pari ad uno). Per ogni singola variabile il peso viene moltiplicato per il suo errore di ricostruzione ed il risultato viene sommato alla controparte per tutte le altre variabili:
+\begin{equation}
+	L_{tot} = w_0 L_{met} + w_1 L_{mt} + w_2 L_{mbb} + w_3 L_{mct2} + w_4 L_{mlb1} + w_5 L_{lep1Pt} + w_6 L_{njet30} + w_7 L_{nBjet30-MV2c10}
+\end{equation} 
+Inoltre, dopo aver constatato che è possibile indirizzare particolare attenzione sulla ricostruzione di specifiche variabili, si capirà come sfruttare questa situazione per ottenere un modello più sensibile ai vari tipi di segnale.\\
 
-\color{red}
-correzione da inserire: come si applica il peso e cosa rappresenta?
-\color{black}
+
+%correzione da inserire: come si applica il peso e cosa rappresenta?
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -150,11 +162,6 @@ Tornando alla descrizione di queste immagini, si osservano sia punti rossi che v
 E' importante osservare come, aumentando il numero di eventi da selezionare nella zona di ipotesi con basse masse ($m < 300 GeV$), si evidenzia un incremento della sensibilità al segnale; l'opposto avviene invece per le zone con $m > 600 GeV$, mentre per la zona intermedia un buon risultato sembra emergere nel range $50 GeV - 80 GeV$ eventi di fondo da selezionare. Questo è dovuto al fatto che la sezione d'urto attesa per la produzione delle particelle SUSY diminuisce lungo l'asse delle ascisse. Questo fa si che il campione statistico del segnale sia più grande a basse masse e più piccolo a masse più alte. In questo modo la selezione deve essere maggiormente stringente al crescere della massa così da ottenere un campione adeguato per il test di ipotesi.\\
 In ogni caso scegliendo tre selezioni diverse, una per regione, è possibile designare un'unica regione di esclusione avendo ottimizzato la procedura nelle diverse regioni di massa. E' giusto rimarcare anche come questo scan sia stato condotto su dati di validation in quanto relativo ad un processo di ottimizzazione degli iperparametri e quindi riconducibile ad un fine-tuning del modello. Come tale non può essere condotto sugli stessi dati di test su cui i risultati finali verrano estratti. Infatti, solo i risultati finali della prossima sezione prendono in considerazione il test set per evitare possibili bias sugli esiti finali.
 
-\color{red}
-commento vuoto \\
-chiedere chiarimento sull'ultimo commento.\\
-\color{black}
-
 \newpage
 
 \begin{figure}[h!]
@@ -181,7 +188,7 @@ chiedere chiarimento sull'ultimo commento.\\
 \label{regione di esclusione}
 
 
-A questo punto dopo aver individuato le tre zone lungo l'asse delle ascisse, rispettivamente per valori $ m(chi^\pm_1/chi^0_2) \le 300 GeV$ , $300 GeV < m \le 600 GeV$ e $m > 600 GeV$, è necessario ricavare il numero ottimale di eventi di background da selezionare in modo da ottimizzare la sensibilità agli eventi di segnale. Da un semplice conteggio dei punti evidenziati in rosso si ottiene che la combinazione ottimale prevede di selezionare 400 eventi di background per la prima zona, 100 per la seconda e 25 per la terza. In figura~\ref{mix} viene riportato l'esito finale dell'esperimento, selezionando per ognuna delle tre zone il valore ottimale di eventi di background da selezionare.
+A questo punto dopo aver individuato le tre zone lungo l'asse delle ascisse, rispettivamente per valori $ m(\chi^\pm_1/\chi^0_2) \le 300 GeV$ , $300 GeV < m \le 600 GeV$ e $m > 600 GeV$, è necessario ricavare il numero ottimale di eventi di background da selezionare in modo da ottimizzare la sensibilità agli eventi di segnale. Da un semplice conteggio dei punti evidenziati in rosso si ottiene che la combinazione ottimale prevede di selezionare 400 eventi di background per la prima zona, 100 per la seconda e 25 per la terza. In figura~\ref{mix} viene riportato l'esito finale dell'esperimento, selezionando per ognuna delle tre zone il valore ottimale di eventi di background da selezionare.
 
 \begin{figure}[h!]
 	\centering
