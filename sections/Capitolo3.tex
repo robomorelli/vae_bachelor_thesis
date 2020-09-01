@@ -1,10 +1,10 @@
 \section{Ricerca di fisica Beyond Standard Model con i VAEs}
 \label{fisica_BSM_VAEs}
 
-In quest'ultimo capitolo verrà presentata una possibile applicazione dei Variational Autoencoders nel campo della fisica delle alte energie, con lo scopo di ricercare segnali di nuova fisica BSM, cioè oltre il Modello Standard. \\
-Gli esperimenti portati avanti al \textit{Large Hadron Collider} hanno l'obiettivo di esplorare la fisica spingendosi sempre a più alte energie; attualmente, nonostante la scoperta del bosone di Higgs abbia confermato la validità dello SM, questo modello non riesce a dare alcune risposte a domande aperte nel campo della fisica delle alte energie, quali lo \textbf{Hierarchy problem} e l'origine della materia oscura. \\
-Nella ricerca di nuova fisica possono essere portati avanti due approcci, detti \textit{model dependent} e \textit{model independent}. Nel primo caso la ricerca di nuova fisica avviene con un particolare modello in mente, così che è possibile creare un algoritmo di ricerca ottimizzato per il modello target. D'altra parte questo approccio fa si che si focalizzi solo su un particolare canale di ricerca, e quindi manchi di generalità. Dall'altro lato una ricerca model independent ha il pregio di non essere legata ad una particolare teoria fisica e quindi è capace di ricercare eventuali segnali di nuova fisica senza fare alcuna ipotesi sulla loro natura, o la loro origine. Come descritto nel capitolo \ref{ML: metodi e caratteristiche} quest'ultimo approccio ha molte analogie con il modo in cui i metodi di ML non supervisionati classificano i dati.\\
-Nel caso descritto il VAE verrà addestrato su dati SM simulati, in modo da fare un modello del fondo. L'approccio seguito sarà model dependent: infatti la ricerca sarà ottimizzata per un processo supersimmetrico di produzione elettrodebole di una coppia chargino/neutralino (partner fermionici dei bosoni elettrodeboli). In questo canale il Chargino $\tilde{\chi}_1^\pm$ decade in un Bosone W ed in un Neutralino $\tilde{\chi}_1^0$, mentre il Neutralino pesante decade in un Bosone di Higgs h ed in un altro Neutralino leggero.\\
+In quest'ultimo capitolo verrà presentata una possibile applicazione dei \textit{Variational Autoencoders} nel campo della fisica delle alte energie, con lo scopo di ricercare segnali di nuova fisica BSM, cioè oltre il Modello Standard. \\
+Gli esperimenti portati avanti al \textit{Large Hadron Collider} hanno l'obiettivo di esplorare la fisica spingendosi sempre a più alte energie; attualmente, nonostante la scoperta del bosone di Higgs abbia confermato la validità dello SM, questo modello non riesce a dare alcune risposte a domande aperte nel campo della fisica delle alte energie, quali lo \textit{Hierarchy problem} e l'origine della materia oscura. \\
+Nella ricerca di nuova fisica possono essere portati avanti due approcci, detti \textit{model dependent} e \textit{model independent}. Nel primo caso la ricerca di nuova fisica avviene con un particolare modello in mente, così che è possibile creare un algoritmo di ricerca ottimizzato per il modello target. D'altra parte questo approccio fa si che si focalizzi solo su un particolare canale di ricerca, e quindi manca di generalità. Dall'altro lato una ricerca \textit{model independent} ha il pregio di non essere legata ad una particolare teoria fisica e quindi è capace di ricercare eventuali segnali di nuova fisica senza fare alcuna ipotesi sulla loro natura, o la loro origine. Come descritto nel capitolo \ref{ML: metodi e caratteristiche} quest'ultimo approccio ha molte analogie con il modo in cui i metodi di ML non supervisionati classificano i dati.\\
+Nel caso descritto il VAE verrà addestrato su dati SM simulati, in modo da fare un modello del fondo. L'approccio seguito sarà model dependent: infatti la ricerca sarà ottimizzata per un processo supersimmetrico di produzione elettrodebole di una coppia chargino/neutralino (partner fermionici dei bosoni elettrodeboli). In questo canale il chargino $\tilde{\chi}_1^\pm$ decade in un Bosone W ed in un neutralino $\tilde{\chi}_1^0$, mentre il neutralino pesante decade in un Bosone di Higgs h ed in un altro neutralino leggero.\\
 Se l'addestramento si dovesse rivelare efficace, e la sensibilità al processo a cui si è interessati fosse buona, il processo verrà ripetuto utilizzando i dati dell'esperimento, per cercare di osservare l'anomalia direttamente nel campione di dati raccolti. \\
 Questo ulteriore passaggio è possibile solo in virtù dell'approccio \textit{Unsupervised} per cui non è necessario dare all'algoritmo le etichette fondo/segnale durante la fase di addestramento. Per lo stesso motivo si capisce perché un algoritmo \textit{Supervised} non possa essere in generale direttamente applicato ai dati sperimentali; infatti questa seconda categoria di modelli richiede nella fase di addestramento le etichette fondo/segnale per ciascun evento fisico al fine di impararne la distinzione. Si deve perciò ricorrere necessariamente alle simulazioni MC con tutte le incertezze modellistiche annesse. 
 
@@ -15,7 +15,7 @@ Questo ulteriore passaggio è possibile solo in virtù dell'approccio \textit{Un
 
 \subsection{Dataset}
 \label{dataset}
-Per l'addestramento del modello e per la successiva fase di verifica sono stati utilizzati i dati prodotti attraverso simulazioni Montecarlo (MC), in base alla teoria di riferimento (SUSY). Le variabili fisiche che verranno utilizzate per descrivere ogni evento sono otto ($\textit{met}$, $\textit{mt}$, $\textit{mbb}$, $\textit{mct2}$, $\textit{mlb1}$, $\textit{lep1Pt}$, $\textit{njet30}$, $\textit{nBjet30-MV2c10}$) e sono le stesse utilizzate nell'analisi fisica relativa allo studio \cite{susy_alberto}. Di conseguenza lo spazio iniziale, che dovrà essere compresso dal VAE, sarà 8-dimensionale. \\
+Per l'addestramento del modello e per la successiva fase di verifica sono stati utilizzati i dati prodotti attraverso simulazioni Montecarlo (MC), in base alla teoria di riferimento (SUSY). Le variabili fisiche che verranno utilizzate per descrivere ogni evento sono otto ($\textit{met}$=, $\textit{mt}$, $\textit{mbb}$ = massa invariante dei due $\textit{b-jets}$, $\textit{mct2}$, $\textit{mlb1}$, $\textit{lep1Pt}$, $\textit{njet30}$, $\textit{nBjet30-MV2c10}$) e sono le stesse utilizzate nell'analisi fisica relativa allo studio \cite{susy_alberto}. Di conseguenza lo spazio iniziale, che dovrà essere compresso dal VAE, sarà 8-dimensionale. \\
 Attraverso la simulazione MC vengono prodotti eventi sia di background che di segnale.\\ 
 Prima di passare alla fase di codifica, gli eventi (sia di segnale che di background) sono stati sottoposti ad una serie di tagli di preselezione sulle variabili, come riportato nella tabella~\ref{tab:tagli di preselezione}. Questo viene fatto per selezionare, fra tutti gli eventi di fondo, quelli più simili al segnale. Se non si applicassero questi tagli di preselezione, l'algoritmo verrebbe addestrato su tutto il fondo e quindi sia sugli eventi di fondo molto diversi dal segnale sia su quelli simili; come risultato si otterrebbe un algoritmo non sensibile al segnale, perché non riuscirebbe a rilevare le piccole variazioni esistenti fra gli eventi di segnale e quelli di fondo simili al segnale stesso. Si può affermare che, adoperando i tagli di preselezione, è come se si facesse uno zoom per aumentare la sensibilità dell'algoritmo. 
 
@@ -38,9 +38,12 @@ Prima di passare alla fase di codifica, gli eventi (sia di segnale che di backgr
 	\caption{Sono riportati i tagli di preselezione applicati sia agli eventi di segnale che di background, prodotti attraverso una simulazione MC.}
 	\label{tab:tagli di preselezione}
 \end{table} 
-Gli eventi di background prodotti con il metodo MC sono stati divisi, come si richiede in un processo di apprendimento automatico, in una \textbf{training data set} (30 \%), un \textbf{validation data set} (30 \%) ed un \textbf{test data set} (40 \%). Successivamente, per rendere coerente la selezione del segnale simulando una raccolta dati con le attuali capacità e specifiche del LHC, gli eventi di validation e test sono stati ripesati per ottenere la giusta luminosità.\\
-Il numero di eventi prodotti per ciascun processo dello SM e SUSY é di solito molto più grande di quello che e' stato prodotto ad LHC. Quindi, per ottenere un modello di fondo e segnale affine alla realtà, a ciascun evento simulato viene associato un peso (di solito minore di 1) in modo che la somma di tali pesi sia uguale al numero di eventi attesi per la luminosità dei nostri dati.
+Gli eventi di background prodotti con il metodo MC sono stati divisi, come si richiede in un processo di apprendimento automatico, in una \textit{training data set} (30 \%), un \textit{validation data set} (30 \%) ed un \textit{test data set} (40 \%). Successivamente, per rendere coerente la selezione del segnale simulando una raccolta dati con le attuali capacità e specifiche del LHC, gli eventi di \textit{validation} e test sono stati ripesati per ottenere la giusta luminosità.\\
+Il numero di eventi prodotti per ciascun processo dello SM e SUSY é di solito molto più grande di quello che è stato prodotto ad LHC. Quindi, per ottenere un modello di fondo e segnale affine alla realtà, a ciascun evento simulato viene associato un peso (di solito minore di 1) in modo che la somma di tali pesi sia uguale al numero di eventi attesi per la luminosità dei dati in esame.
 
+\color{red}
+
+QUESTA PARTE DOVE FORNISCO LA FORMULA LA TOGLIEREI COMPLETAMENTE
 
 Per ottenere i nuovi pesi $w_{j}^{'}$ a partire da quelli validi prima dello split $w_{j}$, è stata usata la seguente formula ~\cite{HiggsChalllenge}:
 
@@ -50,23 +53,10 @@ Per ottenere i nuovi pesi $w_{j}^{'}$ a partire da quelli validi prima dello spl
 \end{equation}
 
 Dove $y_{i}$ è l'etichetta (segnale o fondo) dello i-esimo evento e \textbf{1} è la funzione indicatrice (\textbf{1} {$y_{i}$ = il fondo} è zero per un evento di segnale e pari ad uno per un evento di fondo).
-
-\color{red}
-qui è da chiedere per tutte le correzioni
 \color{black}
 
 \newpage
 
-
-
-per rendere realistica la simulazione deve essere ripesata (per esempio peso ogni evento per 0.5)
-
-splitting dei dati train 30 \% , validation 30 \% , test 40 \%
-(sul validation non avviene aggiornamento dei pesi) -> solo per il fondo
-
-100 \% per il segnale
-
-applicazione dei pesi avviene prima del taglio di preselezione...
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,17 +67,17 @@ Per quanto riguarda la struttura del VAE si specifica che il numero di neuroni n
 \begin{equation}
 	f(x) = \max(0,x)
 \end{equation} 
-Parlando invece del processo di apprendimento, sono state impostate 2000 epoche, cioè tutti i dati vengono riproposti all'algoritmo per duemila volte; inoltre la \textit{Loss Function} utilizzate è quella standard, composta da un termine legato all'errore di ricostruzione ed uno relativo alla \textit{KL divergency} (moltiplicato per un fattore $\beta=0.6$). Per il processo di discesa del gradiente è stato impostato inizialmente un \textit{learning rate} pari a 0.003, con una diminuzione del 20\% ogni qualvolta il modello non migliora per venti epoche consecutive; inoltre è stata impostata una \textit{batch size} pari a 200, quindi l'aggiornamento dei pesi della rete avviene dopo aver cumulato l'errore su 200 eventi di training. Infine si sottolinea che il processo di addestramento termina o perché si è arrivati alle 2000 epoche o perché la \textit{Validation Loss} non migliora per 50 epoche consecutive.\\
+Parlando invece del processo di apprendimento, sono state impostate 2000 epoche, cioè tutti i dati vengono riproposti all'algoritmo per duemila volte; inoltre la \textit{loss function} utilizzata è quella standard, composta da un termine legato all'errore di ricostruzione ed uno relativo alla \textit{KL divergency} (moltiplicato per un fattore $\beta=0.6$). Per il processo di discesa del gradiente è stato impostato inizialmente un \textit{learning rate} pari a 0.003, con una diminuzione del 20\% ogni qualvolta il modello non migliora per venti epoche consecutive; inoltre è stata impostata una \textit{batch size} pari a 200, quindi l'aggiornamento dei pesi della rete avviene dopo aver cumulato l'errore su 200 eventi di \textit{training}. Infine si sottolinea che il processo di addestramento termina o perché si è arrivati alle 2000 epoche o perché la \textit{Validation Loss} non migliora per 50 epoche consecutive.\\
 Il modello è stato sviluppato in Python usando le librerie Keras (tensorflow backend).
 
 
 \subsection{Addestramento del VAE}
 \label{simulazione}
 Il VAE deve essere addestrato in modo tale da rilevare eventuali indizi di fisica BSM come delle anomalie, cercando di dimostrarsi sensibile ad una ampia gamma di possibili segnali.\\
-Un classificatore binario, ovvero un modello capace di discriminare fra due sole categorie (segnale e background), viene addestrato su un training data set i cui eventi di segnale sono generati facendo riferimento ad un determinato modello; tuttavia quando ne verranno presentati altri prodotti con diversi modelli, allora la classificazione risulterà totalmente arbitraria ed è qui che si evince il limite principale di una ricerca model dependent. Un ulteriore vantaggio del VAE ed in generale degli approcci model independent, rispetto a quelli model dependent, è quello di poter essere applicato direttamente sui dati come anticipato nella sezione introduttiva di questo capito (\ref{fisica_BSM_VAEs}). In questo modo si evitano quei problemi di incertezze modellistiche legate alle simulazioni montecarlo.\\
-In linea con ciò che è già stato illustrato nel capitolo \ref{VAEs}, gli eventi di segnale e di background, che sono stati prodotti attraverso simulazioni MC, sono rappresentabili in uno spazio 8-dimensionale. Durante il processo di addestramento del VAE gli eventi di background vengono compressi nello spazio latente (tridimensionale), decompressi per essere ricostruiti e poi confrontati con quelli iniziali per il calcolo dell'errore e quindi per dare il via al processo di backpropagation (\ref{reti neurali}). \\
+Un classificatore binario, ovvero un modello capace di discriminare fra due sole categorie (segnale e background), viene addestrato su un \textit{training data set} i cui eventi di segnale sono generati facendo riferimento ad un determinato modello; tuttavia quando ne verranno presentati altri prodotti con diversi modelli, allora la classificazione risulterà totalmente arbitraria ed è qui che si evince il limite principale di una ricerca model \textit{dependent}. Un ulteriore vantaggio del VAE ed in generale degli approcci model \textit{independent}, rispetto a quelli model \textit{dependent}, è quello di poter essere applicato direttamente sui dati come anticipato nella sezione introduttiva di questo capito (\ref{fisica_BSM_VAEs}). In questo modo si evitano quei problemi di incertezze modellistiche legate alle simulazioni montecarlo.\\
+In linea con ciò che è già stato illustrato nel capitolo \ref{VAEs}, gli eventi di segnale e di background, che sono stati prodotti attraverso simulazioni MC, sono rappresentabili in uno spazio 8-dimensionale. Durante il processo di addestramento del VAE gli eventi di background vengono compressi nello spazio latente (tridimensionale), decompressi per essere ricostruiti e poi confrontati con quelli iniziali per il calcolo dell'errore e quindi per dare il via al processo di \textit{backpropagation} (\ref{reti neurali}). \\
 Dopo la fase di addestramento si verifica che il VAE abbia imparato come ricostruire gli eventi fisici di background usati per l'addestramento, dopo averli compressi nello spazio latente. A tal proposito vengono confrontate le distribuzioni originali date in input con quelle rigenerate dalla rete. Allo stesso tempo, si ci aspetta che il modello  commetta un errore di ricostruzione maggiore quando, invece che eventi di background, vengono dati in input eventi di segnale. La limitata capacità di generalizzare su questa nuova categoria di eventi mai visti durante la procedura di addestramento dovrebbe indurre il VAE ad una ricostruzione meno accurata. Come si vedrà è possibile allora usare la distribuzione dell'errore di ricostruzione per eventi di background e segnale per discriminare tra queste due tipologie di eventi.\\
-Tra i contributi originali di questa tesi vi è anche la possibilità di pesare in maniera diversa il contributo che le diverse variabili fisiche che definiscono un evento possono apportare al processo di discriminazione e, per questo motivo, verranno presentati due casi: nel primo le otto variabili avranno tutte lo stesso peso, mentre nel secondo si proverà a capire se, dando maggiore importanza ad alcune di esse, si otterrà un processo di discriminazione più efficiente. E' infatti possibile che il VAE, concentrandosi su di una variabile più significativa per la ricostruzione del background ma non altrettanto per il segnale, possa sfruttare questa differenza per aumentare la forbice di errore di ricostruzione tra background e segnale. Rimane a questo punto da capire quali delle variabili possano aiutare in questo compito. Le possibilità sono almeno due: da un lato si possono sfruttare conoscenze o intuizioni teoriche riguardo il potere discriminante di alcune delle variabili, mentre dall'altro si può procedere in maniera brute-force(\ref{iperparametri e grid search}) sulle possibili configurazioni dei pesi da dare alle diverse variabili.\\
+Tra i contributi originali di questa tesi vi è anche la possibilità di pesare in maniera diversa il contributo che le diverse variabili fisiche che definiscono un evento possono apportare al processo di discriminazione e, per questo motivo, verranno presentati due casi: nel primo le otto variabili avranno tutte lo stesso peso, mentre nel secondo si proverà a capire se, dando maggiore importanza ad alcune di esse, si otterrà un processo di discriminazione più efficiente. E' infatti possibile che il VAE, concentrandosi su di una variabile più significativa per la ricostruzione del background ma non altrettanto per il segnale, possa sfruttare questa differenza per aumentare la forbice di errore di ricostruzione tra background e segnale. Rimane a questo punto da capire quali delle variabili possano aiutare in questo compito. Le possibilità sono almeno due: da un lato si possono sfruttare conoscenze o intuizioni teoriche riguardo il potere discriminante di alcune delle variabili, mentre dall'altro si può procedere in maniera \textit{brute-force} sulle possibili configurazioni dei pesi da dare alle diverse variabili.\\
 
 
 \newpage
@@ -108,14 +98,13 @@ Come primo passo bisogna capire se, a seguito del processo di addestramento, il 
 \end{figure}
 
 Dall'osservazione qualitativa della figura~\ref{ricostruzione} emerge che il processo di ricostruzione del VAE risulta piuttosto accurato per tutte le variabili ad eccezione della $\textit{mbb}$. \\
-Tuttavia, come si vedrà più avanti, è possibile correggere questo risultato impostando un peso maggiore per tale variabile (ad esempio un peso pari a due o tre rispetto agli altri tutti pari ad uno). Per ogni singola variabile il peso viene moltiplicato per il suo errore di ricostruzione ed il risultato viene sommato alla controparte per tutte le altre variabili:
+Tuttavia, come si vedrà più avanti, è possibile correggere questo risultato impostando un peso maggiore per tale variabile (ad esempio un peso pari a due o tre rispetto agli altri tutti pari ad uno). Per ogni singola variabile il peso viene moltiplicato per il suo errore di ricostruzione ed il risultato viene sommato per tutte le variabili nel seguente modo:
 \begin{equation}
 	L_{tot} = w_0 L_{met} + w_1 L_{mt} + w_2 L_{mbb} + w_3 L_{mct2} + w_4 L_{mlb1} + w_5 L_{lep1Pt} + w_6 L_{njet30} + w_7 L_{nBjet30-MV2c10}
 \end{equation} 
 Inoltre, dopo aver constatato che è possibile indirizzare particolare attenzione sulla ricostruzione di specifiche variabili, si capirà come sfruttare questa situazione per ottenere un modello più sensibile ai vari tipi di segnale.\\
 
-
-%correzione da inserire: come si applica il peso e cosa rappresenta?
+\newpage
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -123,21 +112,21 @@ Inoltre, dopo aver constatato che è possibile indirizzare particolare attenzion
 \subsubsection{Distribuzione della loss di ricostruzione}
 \label{reco_loss}
 
-Per rendere un segnale riconoscibile è opportuno che il suo indice di anomalia lo contraddistingua rispetto a quello degli eventi di fondo. In questa tesi la misura adottata per discriminare tra fondo e segnale è l'errore di ricostruzione che il VAE commette durante la ricostruzione degli eventi. Altre scelte possibili sarebbero state quelle di utilizzare la loss totale data dalla somma della divergenza di Kullback-Lieber e della loss di ricostruzione oppure, al contrario, solo la divergenza di Kullback-Lieber. \\ 
-Ad ogni modo, per ottenere l'errore di ricostruzione per ogni evento è sufficiente sommare quello sulle otto variabili. Da questi valori si ottiene quindi la distribuzione della $\textit{Loss}$, come quella riportata in figura \ref{distribuzione_loss}. 
+Per rendere un segnale riconoscibile è opportuno che il suo indice di anomalia lo contraddistingua rispetto a quello degli eventi di fondo. In questa tesi la misura adottata per discriminare tra fondo e segnale è l'errore di ricostruzione che il VAE commette durante la ricostruzione degli eventi. Altre scelte possibili sarebbero state quelle di utilizzare la \textit{loss} totale data dalla somma della \textit{Kullback-Lieber divergency} e della \textit{loss} di ricostruzione oppure, al contrario, solo la \textit{Kullback-Lieber divergency}. \\ 
+Ad ogni modo, per ottenere l'errore di ricostruzione per ogni evento è sufficiente sommare quello sulle otto variabili. Da questi valori si ottiene quindi la distribuzione della \textit{loss}, come quella riportata in figura \ref{distribuzione_loss}. 
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.85\textwidth]{figs/risultati_simulazione/distribuzioneLoss.pdf}
-	\caption{Distribuzione della $\textit{Loss}$ per gli eventi di background e per quelli di segnale relativi ad alcune combinazioni delle masse di Chargino-Neutralino. La prima immagine è relativa al Vaidation data set, mentre la seconda al test data set.}
+	\includegraphics[width=0.99\textwidth]{figs/risultati_simulazione/distribuzioneLoss.pdf}
+	\caption{Distribuzione della $\textit{Loss}$ per gli eventi di background e per quelli di segnale relativi ad alcune combinazioni delle masse di chargino-neutralino. La prima immagine è relativa al \textit{Vaidation data set}, mentre la seconda al \textit{test data set}.}
 	\label{distribuzione_loss}
 \end{figure}
 
 In questa immagine, oltre alla distribuzione relativa agli eventi di background (istogramma blu) sia per il dataset di validation (sopra) che per quello di test (sotto), sono presenti anche le distribuzione relative ad alcune delle ipotesi di segnale (curve colorate) contraddistinte dalla diverse ipotesi sulle masse delle due particelle (chargino/neutralino). E' importante ricordare che le simulazioni MC degli eventi di segnale non sono mai state usate fino ad ora e solo in questa fase di test vengono date in input al modello. \\
 Una situazione ideale prevede una distribuzione degli errori per gli eventi di fondo concentrata su valori della Loss inferiori rispetto alle analoghe distribuzioni relative agli eventi di segnale. In questo modo, infatti, la selezione del segnale risulta facilitata e il rapporto segnale/background aumenta.\\
-Osservando le figure, una prima considerazione riguarda proprio questo aspetto. Infatti, la distribuzione della Loss per gli eventi di background presenta un picco spostato verso sinistra rispetto alle distribuzione relative agli eventi di segnale. Allo stesso tempo questa separazione non risulta molto netta, in particolare per alcuni tipi di segnale, caratterizzati da una struttura cinematica più simile a quella degli eventi di fondo. Per questo motivo si cercherà di trovare un modello che risulti più efficace in questo compito, sfruttando, ad esempio, una diversa pesatura delle variabili che caratterizzano un evento fisico.\\
-Un altro aspetto non trascurabile e verificabile confrontando i due grafici della stessa figura \ref{distribuzione_loss}, riguarda l'\textbf{overfitting}. Infatti, giudicando la distribuzione degli eventi di background nei due grafici, si può vedere come la forma sia pressoché la stessa; questo permette di concludere che il modello è in grado di generalizzare, non adattandosi troppo al \textbf{validation data set} per poi essere in grado di generalizzare anche ad un set di dati mai visto prima (\textbf{test data set}).\\
-Un'ultima osservazione può essere fatta pensando ad una possibile applicazione di questo algoritmo sui dati sperimentali, laddove la distinzione fra background e segnale non è nota a priori; infatti, osservando come le distribuzioni dei segnali si pongono rispetto a quella degli eventi di fondo e selezionando eventi con loss molto alta è possibile selezionare quelli più affini a processi di nuova fisica, e quindi fare un test di ipotesi su questi campioni selezionati.
+Osservando le figure, una prima considerazione riguarda proprio questo aspetto. Infatti, la distribuzione della \textit{loss} per gli eventi di background presenta un picco spostato verso sinistra rispetto alle distribuzione relative agli eventi di segnale. Allo stesso tempo questa separazione non risulta molto netta, in particolare per alcuni tipi di segnale, caratterizzati da una struttura cinematica più simile a quella degli eventi di fondo. Per questo motivo si cercherà di trovare un modello che risulti più efficace in questo compito, sfruttando, ad esempio, una diversa pesatura delle variabili che caratterizzano un evento fisico.\\
+Un altro aspetto non trascurabile e verificabile confrontando i due grafici della stessa figura \ref{distribuzione_loss}, riguarda l'\textit{overfitting}. Infatti, giudicando la distribuzione degli eventi di background nei due grafici, si può vedere come la forma sia pressoché la stessa; questo permette di concludere che il modello è in grado di generalizzare, non adattandosi troppo al \textit{validation data set} per poi essere in grado di generalizzare anche ad un set di dati mai visto prima (\textit{test data set}).\\
+Un'ultima osservazione può essere fatta pensando ad una possibile applicazione di questo algoritmo sui dati sperimentali, laddove la distinzione fra background e segnale non è nota a priori; infatti, osservando come le distribuzioni dei segnali si pongono rispetto a quella degli eventi di fondo e selezionando eventi con \textit{loss} molto alta è possibile selezionare quelli più affini a processi di nuova fisica, e quindi fare un test di ipotesi su questi campioni selezionati.
 
 \newpage
 
@@ -169,7 +158,7 @@ In ogni caso scegliendo tre selezioni diverse, una per regione, è possibile des
 	\includegraphics[width=0.72\textwidth]{figs/risultati_simulazione/25.pdf}
 	\includegraphics[width=0.72\textwidth]{figs/risultati_simulazione/50.pdf}
 	\includegraphics[width=0.72\textwidth]{figs/risultati_simulazione/80.pdf}
-	\caption{Risultati degli esperimenti di conteggio per, rispettivamente, 25, 50 e 80 eventi di background selezionati nella parte destra della distribuzione della Loss.}
+	\caption{Risultati degli esperimenti di conteggio per, rispettivamente, 25, 50 e 80 eventi di background selezionati nella parte destra della distribuzione della \textit{loss}.}
 	\label{test-25-50-80}
 \end{figure}
 \begin{figure}[h!]
@@ -177,7 +166,7 @@ In ogni caso scegliendo tre selezioni diverse, una per regione, è possibile des
 	\includegraphics[width=0.71\textwidth]{figs/risultati_simulazione/100.pdf}
 	\includegraphics[width=0.71\textwidth]{figs/risultati_simulazione/200.pdf}
 	\includegraphics[width=0.71\textwidth]{figs/risultati_simulazione/400.pdf}
-	\caption{Risultati degli esperimenti di conteggio per, rispettivamente, 100, 200 e 400 eventi di background selezionati nella parte destra della distribuzione della Loss.}
+	\caption{Risultati degli esperimenti di conteggio per, rispettivamente, 100, 200 e 400 eventi di background selezionati nella parte destra della distribuzione della \textit{loss}.}
 	\label{test-100-200-400}
 \end{figure}
 
@@ -197,12 +186,18 @@ A questo punto dopo aver individuato le tre zone lungo l'asse delle ascisse, ris
 	\label{mix}
 \end{figure}
 
-Questa ottimizzazione consente di raggiungere delle sensibilità al segnale SUSY analoghe a quella dei metodi \textbf{cut and count} [metti figura per il confronto]
-Rimangono pero' alcune questioni aperte, legate alla cattiva ricostruzione della variabile mbb, e se ci siano variabili più sensibili delle altre tra quelle utilizzate nella presente analisi.
+Questa ottimizzazione consente di raggiungere delle sensibilità al segnale SUSY analoghe a quella dei metodi \textit{cut and count}, come si evince dalla figura \ref{confronto}.
 
-\color{red}
-figura per il confronto??
-\color{black}
+\newpage
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.70\textwidth]{figs/risultati_simulazione/confronto.png}
+	\caption{E' riportato l'esito di un processo \textit{cut and count} per capirne la sensibilità al segnale per le varie combinazioni delle masse del chargino e del neutralino. L'immagine è presa da \cite{susy_alberto}.}
+	\label{confronto}
+\end{figure}
+
+Rimangono pero' alcune questioni aperte, legate alla cattiva ricostruzione della variabile \textit{mbb}, e se ci siano variabili più sensibili delle altre tra quelle utilizzate nella presente analisi.
 
 \newpage
 
@@ -219,7 +214,7 @@ Nella precedente ottimizzazione la rigenerazione di una delle variabili ($\texti
 	\label{mbb_ottimizzazione}
 \end{figure}
 
-Risulta evidente che questo piccolo accorgimento in fase di simulazione ha permesso di ottenere un'ottima ricostruzione della variabile $\textit{mbb}$, mantenendo inalterata la qualità delle altre. Ciò è avvenuto perché, aumentando il peso su tale variabile, aumenta anche il relativo errore nella ricostruzione (l'errore viene moltiplicato per il peso); di conseguenza l'algoritmo, operando la minimizzazione della \textbf{loss} totale, viene forzato ad occuparsi maggiormente della ricostruzione della variabile $\textit{mbb}$. \\
+Risulta evidente che questo piccolo accorgimento in fase di simulazione ha permesso di ottenere un'ottima ricostruzione della variabile $\textit{mbb}$, mantenendo inalterata la qualità delle altre. Ciò è avvenuto perché, aumentando il peso su tale variabile, aumenta anche il relativo errore nella ricostruzione (l'errore viene moltiplicato per il peso); di conseguenza l'algoritmo, operando la minimizzazione della \textit{loss} totale, viene forzato ad occuparsi maggiormente della ricostruzione della variabile $\textit{mbb}$. \\
 Questo spunto suggerisce che è effettivamente possibile condizionare il modello sulla ricostruzione delle diverse variabili, di conseguenza ci si chiede se vincolando l'algoritmo su alcune grandezze fisiche particolari sia possibile ottenere un processo di discriminazione migliore.
 
 \newpage
