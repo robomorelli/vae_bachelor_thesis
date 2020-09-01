@@ -1,23 +1,23 @@
 \section{Analisi multivariata e Machine Learning}
 \label{analisi multivariata e ML}
 
-Le ricerche di eventi rari nella fisica delle alte energie hanno come scopo quello di riuscire a selezionare un campione il più puro possibile di eventi di segnale. Il parametro di merito della selezione e' la sensibilità al processo a cui si è interessati, che e' funzione del rapporto tra il numero di eventi di segnale attesi ed il numero di eventi di background: 
+Le ricerche di eventi rari nella fisica delle alte energie hanno come scopo quello di riuscire a selezionare un campione il più puro possibile di eventi di segnale. Il parametro di merito della selezione è la sensibilità al processo a cui si è interessati, che è funzione del rapporto tra il numero di eventi di segnale attesi ed il numero di eventi di background: 
 \begin{equation}
-	\sigma = N_s/\sqrt{N_s + N_b}
+	\sigma = \frac{N_s}{\sqrt{N_s + N_b}}
 \end{equation}
 In generale un evento può essere pensato come una collezione di dati e quindi lo si può rappresentare come un vettore in uno spazio n-dimensionale: 
 \begin{equation}
 \vec{x} = (x_{1},...,x_{n})
 \end{equation}
-dove $x_i$ sono le informazioni ottenute dalle particelle rivelate dal detector: ad esempio l'impulso di ciascuna particella, le masse invarianti ottenute sommando i quadrivettori di due o più particelle, il numero di hit in un detector, o l'energia trasversa mancante dovuta a particelle non rivelate. \\
+dove $x_i$ sono le informazioni ottenute dalle particelle rivelate dal detector: ad esempio l'impulso di ciascuna particella, le masse invarianti ottenute sommando i quadrivettori di due o più particelle, il numero di \textit{hit} in un detector, o l'energia trasversa mancante dovuta a particelle non rivelate. \\
 Una volta individuate le quantità che si vogliono utilizzare per separare il campione di segnale dal fondo, si possono utilizzare varie tecniche per ottimizzare la selezione, e quindi ottenere la migliore sensibilità al processo di interesse. Si possono individuare tre classi metodologiche:
 
 \begin{enumerate}
-	\item Sistema di tagli sulle variabili (\textit{cut and count}). Con questo metodo si selezionano sottoinsiemi dei valori di ciascuna variabile, in modo indipendente fra loro (Cut) per poi fare un esperimento di conteggio sulle regioni selezionate;
+	\item Sistema di tagli sulle variabili (\textit{cut and count}). Con questo metodo si selezionano sottoinsiemi dei valori di ciascuna variabile, in modo indipendente fra loro (\textit{cut}) per poi fare un esperimento di conteggio sulle regioni selezionate;
 	\item Analisi multi-variata come, ad esempio, l'analisi discriminante lineare;
 	\item Machine Learning, cioè sistemi che permettono l'apprendimento automatico e quindi l'algoritmo è in grado di imparare in maniera autonoma direttamente dai dati che gli vengono forniti.
 \end{enumerate}
-E' importante sancire in maniera netta il confine fra l'analisi multivariata classica ed il \textbf{machine learning}. Si dice che un algoritmo apprende un qualche compito C dall'esperienza E, con una performance P, se la sua performance P migliora nello svolgere il compito C con l'esperienza E. Quindi, in questo caso specifico, si può affermare che la discriminante fondamentale è se l'algoritmo continui a migliorare o meno la sua prestazione all'aumentare degli eventi che gli vengono presentati.
+E' importante sancire in maniera netta il confine fra l'analisi multivariata classica ed il \textit{machine learning}. Si dice che un algoritmo apprende un qualche compito C dall'esperienza E, con una performance P, se la sua performance P migliora nello svolgere il compito C con l'esperienza E. Quindi, in questo caso specifico, si può affermare che la discriminante fondamentale è se l'algoritmo continui a migliorare o meno la sua prestazione all'aumentare degli eventi che gli vengono presentati.
 
 \newpage
 
@@ -34,7 +34,7 @@ Con questo sistema si applicano delle selezioni sulle varie componenti $x_i$ che
 	\label{fig:grid_example}
 \end{figure}
 
-La scelta della regione in cui fare il conteggio e' ottenuta grazie ad una ottimizzazione del rapporto segnale rumore al variare dei tagli. Questa ottimizzazione può essere ottenuta con molti metodi, di cui un esempio e' il Random Grid Search (RGS) che verrà presentato nella sezione \ref{iperparametri e grid search}. \\
+La scelta della regione in cui fare il conteggio è ottenuta grazie ad una ottimizzazione del rapporto segnale rumore al variare dei tagli. Questa ottimizzazione può essere ottenuta con molti metodi, di cui un esempio è il Random Grid Search (RGS) che verrà presentato nella sezione \ref{iperparametri e grid search}. \\
 In questo caso le selezioni sulle variabili $x_i$ sono fatte in modo indipendente, di conseguenza non si tiene conto di eventuali correlazioni tra le variabili e, se le distribuzioni di tali variabili per segnale e fondo sono molto simili, questo sistema può non essere molto efficiente.
 
 \newpage
@@ -45,28 +45,38 @@ In questo caso le selezioni sulle variabili $x_i$ sono fatte in modo indipendent
 Nella sezione precedente è stato messo in evidenza il fatto che i sistemi di tagli non permettono di tener conto di eventuali correlazioni fra i dati.\\
 Per poter tener conto delle correlazioni tra le variabili $x_i$ in esame, e poter sfruttare al meglio le variabili poco discriminanti è possibile utilizzare delle selezioni ottenute grazie a selezioni su delle funzioni di un sottoinsieme delle variabili prese in esame. \\
 Ogni volta che si considera una selezione fatta su una funzione di più di una variabile è possibile parlare di analisi multivariata e, per la ragione appena presentata, è necessario considerare i processi multivariati.\\
-Il metodo di analisi multivariata più semplice è quello del discriminante lineare, o discriminante di Fisher: si immagini di avere a disposizione un determinato set di eventi in input $\vec{x}_i$, ciascuno caratterizzato da un numero n di variabili (spazio n-dimensionale) e di volerli ripartire fra segnale e background.\\
+Il metodo di analisi multivariata più semplice è quello del discriminante lineare, o discriminante di Fisher: si immagini di avere a disposizione un determinato set di eventi di input $\vec{x}_i$, ciascuno caratterizzato da un numero n di variabili (spazio n-dimensionale) e di volerli ripartire fra segnale e background.\\
 Si definisce la funzione discriminante lineare nel seguente modo:
 \begin{equation}
 D(x_1 , x_2 , ... , x_n) = c_0 + c_1x_1 + ... +c_nx_n = c_0 + \sum_{i=0}^{n} c_ix_i 
 \end{equation}
 cioè una combinazione lineare delle componenti del vettore che rappresenta l'evento; il valore assunto dalla funzione per ogni singolo evento ne permette la separazione nelle due classi (nel presente caso segnale e background), utilizzando un valore di riferimento $D_0$. \\
 A questo punto l'obiettivo è quello di massimizzare la distanza fra le due classi, ossia rendere massima la differenza dei valori assunti dalla funzione $D(\vec{x})$ fra gli eventi appartenenti al background e quelli relativi al segnale. \\
-Per ottenere una ottimizzazione del valore di selezione uno dei metodi più comuni è quello proposto da Fisher: si consideri un campione di eventi appartenenti al segnale e se ne definisca la media $\vec\mu_s$ e la deviazione standard $\sigma_s$ ed un campione appartenente al background, definendo anche qui la media $\vec\mu_b$ e la deviazione standard $\sigma_b$. A questo punto la migliore configurazione dei parametri è quella che massimizza la seguente funzione: 
+Per ottenere una ottimizzazione del valore di selezione uno dei metodi più comuni è quello proposto da Fisher: si consideri un campione di eventi appartenenti al segnale e se ne definisca la media $\vec\mu_s$ e la deviazione standard $\sigma_s$ ed un campione appartenente al background, definendo anche qui la media $\vec\mu_b$ e la deviazione standard $\sigma_b$. A questo punto la migliore configurazione dei parametri ($\vec{\theta}$) è quella che massimizza la seguente funzione: 
 \begin{equation}
-F(\textbf{c}) = \frac{(\vec\mu_s - \vec\mu_b)^2}{\sigma_s^2 + \sigma_b^2}
+F(\vec{\theta}) = \frac{(\vec\mu_s - \vec\mu_b)^2}{\sigma_s^2 + \sigma_b^2}
 \end{equation} 
-Il discriminante lineare e' il sistema multivariato con la forma funzionale più semplice. Si possono costruire discriminanti sempre più complessi nella forma funzionale.
-
-\color{red}
-likelihood analysis ?? \\
-considero le distribuzioni nel complesso e non evento per evento
-\color{black}
-
+Il discriminante lineare e' il sistema multivariato con la forma funzionale più semplice. Si possono costruire metodi sempre più complessi nella forma funzionale, come la funzione di massima verosimiglianza. Si consideri un campione di n misure indipendenti fra loro ($\vec{x}_1 , \vec{x}_2 , ... , \vec{x}_n$), allora la funzione di massima verosimiglianza L rappresenta la densità di probabilità di ottenere tali misure, una volta fissato il valore dei parametri $\vec{\theta}$ della distribuzione:
+\begin{equation}
+	L(\vec{\theta};\vec{x}_1 , \vec{x}_2 , ... , \vec{x}_n) = 
+	F_{\vec{x}} (\vec{x}_1 , \vec{x}_2 , ... , \vec{x}_n )
+\end{equation}
+dove F è la PDF delle $\vec{x}$. \\ 
+Inoltre vale che:
+\begin{equation}
+	F_{\vec{x}} (\vec{x}_1 , \vec{x}_2 , ... , \vec{x}_n ) = f(\vec{x}_1) f (\vec{x}_2) ... f(\vec{x}_n)
+\end{equation}
+perché le n misure sono considerate indipendenti fra loro. \\
+La stima di massima verosimiglianza è quella che si ottiene scegliendo $\vec{\theta}$ tale da massimizzare la funzione L:
+\begin{equation}
+	\vec{\theta}_{MV} = \max_{\vec{\theta}} L(\vec{\theta};\vec{x}_1 , \vec{x}_2 , ... , \vec{x}_n)
+\end{equation}
 
 
 \newpage
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsection{Machine Learning}
 \label{ML}
 
@@ -80,7 +90,7 @@ Bisogna distinguere tre macro-tipologie di approccio all'analisi dati nel machin
 	In questa tipologia di apprendimento vengono presentati all'algoritmo degli input di esempio ed i relativi output desiderati, con lo scopo di apprendere una relazione generale che lega gli uni con gli altri; quindi per prima cosa si utilizza un campione di addestramento (\textit{training data set}), in cui l'algoritmo ottimizza la selezione per legare gli input agli output forniti in fase di addestramento. Una volta addestrato, l'algoritmo viene validato utilizzando un campione di test (\textit{test data set}) dove non vengono forniti gli output e se ne valuta l'efficienza di selezione;
 	
 	\item APPRENDIMENTO NON SUPERVISIONATO \\
-	A differenza del caso supervisionato, nel training data set non sono presenti gli output attesi, quindi l'algoritmo deve essere in grado di apprendere autonomamente sia la struttura degli output desiderati, sia la miglior selezione per dividere i due campioni.
+	A differenza del caso supervisionato, nel \textit{training data set} non sono presenti gli output attesi, quindi l'algoritmo deve essere in grado di apprendere autonomamente sia la struttura degli output desiderati, sia la miglior selezione per dividere i due campioni.
 	Nel capitolo \ref{fisica_BSM_VAEs} verrà presentato un esempio di algoritmo non supervisionato per applicazioni nel campo della fisica delle particelle.
 	
 	\item APPRENDIMENTO PER RINFORZO \\
@@ -93,13 +103,13 @@ Oltre al modo in cui gli algoritmi ottimizzano la selezione a partire dai loro c
 \begin{itemize}
 	
 	\item CLASSIFICAZIONE \\
-	Gli algoritmi di classificazione sono caratterizzati da un output discreto, cioè una serie di classi alle quali l'input può appartenere. Di solito questo metodo e' utilizzato da sistemi con apprendimento supervisionato. Un esempio di algoritmo di classificazione è quello che permette di distinguere se un particolare oggetto è presente o meno in un'immagine;
+	Gli algoritmi di classificazione sono caratterizzati da un output discreto, cioè una serie di classi alle quali l'input può appartenere. Di solito questo metodo è utilizzato da sistemi con apprendimento supervisionato. Un esempio di algoritmo di classificazione è quello che permette di distinguere se un particolare oggetto è presente o meno in un'immagine;
 	
 	\item REGRESSIONE \\
 	La regressione è simile alla classificazione con la differenza che, in questo caso, l'output è continuo. Anche gli algoritmi di regressione sono adatti ad essere trattati con metodologie di apprendimento supervisionato;
 	
 	\item CLUSTERING \\
-	Nel clustering l'obiettivo è sempre quello di dividere gli input in delle classi, tuttavia in questo caso tali classi non sono stabilite a priori. La natura di algoritmi di questo tipo li rende adatti ad essere trattati tramite metodi di apprendimento non supervisionato, proprio perché nel training data set gli eventi di input non sono etichettati (non è noto il relativo output) e quindi si richiede all'algoritmo di ricavare autonomamente le classi.
+	Nel clustering l'obiettivo è sempre quello di dividere gli input in delle classi, tuttavia in questo caso tali classi non sono stabilite a priori. La natura di algoritmi di questo tipo li rende adatti ad essere trattati tramite metodi di apprendimento non supervisionato, proprio perché nel \textit{training data set} gli eventi di input non sono etichettati (non è noto il relativo output) e quindi si richiede all'algoritmo di ricavare autonomamente le classi.
 	
 \end{itemize}
 

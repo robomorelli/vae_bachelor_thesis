@@ -1,14 +1,14 @@
 \section{Machine Learning : metodi e caratteristiche}
 \label{ML: metodi e caratteristiche}
 
-In questo capitolo da prima verranno descritti i due approcci principali al ML: l'apprendimento supervisionato(\ref{app_sup}) e non supervisionato (\ref{app_non_sup}). Successivamente verranno presentati due metodi di apprendimento supervisionato, cioè le $\textit{Reti Neurali}$ (\ref{reti neurali}) e gli $\textit{Alberi Decisionali}$ (\ref{alberi decisionali}), ed un metodo di apprendimento non supervisionato, cioè il $\textit{Variational Autoencoders}$ (\ref{VAEs}).
+In questo capitolo da prima verranno descritti i due approcci principali al ML: l'apprendimento supervisionato (\ref{app_sup}) e non supervisionato (\ref{app_non_sup}). Successivamente verranno presentati due metodi di apprendimento supervisionato, cioè le $\textit{Reti Neurali}$ (\ref{reti neurali}) e gli $\textit{Alberi Decisionali}$ (\ref{alberi decisionali}), ed un metodo di apprendimento non supervisionato, cioè il $\textit{Variational Autoencoders}$ (\ref{VAEs}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Apprendimento supervisionato}
 \label{app_sup}
 Come già accennato nella sezione \ref{ML}, quando si parla di apprendimento supervisionato si hanno a disposizione sia gli input $\vec{x}$ che i corrispettivi target di output $\vec{y}$ (nella fase di addestramento); esisterà quindi una funzione 
-$\vec{y} = f(\vec{x})$ che mette in relazione gli input con gli output. Tuttavia tale funzione non e' conosciuta a priori, ed e' quindi l'obiettivo dell'algoritmo ricostruirne la migliore approssimazione possibile.
+$\vec{y} = f(\vec{x})$ che mette in relazione gli input con gli output. Tuttavia tale funzione non è conosciuta a priori, ed è quindi l'obiettivo dell'algoritmo ricostruirne la migliore approssimazione possibile.
 Nella pratica si cerca di approssimare la funzione agendo su una serie di parametri $\vec{\theta}$, in modo da ottenere una funzione del tipo: $\hat{\vec{y}} = f(\vec{x},\vec{\theta})$. \\
 Lo schema logico seguito durante l'addestramento di un algoritmo di apprendimento supervisionato è riportato in figura \ref{fig:schema_app_sup}.
 
@@ -20,64 +20,61 @@ Lo schema logico seguito durante l'addestramento di un algoritmo di apprendiment
 \end{figure}
 
 
-Per ogni vettore $\vec{x}$ del \textbf{training data set} è possibile definire una particolare funzione detta $\textit{Loss Function}$ $L(\vec{y},f(\vec{x},\vec{\theta}))$. Questa funzione rappresenta una misura della differenza fra l'output dell'algoritmo e quello atteso.\\ 
+Per ogni vettore $\vec{x}$ del \textit{training data set} è possibile definire una particolare funzione detta $\textit{Loss Function}$ $L(\vec{y},f(\vec{x},\vec{\theta}))$. Questa funzione rappresenta una misura della differenza fra l'output dell'algoritmo e quello atteso.\\ 
 A questo punto è possibile fare una media di tale funzione sull'intero set di dati a disposizione, ottenendo la funzione di rischio: \\
 \begin{equation}
 R(\vec{\theta}) = \frac{1}{N}\sum_{k=1}^{N}L(\vec{y},f(\vec{x},\vec{\theta}))
 \end{equation}
-dove N è il numero di eventi del training data set. \\
-Quindi, mentre la \textbf{Loss Function} rappresenta una misura dell'errore compiuto dall'algoritmo nel fornire l'output per un singolo evento di input, la funzione di rischio è una media di tale errore sull'intero campione di dati di addestramento.\\
+dove N è il numero di eventi del \textit{training data set}. \\
+Quindi, mentre la \textit{Loss Function} rappresenta una misura dell'errore compiuto dall'algoritmo nel fornire l'output per un singolo evento di input, la funzione di rischio è una media di tale errore sull'intero campione dei dati di addestramento.\\
 Un esempio di funzione di rischio molto diffusa è l'errore quadratico medio:
 \begin{equation}
 R(\vec{\theta}) = \frac{1}{N}\sum_{k=1}^{N}(\vec{y}_k - f(\vec{x}_k , \vec{\theta}))^2
 \end{equation}
-Quando si addestra un modello si vuole inoltre evitare il così detto $\textit{overfitting}$, che consiste in un eccessivo adattamento del modello ai dati di training e che di conseguenza porta al non raggiungimento di una sufficiente generalità; in tal caso infatti l'algoritmo costruisce una funzione $f(\vec{x},\vec{\theta})$, che ha una forte potenza nella classificazione del campione di addestramento, ma non ha la stessa potenza di classificazione su altri campioni statistici. \\
-Un modo per verificare un eventuale overfitting è quello di verificare se il modello è nettamente migliore per il data set di allenamento rispetto al data set di test. \\
-Per arginare questo problema è possibile modificare la funzione di rischio, aggiungendo una funzione $Q(\vec{\theta})$; in questo modo si ottiene la funzione di costo:
+Quando si addestra un modello si vuole inoltre evitare il così detto $\textit{overfitting}$, che consiste in un eccessivo adattamento del modello ai dati di \textit{training} e che di conseguenza porta al non raggiungimento di una sufficiente generalità; in tal caso infatti l'algoritmo costruisce una funzione $f(\vec{x},\vec{\theta})$, che ha una forte potenza nella classificazione del campione di addestramento, ma non ha la stessa potenza di classificazione su altri campioni statistici. \\
+Un modo per verificare un eventuale \textit{overfitting} è quello di verificare se il modello è nettamente migliore per il data set di allenamento rispetto al data set di test. \\
+Per arginare questo problema è possibile modificare la funzione di rischio, aggiungendo una funzione $Q(\vec{\theta})$ (\color{red} aiuto\color{black}); in questo modo si ottiene la funzione di costo:
 \begin{equation}
 C(\vec{\theta}) = R(\vec{\theta}) + \lambda Q(\vec{\theta})
 \end{equation}
 con $\lambda$ parametro che esprime la rigidità del vincolo.\\
 A questo punto l'obiettivo è quello di minimizzare la funzione di costo ed uno dei metodi più comuni per tale scopo è il metodo di discesa del gradiente.\\
-Discesa del gradiente è una tecnica di ottimizzazione utilizzata per minimizzare l'errore che si introduce stimando la $\hat{\vec{y}} = f(\vec{x},\vec{\theta})$ rispetto alla funzione "vera" $\vec{y} = f(\vec{x})$. Un processo di questo tipo è caratterizzato, per quanto detto precedentemente, da una \textbf{Loss Function} $L(\vec{y},f(\vec{x},\vec{\theta}))$ ed un vettore $\vec{\theta}$, le cui componenti sono i parametri che devono essere ottimizzati nel processo di addestramento al fine di ridurre il più possibile l'errore che viene commesso dall'algoritmo nello stimare l'output, rispetto all'output target.\\
-Esistono tre varianti del metodo di discesa del gradiente:
+Discesa del gradiente è una tecnica di ottimizzazione utilizzata per minimizzare l'errore che si introduce stimando la $\hat{\vec{y}} = f(\vec{x},\vec{\theta})$ rispetto alla funzione "vera" $\vec{y} = f(\vec{x})$. Si può quindi definire, per quanto detto precedentemente, una \textit{Loss Function} $L(\vec{y},f(\vec{x},\vec{\theta}))$ ed un vettore $\vec{\theta}$, le cui componenti sono i parametri che devono essere ottimizzati nel processo di addestramento al fine di ridurre il più possibile l'errore che viene commesso dall'algoritmo nello stimare l'output, rispetto all'output target.\\
+Esistono tre varianti del metodo di discesa del gradiente, che differiscono per il momento nel quale avviene l'aggiornamento del vettore $\vec{\theta}$:
 
 \begin{itemize}
 	\item $\textit{Batch Gradient Descent}$. \\
-	 L'aggiornamento del vettore dei parametri $\vec{\theta}$ avviene una volta sola durante il processo di addestramento e, nello specifico, solo dopo che l'algoritmo ha processato tutto il campione di addestramento degli eventi di input.  Per fare ciò si calcola il vettore $\vec{G}$ come la media su tutto il \textbf{training data set} del gradiente (nello spazio dei parametri) della \textbf{Loss Function}:
-	 	\begin{equation}
-	 	\vec{G} = \frac{1}{N} \sum_{k=1}^{N} \vec{\nabla}_{\vec{\theta}} L(\vec{y}_k,f(\vec{x}_k,\vec{\theta})) 
-	 	\end{equation}
-	 e, con tale risultato, viene aggiornato il vettore dei parametri nel seguente modo: 
-	 	\begin{equation}
-	 	\vec{\theta} - \epsilon\vec{G} \rightarrow \vec{\theta}
-	 	\end{equation}
-	 Qui $\epsilon$ prende il nome di $\textit{learning rate}$ e regola l'aggiornamento del vettore dei parametri nella direzione opposta a quella del gradiente $\vec{G}$.\\
-	 Quindi con questa tecnica si calcola la discesa del gradiente una sola volta, tuttavia si impiega molto tempo per arrivare ad una convergenza ed è quindi poco adatta quando si hanno grandi moli di dati a disposizione. \\
+	In questa variante l'aggiornamento del vettore dei parametri avviene una volta per ogni epoca, cioè vengono processati tutti gli eventi di input dall'algoritmo e, solo in seguito, si applica il metodo di discesa del gradiente. Quindi, come primo passo, viene calcolata la \textit{loss} per ogni evento di input e la si somma sull'intero campione di dati di addestramento, per ottenere la \textit{loss} totale:
+	\begin{equation}
+		L_{tot} = \sum_{k=1}^{N} L(\vec{y}_k,f(\vec{x}_k,\vec{\theta}))
+	\end{equation}
+	Successivamente si definisce il vettore $\vec{G}$ applicando il gradiente (nello spazio dei parametri) alla \textit{loss} totale:
+	\begin{equation}
+		\vec{G} = \frac{1}{N}  \vec{\nabla}_{\vec{\theta}} L_{tot}
+	\end{equation}
+	e, con tale risultato, viene aggiornato il vettore dei parametri nel seguente modo:
+	\begin{equation}
+	\vec{\theta} - \epsilon\vec{G} \rightarrow \vec{\theta}
+	\end{equation}
+	con l'obiettivo di minimizzare la \textit{loss} totale.\\
+	Qui $\epsilon$ prende il nome di $\textit{learning rate}$ e regola l'aggiornamento del vettore dei parametri nella direzione opposta a quella del gradiente $\vec{G}$.\\
+	Quindi con questa tecnica si aggiornano i parametri una sola volta per ogni epoca, tuttavia si impiega molto tempo per arrivare ad una convergenza perché bisogna appunto processare tutti i dati e solo in seguito si applica il gradiente. Per questa ragione è un metodo poco adatto quando si hanno grandi moli di dati a disposizione e con alta dimensionalità. \\
 	 
 	\item $\textit{Stochastic Gradient Descent}$. \\
-	Viene calcolata la discesa del gradiente per ogni pattern fornito all'algoritmo:
-	 	\begin{equation}
-		\textbf{G}_i =  \boldsymbol{\nabla}_\theta L(\textbf{y}_i,f(\textbf{x}_i,\bm{\theta})) 
-		\end{equation}
-	e quindi anche l'aggiornamento dei pesi avviene tante volte quanti sono i pattern iniziali:
-		\begin{equation}
-		\bm{\theta} - \epsilon\textbf{G}_i \rightarrow \bm{\theta}
-		\end{equation}
-	Questa tecnica è, all'opposto della precedente, utile quando il numero di pattern di input è molto elevato. \\
+	Differentemente dal caso precedente, il gradiente viene valutato indipendentemente per ciascun evento di input:
+	\begin{equation}
+	\vec{G}_i =  \vec{\nabla}_{\vec{\theta}} L(\vec{y}_i,f(\vec{x}_i,\vec{\theta})) 
+	\end{equation}	
+	 e quindi  il vettore dei parametri viene aggiornato per ciascun evento in modo indipendente:
+	\begin{equation}
+	 \vec{\theta} - \epsilon\vec{G}_i \rightarrow \vec{\theta}
+	 \end{equation}
+	Questa tecnica è, all'opposto della precedente, utile quando il numero di eventi di input è molto elevato, perché non è necessario calcolare la \textit{loss} totale prima di procedere con l'aggiornamento dei parametri. \\
 		
 	\item $\textit{Mini Batch Gradient Descent}$. \\
-	Si tratta di una via di mezzo fra i due metodi appena presentati perché l'aggiornamento dei pesi avviene più volte dopo che sono stati presentati dei sottogruppi dell'intero data set di addestramento. 
+	In questo caso si calcola la variazione come nel metodo Batch ma, invece di calcolare $\vec{G}$ per il campione totale, viene calcolato per un sottocampione, in modo da ridurre i dati in esame. Così facendo si riesce a diminuire il tempo necessario per il calcolo riducendo il campione statistico.
 	
 \end{itemize}
-
-\color{red}
-Chiedere chiarimento su funzione Q($\theta$) \\
-
-
-termini inglesi \\
-spiegazione discesa del gradiente \\
-\color{black}
 
 \newpage
 
@@ -87,8 +84,8 @@ spiegazione discesa del gradiente \\
 \label{app_non_sup}
 
 Gli algoritmi di apprendimento supervisionato risultano essere molto utili nel caso in cui si abbiano a disposizione sia i vettori di input che i corrispettivi output target, perché si riesce ad ottenere un'approssimazione della relazione esistente input-output; nel caso della fisica delle alte energie questo significa conoscere le proprietà degli eventi di segnale che si vogliono individuare.\\
-Tuttavia nel caso di ricerche ad ampio spettro, che non dipendano fortemente da un modello, e che quindi non hanno una descrizione precisa degli eventi di interesse, non e' possibile avere a priori un campione di segnali con il relativo output di riferimento. \\
-In questo caso si può ricorrere all'uso di tecniche di apprendimento non supervisionato, dove l'obiettivo è quello di trovare eventuali partizioni degli input (Clustering), cioè vengono ricercati all'interno degli input quelli che sono diversi dalle aspettative perché hanno proprietà non affini a tutti gli alti eventi del campione. \\
+Tuttavia nel caso di ricerche ad ampio spettro, che non dipendano fortemente da un modello, e che quindi non hanno una descrizione precisa degli eventi di interesse, non è possibile avere a priori un campione di segnali con il relativo output di riferimento. \\
+In questo caso si può ricorrere all'uso di tecniche di apprendimento non supervisionato, dove l'obiettivo è quello di trovare eventuali partizioni degli input (\textit{Clustering}), cioè vengono ricercati all'interno degli input quelli che sono diversi dalle aspettative perché hanno proprietà non affini a tutti gli alti eventi del campione. \\
 Si consideri la figura \ref{Unsup} dove sono riportate tre diverse configurazioni possibili nel caso di input bidimensionali: nel caso a) è possibile la separazione in due sotto-gruppi e nel caso b) in un unico sotto-gruppo, mentre nel caso c) sembrerebbe non si possano stabilire graficamente eventuali separazioni.
 
 \begin{figure}[h!]
@@ -98,25 +95,25 @@ Si consideri la figura \ref{Unsup} dove sono riportate tre diverse configurazion
 	\label{Unsup}
 \end{figure}
 
-Quindi un algoritmo di clustering si occupa della suddivisione del set di input $\Sigma$ in un numero N di sottogruppi $\Sigma_1$,...,$\Sigma_n$, detti appunto cluster; si noti che lo stesso numero N non viene stabilito a priori e fornito all'algoritmo, ma viene anch'esso ricavato a partire dai dati. Una volta fatto sarà possibile implementare un classificatore per collegare nuovi vettori di input con i cluster precedentemente individuati.\\
-Inoltre, aumentando il livello di complessità, è possibile trovare eventuali gerarchie di partizionamento, ovvero cluster di cluster.\\
-Un esempio di clustering è quello basato sulla distanza euclidea. \\
-E' di fondamentale importanza osservare che nei metodi che si basano sul concetto di distanza è importante ri-scalare i valori delle componenti degli eventi (in linea di principio si possono avere componenti diverse con ordini di grandezza di molto differenti) in modo da evitare che alcune componenti pesino più di altre. \\
-Gli algoritmi di apprendimento non supervisionato sfruttano una misura di similarità per separare gli eventi di input nei vari cluster. Una possibilità è quella di utilizzare la semplice distanza euclidea per poter separare lo spazio n-dimensionale degli eventi in delle sotto-aree (i cluster). \\
-Per fare ciò viene implementato un metodo iterativo, basato sulla definizione di alcuni punti particolari nello spazio degli eventi, detti $\textit{cluster seekers}$ (letteralmente "cercatori di cluster"). \\
-Si definiscono M punti nello spazio n-dimensionale $\vec{C}_{1},...,\vec{C}_{M}$ e l'obiettivo è quello di fare in modo che ogni punto si muova verso il centro di ogni singolo cluster, in modo che ogni cluster abbia al suo centro uno di questi cluster seekers. Inoltre, dato che il numero di cluster non e' conosciuto a priori, il numero M durante la prima iterazione e' arbitrario. \\
-Gli eventi del training data set $\Sigma$ vengono presentati all'algoritmo uno alla volta: per ognuno di essi ($\vec{x}_i$) si cerca il cluster seekers più vicino ($\vec{C}_k$) e lo si sposta verso $\vec{x}_i$ nel seguente modo:
+Quindi un algoritmo di \textit{clustering} si occupa della suddivisione del set di input $\Sigma$ in un numero N di sottogruppi $\Sigma_1$,...,$\Sigma_n$, detti appunto \textit{cluster}; si noti che lo stesso numero N non viene stabilito a priori e fornito all'algoritmo, ma viene anch'esso ricavato a partire dai dati. Una volta fatto sarà possibile implementare un classificatore per collegare nuovi vettori di input con i \textit{cluster} precedentemente individuati.\\
+Inoltre, aumentando il livello di complessità, è possibile trovare eventuali gerarchie di partizionamento, ovvero \textit{cluster} di \textit{cluster}.\\
+Un esempio di \textit{clustering} è quello basato sulla distanza euclidea. In questo caso bisogna porre particolare attenzione al concetto di misura, infatti i vettori evento sono, di norma, costituiti da componenti disomogenee ma, nonostante questo, vengono rappresentati in uno spazio a più dimensioni; quindi, nel calcolare le distanze, bisogna tenere a mente questo concetto.\\
+E' di fondamentale importanza osservare che nei metodi che si basano sul concetto di distanza è importante ri-scalare i valori delle componenti degli eventi (in linea di principio si possono avere componenti diverse con ordini di grandezza di molto differenti) in modo da evitare che alcune componenti pesino più di altre; per fare ciò, ad esempio, si possono suddividere gli intervalli dei valori osservati per ogni componente in un egual numero di \textit{bin}, e su questi calcolare le distanze. \\
+Gli algoritmi di apprendimento non supervisionato sfruttano una misura di similarità per separare gli eventi di input nei vari \textit{cluster}. Una possibilità è quella di utilizzare la semplice distanza euclidea per poter separare lo spazio n-dimensionale degli eventi in delle sotto-aree (i \textit{cluster}). \\
+Per fare ciò viene implementato un metodo iterativo, basato sulla definizione di alcuni punti particolari nello spazio degli eventi, detti \textit{cluster seekers} (letteralmente "cercatori di cluster"). \\
+Si definiscono M punti nello spazio n-dimensionale $\vec{C}_{1},...,\vec{C}_{M}$ e l'obiettivo è quello di fare in modo che ogni punto si muova verso il centro di ogni singolo \textit{cluster}, così che ogni \textit{cluster} abbia al suo centro uno di questi \textit{cluster seekers}. Inoltre, dato che il numero di \textit{cluster} non e' conosciuto a priori, il numero M durante la prima iterazione e' arbitrario. \\
+Gli eventi del \textit{training data set} $\Sigma$ vengono presentati all'algoritmo uno alla volta: per ognuno di essi ($\vec{x}_i$) si cerca il \textit{cluster seekers} più vicino ($\vec{C}_k$) e lo si sposta verso $\vec{x}_i$ nel seguente modo:
 \begin{equation}
 \vec{C}_k + \alpha_k(\vec{x}_i - \vec{C}_k) \rightarrow \vec{C}_k
 \end{equation}
 dove $\alpha_k$ è un parametro di apprendimento che determina di quanto $\vec{C}_k$ si muove verso il punto $\vec{x}_i$. \\
-Dato che l'algoritmo deve spostare ciascun $\vec{C}_k$ al centro del cluster k-esimo, i suoi spostamenti devono essere di entità, in media, sempre minore. Per evitare che $\vec{C}_k$ abbia spostamenti sempre più ampi al crescere delle iterazioni si definisce una massa $m_k$ e le si assegna un valore pari al numero di volte in cui $\vec{C}_k$ è stato soggetto a spostamenti (quindi anche il valore della massa verrà aggiornato di volta in volta); dopodiché si assegna ad $\alpha_k$ il seguente valore
+Dato che l'algoritmo deve spostare ciascun $\vec{C}_k$ al centro del \textit{cluster} k-esimo, i suoi spostamenti devono essere di entità, in media, sempre minore. Per evitare che $\vec{C}_k$ abbia spostamenti sempre più ampi al crescere delle iterazioni si definisce una massa $m_k$ e le si assegna un valore pari al numero di volte in cui $\vec{C}_k$ è stato soggetto a spostamenti (quindi anche il valore della massa verrà aggiornato di volta in volta); dopodiché si assegna ad $\alpha_k$ il seguente valore
 \begin{equation}
 \alpha_k = \frac{1}{1 + m_k}
 \end{equation} 
 e, dato che ad ogni iterazione che coinvolge $\vec{C}_k$ il valore di $m_k$ aumenta di una unità, il parametro di apprendimento $\alpha_k$ diminuisce di volta in volta. \\
-Il risultato di questo aggiustamento è che il cluster seeker si trova sempre nel punto che rappresenta la media dei punti del cluster. \\
-Una volta che sono stati presentati tutti gli eventi del campione di addestramento all'algoritmo, i vari cluster seeker andranno a convergere ai "centri di massa" dei cluster e la classificazione (cioè la delimitazione dei cluster nello spazio n-dimensionale) può essere fatta con una partizione dello spazio di Voronoi, ossia un generico punto (evento) $\vec{x}_i$ viene inserito nel cluster k-esimo se la distanza di tale punto dal cluster seeker $\vec{C}_k$ è minore rispetto alla sua distanza da tutti gli altri cluster seeker. \\
+Il risultato di questo aggiustamento è che il \textit{cluster seeker} si trova sempre nel punto che rappresenta la media dei punti del cluster. \\
+Una volta che sono stati presentati tutti gli eventi del campione di addestramento all'algoritmo, i vari \textit{cluster seekers} andranno a convergere ai "centri di massa" dei \textit{cluster} e la classificazione (cioè la delimitazione dei \textit{cluster} nello spazio n-dimensionale) può essere fatta con una partizione dello spazio di Voronoi, ossia un generico punto (evento) $\vec{x}_i$ viene inserito nel \textit{cluster} k-esimo se la distanza di tale punto dal \textit{cluster seeker} $\vec{C}_k$ è minore rispetto alla sua distanza da tutti gli altri \textit{cluster seekers}. \\
 Un esempio didattico del risultato di questa partizione è riportato in figura ~\ref{Voronoi}.
 
 \newpage
@@ -128,33 +125,16 @@ Un esempio didattico del risultato di questa partizione è riportato in figura ~
 	\label{Voronoi}
 \end{figure}
 
-Si è accennato qualche riga fa che il numero di cluster seeker è inizialmente scelto in maniera casuale, per poi essere ottimizzato; per il processo di ottimizzazione si utilizza la varianza degli eventi $\vec{x}_i$ per ogni cluster:
+Si è accennato qualche riga fa che il numero di \textit{cluster seekers} è inizialmente scelto in maniera casuale, per poi essere ottimizzato; per il processo di ottimizzazione si utilizza la varianza degli eventi $\vec{x}_i$ per ogni \textit{cluster}:
 \begin{equation}
 \sigma^2 = \frac{1}{L}\sum_{i=1}^{L} (\vec{x}_i - \vec{\mu})^2
 \end{equation}
-dove L è il numero di eventi nel cluster e $\vec{\mu}$ ne è la media:
+dove L è il numero di eventi nel \textit{cluster} e $\vec{\mu}$ ne è la media:
 \begin{equation}
 \vec{\mu} = \frac{1}{L}\sum_{i=1}^{L} \vec{x}_i
 \end{equation}
-A questo punto, se la distanza $d_{ij}$ fra due cluster seeker $\vec{C}_i$ e $\vec{C}_j$ è minore di un determinato valore $\epsilon$, allora si sostituiscono i due cluster seeker con uno nuovo posto nel loro centro di massa (tenendo conto delle due masse $m_i$ e $m_j$); dall'altro lato, se vi è un cluster per il quale la varianza $\sigma^2$ è più grande di un valore $\delta$, si aggiunge un nuovo cluster seeker vicino a quello già esistente e si eguagliano entrambe le loro masse a zero.\\
-Come osservazione finale bisogna dire che nei metodi che si basano sul concetto di distanza è importante ri-scalare i valori delle componenti dei pattern (in linea di principio si possono avere componenti diverse con ordini di grandezza di molto differenti) in modo da evitare che alcune componenti pesino più di altre. \\ 
-
-\color{red}
-Come definisco la misura\\
-distanza euclidea = distanza iperpiano... devo specificare meglio come è definita
-
-Riscalare le componenti è importante... che riferimento devo fare alla fisica delle particelle? \\
-bisogna trovare un modo per rendere le quantità omogenee -> bin
-
-
-come scelgo il valore di $\epsilon$ e di $\delta$?
-devo specificare che dipendono dai volumi dei cluster che voglio costruire... volgio che all'interno del cluster gli eventi siano abbastanza compatti -> relazione con signma
-epsilon -> due cerchi vicini e compatti in realtà sono un unico. 
-epsilon dipende dalla risoluzione
-delta dipende dal tipo di analisi statistica che volgio portare avanti
-
-\color{black}
-
+A questo punto, se la distanza $d_{ij}$ fra due \textit{cluster seekers} $\vec{C}_i$ e $\vec{C}_j$ è minore di un determinato valore $\epsilon$, allora si sostituiscono i due \textit{cluster seekers} con uno nuovo posto nel loro centro di massa (tenendo conto delle due masse $m_i$ e $m_j$); dall'altro lato, se vi è un \textit{cluster} per il quale la varianza $\sigma^2$ è più grande di un valore $\delta$, si aggiunge un nuovo \textit{cluster seeker} vicino a quello già esistente e si eguagliano entrambe le loro masse a zero.\\
+La scelta dei valori di $\epsilon$ e $\delta$ dipende dalla tipologia di dati a disposizione; nello specifico $\epsilon$ è legato alla risoluzione sperimentale dei dati, mentre $\delta$ è legato alla varianza e dipende dal fatto che si cerca di avere gli eventi compatti all'intero dei \textit{cluster}.
 
 \newpage
 
@@ -163,28 +143,28 @@ delta dipende dal tipo di analisi statistica che volgio portare avanti
 \subsection{Iperparametri e Grid Search}
 \label{iperparametri e grid search}
 
-Un modello di apprendimento è caratterizzato da una serie di parametri che vengono modificati in maniera iterativa in modo da minimizzare la \textbf{Loss function} e tale processo avviene attraverso un continuo confronto con il \textbf{training data set}.\\ 
+Un modello di apprendimento è caratterizzato da una serie di parametri che vengono modificati in maniera iterativa in modo da minimizzare la \textit{Loss function} e tale processo avviene attraverso un continuo confronto con il \textit{training data set}.\\ 
 Gli iperparametri sono invece una serie di parametri che caratterizzano il modello implementato che non sono modificati nel processo di addestramento ma vengono prestabiliti dall'utente. Gli iperparametri rappresentano delle caratteristiche dell'algoritmo, che possono essere modificate prima di avviare il processo di addestramento, come ad esempio il numero di neuroni in una rete neurale (\ref{reti neurali}), oppure il numero di epoche, cioè il numero di volte in cui viene ripresentato all'algoritmo l'intero campione di dati di addestramento.\\
 E' molto probabile che ci siano configurazioni di iperparametri migliori di altre, cioè per le quali l'addestramento dell'algoritmo produce esiti migliori; di conseguenza anche gli iperparametri devono essere sottoposti ad un processo di ottimizzazione. \\
-Uno dei metodi utilizzati per tale scopo è il \textit{Grid Search}, che è piuttosto semplice da implementare nella pratica. Fa parte dei così detti \textit{Brute-Force Search}, cioè di quei metodi che si basano sulla sistematica verifica di tutte le possibili soluzioni ad un problema per poi considerare la migliore. Per esempio si consideri il problema di dover cercare i divisori di un numero n: un approccio "Brute-Force" prevedrebbe di considerare tutti i numeri minori di n e verificare quelli per i quali la divisione non dà resto. Questo esempio permette anche di mettere in evidenza il limite principale di tale tipologia di approccio: il numero di possibilità da esplorare può aumentare molto velocemente, soprattutto se si considera un processo multivariato. \\
-Per il Grid Search si consideri un modello caratterizzato da un numero k di iperparametri, quindi e' possibile creare un vettore le cui componenti siano gli iperparametri stessi:
+Uno dei metodi utilizzati per tale scopo è il \textit{Grid Search}, che è piuttosto semplice da implementare nella pratica. Fa parte dei così detti \textit{Brute-Force Search}, cioè di quei metodi che si basano sulla sistematica verifica di tutte le possibili soluzioni ad un problema per poi considerare la migliore. Per esempio si consideri il problema di dover cercare i divisori di un numero n: un approccio \textit{Brute-Force} prevedrebbe di considerare tutti i numeri minori di n e verificare quelli per i quali la divisione non dà resto. Questo esempio permette anche di mettere in evidenza il limite principale di tale tipologia di approccio: il numero di possibilità da esplorare può aumentare molto velocemente, soprattutto se si considera un processo multivariato. \\
+Per il Grid Search si consideri un modello caratterizzato da un numero k di iperparametri, quindi è possibile creare un vettore le cui componenti siano gli iperparametri stessi:
 \begin{equation}
 \vec{\mu} = (\mu_1,...,\mu_k)
 \end{equation}
 Tale vettore appartiene ad uno spazio k-dimensionale, sul quale può essere costruita una griglia i cui nodi corrispondono a particolari combinazioni degli iperparametri. \\
-A questo punto si può avviare l'apprendimento del modello per ogni particolare configurazione degli iperparametri ed ottenere un valore per la \textbf{Loss function}, e quindi la miglior configurazione sarà quella che minimizza tale funzione. \\
-In Figura~\ref{fig:Grid Search} nella pagina seguente è riportato per chiarezza un esempio visivo dell'esito di un processo di ottimizzazione degli iperparametri attraverso il metodo Grid Search.
+A questo punto si può avviare l'apprendimento del modello per ogni particolare configurazione degli iperparametri ed ottenere un valore per la \textit{Loss function}, e quindi la miglior configurazione sarà quella che minimizza tale funzione. \\
+In Figura~\ref{fig:Grid Search} nella pagina seguente è riportato per chiarezza un esempio visivo dell'esito di un processo di ottimizzazione degli iperparametri attraverso il metodo del \textit{Grid Search}.
 
 \begin{figure}[h!]
 	\includegraphics[width=\linewidth]{figs/Grid_immagine.png}
-	\caption{la figura illustra visivamente l'esito di un processo di ottimizzazione degli iperparametri attraverso il metodo Grid Search \cite{knuthwebsite}}
+	\caption{la figura illustra visivamente l'esito di un processo di ottimizzazione degli iperparametri attraverso il metodo del \textit{Grid Search} \cite{knuthwebsite}}
 	\label{fig:Grid Search}
 \end{figure}
 \newpage 
 
-Come accennato precedentemente, man mano che aumenta la complessità del modello è molto probabile che aumenti il numero degli iperparametri e quindi la dimensionalità dello spazio introdotto precedentemente; ciò implica l'aumento considerevole del numero di configurazioni degli iperparametri da esplorare attraverso il Grid Search e quindi il tempo necessario per concludere l'ottimizzazione.\\
-E' possibile ovviare parzialmente a questo problema attraverso il Random Grid Search (RGS), dove non sono considerati tutti i nodi della griglia, ma solo una loro parte selezionata in maniera casuale secondo una particolare distribuzione, scelta in modo arbitrario al momento dell'implementazione del RGS. \\
-Un ulteriore accorgimento può  essere quello di bloccare l'ottimizzazione di alcune configurazioni che sembrano meno promettenti, ad esempio quando superano un certo valore della \textbf{Loss function}, evitando che il processo di apprendimento venga completato su tutti i nodi. Per far ciò, è possibile implementare degli $\textit{scheduler}$ che tengano conto dell'andamento dei diversi training relativi alle diverse configurazioni. Un approccio diverso è quello di esplorare nuove varianti a partire dalle configurazioni iniziali. In quest'ultimo caso non è nemmeno necessario definire in modo rigido lo spazio degli iperparamentri da esplorare dato che le nuove configurazioni vengono ricercate a partire dall'andamento delle precedenti ($\textit{popultion based training}$).
+Come accennato precedentemente, man mano che aumenta la complessità del modello è molto probabile che aumenti il numero degli iperparametri e quindi la dimensionalità dello spazio introdotto precedentemente; ciò implica l'aumento considerevole del numero di configurazioni degli iperparametri da esplorare attraverso il \textit{Grid Search} e quindi il tempo necessario per concludere l'ottimizzazione.\\
+E' possibile ovviare parzialmente a questo problema attraverso il \textit{Random Grid Search} (RGS), dove non sono considerati tutti i nodi della griglia, ma solo una loro parte selezionata in maniera casuale secondo una particolare distribuzione, scelta in modo arbitrario al momento dell'implementazione del RGS. \\
+Un ulteriore accorgimento può  essere quello di bloccare l'ottimizzazione di alcune configurazioni che sembrano meno promettenti, ad esempio quando superano un certo valore della \textit{Loss function}, evitando che il processo di apprendimento venga completato su tutti i nodi. Per far ciò, è possibile implementare degli $\textit{scheduler}$ che tengano conto dell'andamento dei diversi training relativi alle diverse configurazioni. Un approccio diverso è quello di esplorare nuove varianti a partire dalle configurazioni iniziali. In quest'ultimo caso non è nemmeno necessario definire in modo rigido lo spazio degli iperparamentri da esplorare dato che le nuove configurazioni vengono ricercate a partire dall'andamento delle precedenti ($\textit{popultion based training}$).
 
 \newpage
 
@@ -211,7 +191,7 @@ Gli elementi che caratterizzano il singolo neurone sono:
 	\item Un output e la relativa funzione di attivazione, che viene usata per limitarne l'ampiezza (tipicamente ad intervalli [0,1] o [-1,1]);
 	\item Un valore di soglia che viene usato per aumentare o diminuire il valore ottenuto dalla somma pesata.
 \end{enumerate}
-Si riporta in figura \ref{schema_neurone} lo schema grafico di un singolo neurone (k), dove $\vec{x} = (x_1 ,..., x_m)$ è il vettore degli input input, $\vec{w}_k = (w_{k1} ,..., w_{km})$ è il vettore dei pesi, $\phi$(x) è la funzione di attivazione, $b_k$ è il valore di soglia e $y_k$ è l'output.
+Si riporta in figura \ref{schema_neurone} lo schema grafico di un singolo neurone (k), dove $\vec{x} = (x_1 ,..., x_m)$ è il vettore degli input, $\vec{w}_k = (w_{k1} ,..., w_{km})$ è il vettore dei pesi, $\phi$(x) è la funzione di attivazione, $b_k$ è il valore di soglia e $y_k$ è l'output.
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.70\textwidth]{figs/schema_neurone.png}
@@ -239,19 +219,18 @@ dove $\alpha$ è un parametro che permette di regolare la pendenza della curva, 
 	\label{sigmoide}
 \end{figure}
 \newpage
-Un singolo neurone è l'ingrediente fondamentale di una rete neurale e nella gran parte dei casi non è in grado di ottenere da solo nessuna classificazione degli input. Tuttavia esiste una caso particolare nel quale un singolo neurone può portare a termine un compito di classificazione; affinché ciò sia possibile è necessario che i vettori evento siano riconducibili a due sole categorie e che il loro spazio possa essere separato (in relazione alle due categorie) da un singolo iper-piano. In questo caso esiste un teorema di convergenza che garantisce la convergenza dei pesi nel processo di addestramento.
-
+Un singolo neurone è l'ingrediente fondamentale di una rete neurale e nella gran parte dei casi non è in grado di ottenere da solo nessuna classificazione degli input. Tuttavia esiste una caso particolare nel quale un singolo neurone può portare a termine un compito di classificazione; affinché ciò sia possibile è necessario che i vettori evento siano riconducibili a due sole categorie e che il loro spazio possa essere separato (in relazione alle due categorie) da un singolo iper-piano. In questo caso esiste un teorema di convergenza che garantisce la convergenza dei pesi nel processo di addestramento.\\
 A questo punto è possibile passare ad un livello di complessità superiore, osservando in che modo possono essere organizzati i neuroni per formare la rete neurale; si distinguono due tipologie di reti:
 \begin{enumerate}
-	\item Reti feedforward con uno o più strati: in questo caso il segnale si propaga dai nodi di input verso quelli di output, senza connessioni fra i neuroni di uno stesso strato;
-	\item Reti feedback: sono reti cicliche dove il segnale si propaga anche fra i neuroni di uno stesso strato.
+	\item Reti \textit{feedforward} con uno o più strati: in questo caso il segnale si propaga dai nodi di input verso quelli di output, senza connessioni fra i neuroni di uno stesso strato;
+	\item Reti \textit{feedback}: sono reti cicliche dove il segnale si propaga anche fra i neuroni di uno stesso strato.
 \end{enumerate}
 L'apprendimento di un singolo neurone dipende dalla struttura della rete e dal tipo di input ed output fornito alla rete. Nel caso in cui l'output target sia noto si può utilizzare il metodo dell'apprendimento con correzione di errore. \\
 Si consideri un singolo neurone che ha in ingresso una serie di input $(x_1,...,x_n)$ e quindi produce un valore di output $y$ attraverso la somma pesata già introdotta precedentemente; tale valore può quindi essere confrontata con il risultato atteso $R$, ottenendo così un errore $err = R - y$; si può quindi definire la funzione di costo
 \begin{equation}
 E = \frac{1}{2}err^2
 \end{equation}
-sulla quale si applicherà il metodo di discesa del gradiente già discusso nel paragrafo~\ref{discesa del gradiente} per ottimizzare i parametri.\\
+sulla quale si applicherà il metodo di discesa del gradiente già discusso nel paragrafo~\ref{app_sup} per ottimizzare i parametri.\\
 Una rete neurale può svolgere diverse funzioni, tuttavia quella principale che viene utilizzata in questa tesi prende il nome di riconoscimento. Il riconoscimento consiste nell'associazione da parte della rete di un vettore evento ad una delle varie categorie possibili. Tale obiettivo può essere ottenuto a seguito di una fase di addestramento dove vengono forniti alla rete sia i vettori in input che le categorie alle quali questi appartengono (si tratta chiaramente di un processo di apprendimento supervisionato). Si ipotizzi di avere a disposizione dei vettori evento con un numero n di componenti (i dati) che rappresentano dei punti in uno spazio n-dimensionale; questo spazio potrà essere allora diviso in delle regioni che corrispondono alle varie categorie ed i confini di queste regioni si ottengono a seguito del processo di addestramento. \\
 Durante l'addestramento ogni singolo neurone deve aggiornare i suoi pesi in modo che l'output della rete sia simile a quello atteso. \\
 Uno dei metodi migliori per addestrare la rete neurale è l'algoritmo di back-propagation. \\
@@ -259,7 +238,7 @@ Per l'implementazione di questo algoritmo si introduce un segnale di input che d
 Nel caso della back-propagation bisogna fare una distinzione tra l'addestramento dei neuroni nello strato di output e negli strati nascosti:
 \begin{enumerate}
 	\item Neurone nello strato di output.\\
-	Un neurone di output k, quando gli verrà fornito l'elemento j del \textbf{training data set}, avrà un errore:
+	Un neurone di output k, quando gli verrà fornito l'elemento j del \textit{training data set}, avrà un errore:
 	\begin{equation}
 	err_k^{(j)} = R_k^{(j)} - y_k^{(j)}
 	\end{equation}
@@ -269,7 +248,7 @@ Nel caso della back-propagation bisogna fare una distinzione tra l'addestramento
 	E^{(j)} = \frac{1}{2} \sum_{k=1}^{n} (err_k^{(j)})^2
 	\end{equation}
 	dove n è il numero di neuroni nello strato di output. \\
-	Se poi N è il numero totale di elementi del training data set, allora la funzione di costo può essere definita nel seguente modo:
+	Se poi N è il numero totale di elementi del \textit{training data set}, allora la funzione di costo può essere definita nel seguente modo:
 	\begin{equation}
 	E_{tot} = \frac{1}{N}\sum_{j=1}^{N} E^{(j)}
 	\end{equation}
@@ -302,9 +281,9 @@ Nel caso della back-propagation bisogna fare una distinzione tra l'addestramento
 	\end{equation}
 	
 	\item Neurone in uno strato nascosto \\
-	In questo caso l'output del neurone non ha un diretto valore con il quale può essere confrontato, quindi il segnale di errore deve essere determinato a partire dai segnali di errore di tutti i neuroni dello strato successivo, da cui il nome di back-propagation proprio perché il segnale di errore prosegue all'indietro dall'output verso l'input.
+	In questo caso l'output del neurone non ha un diretto valore con il quale può essere confrontato, quindi il segnale di errore deve essere determinato a partire dai segnali di errore di tutti i neuroni dello strato successivo, da cui il nome di \textit{back-propagation} proprio perché il segnale di errore prosegue all'indietro dall'output verso l'input.
 \end{enumerate}
-Come ultima considerazione sulle reti neurali bisogna sottolineare che il \textit{learning rate} deve essere scelto in maniera accurata, infatti se fosse troppo piccolo si avrebbe una convergenza estremamente lenta e, viceversa, un valore troppo grande porterebbe ad una instabilità con comportamento oscillatorio. Per gestire meglio questo aspetto, nella pratica viene definito un learning rate variabile. Generalmente si fa in modo che questo fattore parta da un certo valore per decrescere mano mano che si ci avvicina ad una soluzione ottimale. In prima istanza infatti è utile avere un valore abbastanza grande da poter seguire in modo efficace la discesa del gradiente, rendendo più rapida la ricerca della soluzione ottimale. Successivamente, però, risulta utile diminuire questo stesso parametro per evitare oscillazioni attorno al punto di minimo.
+Come ultima considerazione sulle reti neurali bisogna sottolineare che il \textit{learning rate} deve essere scelto in maniera accurata, infatti se fosse troppo piccolo si avrebbe una convergenza estremamente lenta e, viceversa, un valore troppo grande porterebbe ad una instabilità con comportamento oscillatorio. Per gestire meglio questo aspetto, nella pratica viene definito un \textit{learning rate} variabile. Generalmente si fa in modo che questo fattore parta da un certo valore per decrescere mano mano che si ci avvicina ad una soluzione ottimale. In prima istanza infatti è utile avere un valore abbastanza grande da poter seguire in modo efficace la discesa del gradiente, rendendo più rapida la ricerca della soluzione ottimale. Successivamente, però, risulta utile diminuire questo stesso parametro per evitare oscillazioni attorno al punto di minimo.
 
 \newpage
 
@@ -328,17 +307,17 @@ Gli elementi che caratterizzano un albero decisionale sono:
 	\item Nodo. \\
 	I nodi sono riportati in figura \ref{schemaDT} come dei cerchi colorati in azzurro e contrassegnati dalla lettera N. Ogni nodo si occupa di eseguire un test su di un singolo attributo (il nodo iniziale dove avviene il primo test e quindi la prima differenziazione degli input è detto "root node");
 	\item Ramo. \\
-	I rami (detti anche archi) determinano le regole di "splitting", ovvero le regole attraverso le quali vengono separati gli esempi nelle rispettive categorie a seconda dei loro attributi; tali rami determinano quindi i percorsi all'interno degli alberi decisionali e la classificazione finale;
+	I rami (detti anche archi) determinano le regole di \textit{splitting}, ovvero le regole attraverso le quali vengono separati gli esempi nelle rispettive categorie a seconda dei loro attributi; tali rami determinano quindi i percorsi all'interno degli alberi decisionali e la classificazione finale;
 	\item Foglie. \\
 	Le foglie sono una classe particolare di nodi, ovvero i nodi finali che, in quanto tali, non generano nuove diramazioni ma rappresentano il risultato finale del processo di classificazione.
 \end{itemize}
 
 Nella costruzione degli alberi decisionali bisogna distinguere due fasi successive:
 \begin{itemize}
-	\item "Building", ovvero costruzione.\\
-	In questo prima fase l'obiettivo è quello di far crescere l'albero in dimensione, quindi in termini di rami e nodi per avere un numero adeguato di regole di splitting così da ottenere una classificazione in classi omogenee nella fase finale. In questa prima fase si ottiene un albero particolarmente folto e quindi probabilmente soggetto all'overfitting (come primo argine a ciò è possibile introdurre un criterio d'arresto capace di fermare la crescita dell'albero al realizzarsi di particolari condizioni);
-	\item "Pruning", ovvero potatura.\\
-	Questa fase è quella che permette di ridurre l'overfitting perché vengono eliminati i rami che non contribuiscono in maniera significativa al processo di classificazione.
+	\item \textit{Building}, ovvero costruzione.\\
+	In questo prima fase l'obiettivo è quello di far crescere l'albero in dimensione, quindi in termini di rami e nodi per avere un numero adeguato di regole di \textit{splitting} così da ottenere una classificazione in classi omogenee nella fase finale. In questa prima fase si ottiene un albero particolarmente folto e quindi probabilmente soggetto all'\textit{overfitting} (come primo argine a ciò è possibile introdurre un criterio d'arresto capace di fermare la crescita dell'albero al realizzarsi di particolari condizioni);
+	\item \textit{Pruning}, ovvero potatura.\\
+	Questa fase è quella che permette di ridurre l'\textit{overfitting} perché vengono eliminati i rami che non contribuiscono in maniera significativa al processo di classificazione.
 	
 \end{itemize} 
 
@@ -349,7 +328,7 @@ Poiché ciascun nodo agisce su una singola variabile dei vettori di input, è po
 \end{itemize}  
 
 E' chiaro che entrambi questi indici vengono utilizzati con la stessa finalità, tuttavia ogni algoritmo ha una differente logica di costruzione e quindi adotterà uno solo dei due indici, con la possibilità di ottenere risultati differenti. \\
-Una volta costruito l'albero decisionale, i metodi per il \textbf{pruning} sono sostanzialmente due: da un lato si può seguire un approccio "top-down", partendo dalla radice e suddividendo l'intera struttura in sotto alberi e dall'altro un approccio "bottom-up", partendo dalle foglie ed analizzando l'impatto di ogni singola potatura. E' altresì possibile introdurre nella fase di costruzione stessa un criterio di $\textbf{early-stopping}$ o $\textbf{pre-pruning}$ richiedendo un valore minimo di miglioramento dell'algoritmo fra un'iterazione e l'altra: ad ogni passaggio di separazione dell'albero decisionale viene fatto un controllo sulla \textbf{Loss function} e, se tale errore non diminuisce significativamente tra un passaggio e l'altro, si interrompe il processo di costruzione dell'albero. Il problema dell'\textbf{early stopping} è che non tiene conto dell'impatto della selezione sui nodi successivi; per questa ragione in genere si utilizzano entrambi i metodi di $\textbf{pruning}$ e di $\textbf{early stopping}$ parallelamente, per poi confrontare i risultati. \\
+Una volta costruito l'albero decisionale, i metodi per il \textit{pruning} sono sostanzialmente due: da un lato si può seguire un approccio "top-down", partendo dalla radice e suddividendo l'intera struttura in sotto alberi e dall'altro un approccio "bottom-up", partendo dalle foglie ed analizzando l'impatto di ogni singola potatura. E' altresì possibile introdurre nella fase di costruzione stessa un criterio di \textit{early-stopping} o \textit{pre-pruning} richiedendo un valore minimo di miglioramento dell'algoritmo fra un'iterazione e l'altra: ad ogni passaggio di separazione dell'albero decisionale viene fatto un controllo sulla \textbf{Loss function} e, se tale errore non diminuisce significativamente tra un passaggio e l'altro, si interrompe il processo di costruzione dell'albero. Il problema dell'\textbf{early stopping} è che non tiene conto dell'impatto della selezione sui nodi successivi; per questa ragione in genere si utilizzano entrambi i metodi di \textit{pruning} e di \textit{early stopping}$ parallelamente, per poi confrontare i risultati. \\
 
 Gli alberi decisionali hanno vari pregi, fra i quali quello di essere caratterizzati da una particolare semplicità nell'interpretazione e nella visualizzazione, ed essere insensibili ad eventuali componenti degli eventi irrilevanti nella classificazione; inoltre sono caratterizzati da una tolleranza ad eventuali attributi mancanti per alcuni input nel \textbf{training data set} o nel \textbf{test data set} e da una invarianza per trasformazioni monotone effettuate sulle variabili degli input, che rende la fase di pre-processamento dei dati non necessaria. Dall'altro lato ci sono una serie di limiti, come l'instabilità rispetto al variare del \textbf{training data set}, cioè data set di allenamento di poco differenti fra loro producono risultati molto diversi, oppure il frequente problema dell'\textbf{overfitting}. \\
 E' possibile anche combinare più alberi decisionali insieme per ottenere migliori prestazioni predittive. Una delle tecniche per tale combinazione è il $\textit{Bagging}$, dove vengono generati in maniera casuale dei sottogruppi del training data set ed ognuno di questi viene utilizzato per l'addestramento di un albero decisionale. Il risultato sarà una collezione di alberi decisionali e, come decisione finale, si utilizzerà la media delle decisioni dei singoli alberi. \\
