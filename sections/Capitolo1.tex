@@ -17,7 +17,7 @@ Una volta individuate le quantità che si vogliono utilizzare per separare il ca
 	\item Analisi multi-variata come, ad esempio, l'analisi discriminante lineare;
 	\item Machine Learning, cioè sistemi che permettono l'apprendimento automatico e quindi l'algoritmo è in grado di imparare in maniera autonoma direttamente dai dati che gli vengono forniti.
 \end{enumerate}
-E' importante sancire in maniera netta il confine fra l'analisi multivariata classica ed il \textit{machine learning}. Si dice che un algoritmo apprende un qualche compito C dall'esperienza E, con una performance P, se la sua performance P migliora nello svolgere il compito C con l'esperienza E. Quindi, in questo caso specifico, si può affermare che la discriminante fondamentale è se l'algoritmo continui a migliorare o meno la sua prestazione all'aumentare degli eventi che gli vengono presentati.
+Di fondamentale importanza è sancire in maniera netta il confine fra l'analisi multivariata classica ed il machine learning. Si dice che un algoritmo apprende un qualche compito C dall'esperienza E, con una performance P, se la sua performance P migliora nello svolgere il compito C con l'esperienza E. Quindi, in questo caso specifico, si può affermare che la discriminante fondamentale è se l'algoritmo continui a migliorare o meno la sua prestazione all'aumentare degli eventi che gli vengono presentati.
 
 \newpage
 
@@ -56,7 +56,7 @@ Per ottenere una ottimizzazione del valore di selezione uno dei metodi più comu
 \begin{equation}
 F(\vec{\theta}) = \frac{(\vec\mu_s - \vec\mu_b)^2}{\sigma_s^2 + \sigma_b^2}
 \end{equation} 
-Il discriminante lineare e' il sistema multivariato con la forma funzionale più semplice. Si possono costruire metodi sempre più complessi nella forma funzionale, come la funzione di massima verosimiglianza. Si consideri un campione di n misure indipendenti fra loro ($\vec{x}_1 , \vec{x}_2 , ... , \vec{x}_n$), allora la funzione di massima verosimiglianza L rappresenta la densità di probabilità di ottenere tali misure, una volta fissato il valore dei parametri $\vec{\theta}$ della distribuzione:
+Il discriminante lineare è il sistema multivariato con la forma funzionale più semplice. Si possono costruire metodi sempre più complessi nella forma funzionale, come la funzione di massima verosimiglianza. Si consideri un campione di n misure indipendenti fra loro ($\vec{x}_1 , \vec{x}_2 , ... , \vec{x}_n$), allora la funzione di massima verosimiglianza L rappresenta la densità di probabilità di ottenere tali misure, una volta fissato il valore dei parametri $\vec{\theta}$ della distribuzione:
 \begin{equation}
 	L(\vec{\theta};\vec{x}_1 , \vec{x}_2 , ... , \vec{x}_n) = 
 	F_{\vec{x}} (\vec{x}_1 , \vec{x}_2 , ... , \vec{x}_n )
@@ -80,7 +80,7 @@ La stima di massima verosimiglianza è quella che si ottiene scegliendo $\vec{\t
 \subsection{Machine Learning}
 \label{ML}
 
-I sistemi multivariati descritti in sezione \ref{metodi lineari e discriminante di Fisher} dipendono fortemente dalla scelta dell'analista della funzione, o del metodo, da utilizzare per applicare la selezione del proprio campione. Il \textit{machine learning} invece sfrutta algoritmi in grado di apprendere in maniera semi-autonoma la struttura dei campioni di fondo e segnale, ed è quindi in grado di stabilire quale sia il modo migliore per separare tali campioni. \\
+I sistemi multivariati descritti in sezione \ref{metodi lineari e discriminante di Fisher} dipendono fortemente dalla scelta dell'analista della funzione, o del metodo, da utilizzare per applicare la selezione del proprio campione. Il machine learning invece sfrutta algoritmi in grado di apprendere in maniera semi-autonoma la struttura dei campioni di fondo e segnale, ed è quindi in grado di stabilire quale sia il modo migliore per separare tali campioni. \\
 L'approccio classico all'analisi dei dati prevede la disponibilità di un modello matematico, che dipende da una serie di parametri incogniti. Questi parametri vengono ricavati a partire dai dati sperimentali attraverso processi che possono essere sia analitici che numerici. \\
 A differenza dei sistemi descritti fin ora, i sistemi di selezione autonoma non necessitano di un modello fisico-matematico su cui basare la propria selezione. \\
 Bisogna distinguere tre macro-tipologie di approccio all'analisi dati nel machine learning:

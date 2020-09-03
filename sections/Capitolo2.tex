@@ -67,7 +67,7 @@ Esistono tre varianti del metodo di discesa del gradiente, che differiscono per 
 	Questa tecnica è, all'opposto della precedente, utile quando il numero di eventi di input è molto elevato, perché non è necessario calcolare la \textit{loss} totale prima di procedere con l'aggiornamento dei parametri. \\
 		
 	\item $\textit{Mini Batch Gradient Descent}$. \\
-	In questo caso si calcola la variazione come nel metodo Batch ma, invece di calcolare $\vec{G}$ per il campione totale, viene calcolato per un sottocampione, in modo da ridurre i dati in esame. Così facendo si riesce a diminuire il tempo necessario per il calcolo riducendo il campione statistico.
+	In questo caso si calcola la variazione come nel metodo \textit{batch} ma, invece di calcolare $\vec{G}$ per il campione totale, viene calcolato per un sottocampione, in modo da ridurre i dati in esame. Così facendo si riesce a diminuire il tempo necessario per il calcolo riducendo il campione statistico.
 	
 \end{itemize}
 
@@ -93,10 +93,10 @@ In figura \ref{Unsup} sono riportate tre diverse configurazioni possibili nel ca
 Quindi un algoritmo di \textit{clustering} si occupa della suddivisione del set di input $\Sigma$ in un numero N di sottogruppi $\Sigma_1$,...,$\Sigma_n$, detti \textit{cluster}; si noti che lo stesso numero N non viene stabilito a priori e fornito all'algoritmo, ma viene anch'esso ricavato a partire dai dati. Una volta fatto sarà possibile implementare un classificatore per collegare nuovi vettori di input con i \textit{cluster} precedentemente individuati.\\
 Inoltre, aumentando il livello di complessità, è possibile trovare eventuali gerarchie di partizionamento, ovvero \textit{cluster} di \textit{cluster}.\\
 Un esempio di \textit{clustering} è quello basato sulla distanza euclidea. In questo caso bisogna porre particolare attenzione al concetto di misura, infatti i vettori evento sono, di norma, costituiti da componenti disomogenee ma, nonostante questo, vengono rappresentati in uno spazio a più dimensioni.\\
-E' di fondamentale importanza osservare che nei metodi che si basano sul concetto di distanza è importante ri-scalare i valori delle componenti degli eventi (in linea di principio si possono avere componenti diverse con ordini di grandezza di molto differenti) in modo da evitare che alcune componenti pesino più di altre; per fare ciò, ad esempio, si possono suddividere gli intervalli dei valori osservati per ogni componente in un egual numero di \textit{bin}, e su questi calcolare le distanze. \\
+Nei metodi che si basano sul concetto di distanza è di fondamentale importanza ri-scalare i valori delle componenti degli eventi (in linea di principio si possono avere componenti diverse con ordini di grandezza di molto differenti) in modo da evitare che alcune componenti pesino più di altre; per fare ciò, ad esempio, si possono suddividere gli intervalli dei valori osservati per ogni componente in un egual numero di \textit{bin}, e su questi calcolare le distanze. \\
 Gli algoritmi di apprendimento non supervisionato sfruttano una misura di similarità per separare gli eventi di input nei vari \textit{cluster}. Una possibilità è quella di utilizzare la semplice distanza euclidea per poter separare lo spazio n-dimensionale degli eventi in delle sotto-aree (i \textit{cluster}). \\
 Per fare ciò viene implementato un metodo iterativo, basato sulla definizione di alcuni punti particolari nello spazio degli eventi, detti \textit{cluster seekers} (letteralmente "cercatori di cluster"). \\
-Si definiscono M punti nello spazio n-dimensionale $\vec{C}_{1},...,\vec{C}_{M}$ e l'obiettivo è quello di fare in modo che ogni punto si muova verso il centro di ogni singolo \textit{cluster}, così che ogni \textit{cluster} abbia al suo centro uno di questi \textit{cluster seekers}. Inoltre, dato che il numero di \textit{cluster} non e' conosciuto a priori, il numero M durante la prima iterazione e' arbitrario. \\
+Si definiscono M punti nello spazio n-dimensionale $\vec{C}_{1},...,\vec{C}_{M}$ e l'obiettivo è quello di fare in modo che ogni punto si muova verso il centro di ogni singolo \textit{cluster}, così che ogni \textit{cluster} abbia al suo centro uno di questi \textit{cluster seekers}. Inoltre, dato che il numero di \textit{cluster} non è conosciuto a priori, il numero M durante la prima iterazione è arbitrario. \\
 Gli eventi del \textit{training data set} $\Sigma$ vengono presentati all'algoritmo uno alla volta: per ognuno di essi ($\vec{x}_i$) si cerca il \textit{cluster seekers} più vicino ($\vec{C}_k$) e lo si sposta verso $\vec{x}_i$ nel seguente modo:
 \begin{equation}
 \vec{C}_k + \alpha_k(\vec{x}_i - \vec{C}_k) \rightarrow \vec{C}_k
@@ -109,14 +109,14 @@ Dato che l'algoritmo deve spostare ciascun $\vec{C}_k$ al centro del \textit{clu
 e, dato che ad ogni iterazione che coinvolge $\vec{C}_k$ il valore di $m_k$ aumenta di una unità, il parametro di apprendimento $\alpha_k$ diminuisce di volta in volta. \\
 Il risultato di questo aggiustamento è che il \textit{cluster seeker} si trova sempre nel punto che rappresenta la media dei punti del cluster. \\
 Una volta che sono stati presentati tutti gli eventi del campione di addestramento all'algoritmo, i vari \textit{cluster seekers} andranno a convergere ai "centri di massa" dei \textit{cluster} e la classificazione (cioè la delimitazione dei \textit{cluster} nello spazio n-dimensionale) può essere fatta con una partizione dello spazio di Voronoi, ossia un generico punto (evento) $\vec{x}_i$ viene inserito nel \textit{cluster} k-esimo se la distanza di tale punto dal \textit{cluster seeker} $\vec{C}_k$ è minore rispetto alla sua distanza da tutti gli altri \textit{cluster seekers}. \\
-Un esempio didattico del risultato di questa partizione è riportato in figura ~\ref{Voronoi}.
+Un esempio didattico del risultato di questa partizione è riportato in figura \ref{Voronoi}.
 
 \newpage
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.70\textwidth]{figs/Voronoi.png}
-	\caption{Si riporta un esempio di partizione dello spazio (bi-dimensionale) di Voronoi in tre sotto regioni, dove i punti $C_1$, $C_2$ e $C_3$ sono i cluster seeker. L'immagine è presa da \cite{IntroML}}
+	\caption{Si riporta un esempio di partizione dello spazio (bi-dimensionale) di Voronoi in tre sotto regioni, dove i punti $C_1$, $C_2$ e $C_3$ sono i \textit{cluster seekers}. L'immagine è presa da \cite{IntroML}}
 	\label{Voronoi}
 \end{figure}
 
@@ -140,7 +140,7 @@ La scelta dei valori di $\epsilon$ e $\delta$ dipende dalla tipologia di dati a 
 
 Un modello di apprendimento è caratterizzato da una serie di parametri che vengono modificati in maniera iterativa in modo da minimizzare la \textit{Loss function} e tale processo avviene attraverso un continuo confronto con il \textit{training data set}.\\ 
 Gli iperparametri sono invece una serie di parametri che caratterizzano il modello implementato che non sono modificati nel processo di addestramento ma vengono prestabiliti dall'utente. Gli iperparametri rappresentano delle caratteristiche dell'algoritmo, che possono essere modificate prima di avviare il processo di addestramento, come ad esempio il numero di neuroni in una rete neurale (\ref{reti neurali}), oppure il numero di epoche, cioè il numero di volte in cui viene ripresentato all'algoritmo l'intero campione di dati di addestramento.\\
-E' molto probabile che ci siano configurazioni di iperparametri migliori di altre, cioè per le quali l'addestramento dell'algoritmo produce esiti migliori; di conseguenza anche gli iperparametri devono essere sottoposti ad un processo di ottimizzazione. \\
+È molto probabile che ci siano configurazioni di iperparametri migliori di altre, cioè per le quali l'addestramento dell'algoritmo produce esiti migliori; di conseguenza anche gli iperparametri devono essere sottoposti ad un processo di ottimizzazione. \\
 Uno dei metodi utilizzati per tale scopo è il \textit{Grid Search}, che è piuttosto semplice da implementare nella pratica. Fa parte dei così detti \textit{Brute-Force Search}, cioè di quei metodi che si basano sulla sistematica verifica di tutte le possibili soluzioni ad un problema per poi considerare la migliore. Per esempio si consideri il problema di dover cercare i divisori di un numero n: un approccio \textit{Brute-Force} prevedrebbe di considerare tutti i numeri minori di n e verificare quelli per i quali la divisione non dà resto. Questo esempio permette anche di mettere in evidenza il limite principale di tale tipologia di approccio: il numero di possibilità da esplorare può aumentare molto velocemente, soprattutto se si considera un processo multivariato. \\
 Per il Grid Search si consideri un modello caratterizzato da un numero k di iperparametri, quindi è possibile creare un vettore le cui componenti siano gli iperparametri stessi:
 \begin{equation}
@@ -158,7 +158,7 @@ In Figura~\ref{fig:Grid Search} nella pagina seguente è riportato per chiarezza
 \newpage 
 
 Come accennato precedentemente, man mano che aumenta la complessità del modello è molto probabile che aumenti il numero degli iperparametri e quindi la dimensionalità dello spazio introdotto precedentemente; ciò implica l'aumento considerevole del numero di configurazioni degli iperparametri da esplorare attraverso il \textit{Grid Search} e quindi il tempo necessario per concludere l'ottimizzazione.\\
-E' possibile ovviare parzialmente a questo problema attraverso il \textit{Random Grid Search} (RGS), dove non sono considerati tutti i nodi della griglia, ma solo una loro parte selezionata in maniera casuale secondo una particolare distribuzione, scelta in modo arbitrario al momento dell'implementazione del RGS. \\
+È possibile ovviare parzialmente a questo problema attraverso il \textit{Random Grid Search} (RGS), dove non sono considerati tutti i nodi della griglia, ma solo una loro parte selezionata in maniera casuale secondo una particolare distribuzione, scelta in modo arbitrario al momento dell'implementazione del RGS. \\
 Un ulteriore accorgimento può  essere quello di bloccare l'ottimizzazione di alcune configurazioni che sembrano meno promettenti, ad esempio quando superano un certo valore della \textit{Loss function}, evitando che il processo di apprendimento venga completato su tutti i nodi. Per far ciò, è possibile implementare degli $\textit{scheduler}$ che tengano conto dell'andamento dei diversi training relativi alle diverse configurazioni. Un approccio diverso è quello di esplorare nuove varianti a partire dalle configurazioni iniziali. In quest'ultimo caso non è nemmeno necessario definire in modo rigido lo spazio degli iperparamentri da esplorare dato che le nuove configurazioni vengono ricercate a partire dall'andamento delle precedenti ($\textit{popultion based training}$).
 
 \newpage
@@ -226,9 +226,9 @@ E = \frac{1}{2}err^2
 che verrà minimizzata utilizzando degli algoritmi di ottimizzazione come quelli descritti in \ref{app_sup}.\\
 Una rete neurale può svolgere diverse funzioni, tuttavia quella principale che viene utilizzata in questa tesi prende il nome di riconoscimento. Il riconoscimento consiste nell'associazione da parte della rete di un vettore evento ad una delle varie categorie possibili. Tale obiettivo può essere ottenuto a seguito di una fase di addestramento dove vengono forniti alla rete sia i vettori in input che le categorie alle quali questi appartengono. Si ipotizzi di avere a disposizione dei vettori evento con un numero n di componenti (i dati) che rappresentano dei punti in uno spazio n-dimensionale; questo spazio potrà essere allora diviso in delle regioni che corrispondono alle varie categorie ed i confini di queste regioni si ottengono a seguito del processo di addestramento. \\
 Durante l'addestramento ogni singolo neurone deve aggiornare i suoi pesi in modo che l'output della rete sia simile a quello atteso. \\
-Uno dei metodi migliori per addestrare la rete neurale è l'algoritmo di back-propagation. \\
+Uno dei metodi migliori per addestrare la rete neurale è l'algoritmo di \textit{back-propagation}. \\
 Per l'implementazione di questo algoritmo si introduce un segnale di input che deve propagarsi verso lo strato di output e, allo stesso tempo, si fa propagare un segnale di errore dallo strato di output verso quello di input.\\
-Nel caso della back-propagation bisogna fare una distinzione tra l'addestramento dei neuroni nello strato di output e negli strati nascosti:
+Nel caso della \textit{back-propagation} bisogna fare una distinzione tra l'addestramento dei neuroni nello strato di output e negli strati nascosti:
 \begin{enumerate}
 	\item Neurone nello strato di output.\\
 	Un neurone di output k, quando gli verrà fornito l'elemento j del \textit{training data set}, avrà un errore:
@@ -298,7 +298,7 @@ Come primo passo è utile discutere come è strutturato un albero decisionale, i
 Gli elementi che caratterizzano un albero decisionale sono:
 \begin{itemize}
 	\item Nodo. \\
-	I nodi sono riportati in figura \ref{schemaDT} come dei cerchi colorati in azzurro e contrassegnati dalla lettera N. Ogni nodo si occupa di eseguire un test su di un singolo attributo (il nodo iniziale dove avviene il primo test e quindi la prima differenziazione degli input è detto "root node");
+	I nodi sono riportati in figura \ref{schemaDT} come dei cerchi colorati in azzurro e contrassegnati dalla lettera N. Ogni nodo si occupa di eseguire un test su di un singolo attributo (il nodo iniziale dove avviene il primo test e quindi la prima differenziazione degli input è detto \textit{root node});
 	\item Ramo. \\
 	I rami (detti anche archi) determinano le regole di \textit{splitting}, ovvero le regole attraverso le quali vengono separati gli esempi nelle rispettive categorie a seconda dei loro attributi; tali rami determinano quindi i percorsi all'interno degli alberi decisionali e la classificazione finale;
 	\item Foglie. \\
@@ -307,9 +307,9 @@ Gli elementi che caratterizzano un albero decisionale sono:
 
 Nella costruzione degli alberi decisionali bisogna distinguere due fasi successive:
 \begin{itemize}
-	\item \textit{Building}, ovvero costruzione.\\
+	\item \textit{Building}, cioè costruzione.\\
 	In questo prima fase l'obiettivo è quello di far crescere l'albero in dimensione, quindi in termini di rami e nodi per avere un numero adeguato di regole di \textit{splitting} così da ottenere una classificazione in classi omogenee nella fase finale. In questa prima fase si ottiene un albero particolarmente folto e quindi probabilmente soggetto all'\textit{overfitting} (come primo argine a ciò è possibile introdurre un criterio d'arresto capace di fermare la crescita dell'albero al realizzarsi di particolari condizioni);
-	\item \textit{Pruning}, ovvero potatura.\\
+	\item \textit{Pruning}, cioè potatura.\\
 	Questa fase è quella che permette di ridurre l'\textit{overfitting} perché vengono eliminati i rami che non contribuiscono in maniera significativa al processo di classificazione.
 	
 \end{itemize} 
@@ -323,7 +323,7 @@ Poiché ciascun nodo agisce su una singola variabile dei vettori di input, è po
 Entrambi questi indici vengono utilizzati con la stessa finalità, tuttavia ogni algoritmo ha una differente logica di costruzione e quindi adotterà uno solo dei due indici, con la possibilità di ottenere risultati differenti. \\
 Una volta costruito l'albero decisionale, i metodi per il \textit{pruning} sono sostanzialmente due: da un lato si può seguire un approccio "\textit{top-down}", partendo dalla radice e suddividendo l'intera struttura in sotto alberi e dall'altro un approccio "\textit{bottom-up}", partendo dalle foglie ed analizzando l'impatto di ogni singola potatura. Inoltre è possibile introdurre nella fase di costruzione stessa un criterio di \textit{early-stopping} dove si richiede un valore minimo di miglioramento dell'algoritmo fra un'iterazione e l'altra: ad ogni passaggio di separazione dell'albero decisionale viene fatto un controllo sulla \textit{Loss function} e, se tale errore non diminuisce significativamente tra un passaggio e l'altro, si interrompe il processo di costruzione dell'albero. Il problema dell'\textit{early stopping} è che non tiene conto dell'impatto della selezione sui nodi successivi; per questa ragione in genere si utilizzano entrambi i metodi di \textit{pruning} e di \textit{early stopping} parallelamente, per poi confrontare i risultati. \\
 Gli alberi decisionali hanno vari pregi, fra i quali quello di essere caratterizzati da una particolare semplicità nell'interpretazione e nella visualizzazione, ed essere insensibili ad eventuali componenti degli eventi irrilevanti nella classificazione; inoltre sono caratterizzati da una tolleranza ad eventuali attributi mancanti per alcuni input nel \textit{training data set} o nel \textit{test data set} e da una invarianza per trasformazioni monotone effettuate sulle variabili degli input, che rende la fase di pre-processamento dei dati non necessaria. Dall'altro lato ci sono una serie di limiti, come l'instabilità rispetto al variare del \textit{training data set}, cioè data set di allenamento di poco differenti fra loro producono risultati molto diversi, oppure il frequente problema dell'\textit{overfitting}. \\
-E' possibile anche combinare più alberi decisionali insieme per ottenere migliori prestazioni predittive. Una delle tecniche per tale combinazione è il \textit{Bagging}, dove vengono generati in maniera casuale dei sottogruppi del training data set ed ognuno di questi viene utilizzato per l'addestramento di un albero decisionale. Il risultato sarà una collezione di alberi decisionali e, come decisione finale, si utilizzerà la media delle decisioni dei singoli alberi. \\
+È possibile anche combinare più alberi decisionali insieme per ottenere migliori prestazioni predittive. Una delle tecniche per tale combinazione è il \textit{Bagging}, dove vengono generati in maniera casuale dei sottogruppi del \textit{training data set} ed ognuno di questi viene utilizzato per l'addestramento di un albero decisionale. Il risultato sarà una collezione di alberi decisionali e, come decisione finale, si utilizzerà la media delle decisioni dei singoli alberi. \\
 Esiste un'estensione di questo metodo conosciuta con il nome di \textit{Random Forest}; in questo caso viene aggiunto un passaggio ulteriore al processo appena illustrato perché viene scelto casualmente anche un sottogruppo delle componenti dei vettori di evento, ottenendo così un metodo capace di agire anche su data set ad alta dimensionalità e che permette di ridurre sensibilmente il problema dell'\textit{overfitting}.
 
 \newpage
@@ -358,14 +358,14 @@ Si riporta in figura \ref{encoder-decoder} l'illustrazione grafica del processo 
 \end{figure}
 
 Il vettore di input $\vec{x}$ (n-dimensionale) viene compresso dall'encoder $\textbf{e}$ in un vettore $\textbf{e}(\vec{x})$ di uno spazio m-dimensionale (con m<n), detto $\textit{spazio latente}$. \\
-Il decoder $\textbf{d}$ svolge la funzione opposta, ovvero decomprime il vettore $\textbf{e}(\vec{x})$ in $\textbf{d}(\textbf{e}(\vec{x}))$ per tornare allo spazio originario n-dimensionale. \\
-Nel caso in cui $\vec{x} = \textbf{d}(\textbf{e}(\vec{x}))$ (caso ideale) si dice che il processo è un $\textit{lossless encoding}$, ovvero non c'è stata perdita di informazioni nella riduzione della dimensionalità; viceversa, se $\vec{x} \not= \textbf{d}(\textbf{e}(\vec{x}))$, si parla di un $\textit{lossy encoding}$, cioè un processo nel quale parte dell'informazione viene persa e non può essere recuperata con la fase di decodifica. \\
+Il decoder $\textbf{d}$ svolge la funzione opposta, cioè decomprime il vettore $\textbf{e}(\vec{x})$ in $\textbf{d}(\textbf{e}(\vec{x}))$ per tornare allo spazio originario n-dimensionale. \\
+Nel caso in cui $\vec{x} = \textbf{d}(\textbf{e}(\vec{x}))$ (caso ideale) si dice che il processo è un $\textit{lossless encoding}$, cioè non c'è stata perdita di informazioni nella riduzione della dimensionalità; viceversa, se $\vec{x} \not= \textbf{d}(\textbf{e}(\vec{x}))$, si parla di un $\textit{lossy encoding}$, cioè un processo nel quale parte dell'informazione viene persa e non può essere recuperata con la fase di decodifica. \\
 L'obiettivo di un processo di riduzione della dimensionalità è quello di trovare la coppia encoder-decoder (e,d) fra una famiglia di encoder E e di decoder D, che minimizzi l'informazione persa:
 \begin{equation}
 (e,d) = \min_{E \times D} \epsilon (\vec{x},\textbf{d}(\textbf{e}(\vec{x})))
 \end{equation}
 dove $\epsilon (\vec{x},\textbf{d}(\textbf{e}(\vec{x})))$ è la grandezza attraverso la quale viene  quantificata la quantità di informazione persa nel processo di riduzione. \\
-I metodi di selezione ("$\textit{Feature Selection Methods}$ (FSM)") sono metodi attraverso i quali vengono selezionate le componenti dei vettori di input da tenere e quelle da eliminare perché irrilevanti per le analisi successive. I FSM si includo i $\textit{wrapper methods}$ ed i $\textit{filter methods}$: i primi valutano il modello con varie combinazioni di sottoinsiemi delle variabili originali e selezionano quella per la quale si ha la maggiore accuratezza del modello, mentre i secondi si basano maggiormente sulle caratteristiche intrinseche dei dati (correlazioni, contenuto informativo, etc...). \\
+I metodi di selezione ($\textit{Feature Selection Methods}$ (FSM)) sono metodi attraverso i quali vengono selezionate le componenti dei vettori di input da tenere e quelle da eliminare perché irrilevanti per le analisi successive. I FSM si includo i $\textit{wrapper methods}$ ed i $\textit{filter methods}$: i primi valutano il modello con varie combinazioni di sottoinsiemi delle variabili originali e selezionano quella per la quale si ha la maggiore accuratezza del modello, mentre i secondi si basano maggiormente sulle caratteristiche intrinseche dei dati (correlazioni, contenuto informativo, etc...). \\
 I metodi di estrazione, invece, si basano fortemente sull'algebra lineare; in particolare vengono utilizzati spesso per la riduzione della dimensionalità i metodi di fattorizzazione delle matrici per cogliere la parte più importante dei dati, cioè quella per la quale la perdita di informazione nel processo di ricostruzione è minore. \\
 Il più comune di questi metodi prende il nome di $\textit{Principal Component Analysis}$ (PCA). L'idea del PCA è quella di costruire un numero $\textit{n}_\textit{e}$ di nuove variabili indipendenti che siano combinazione lineare delle $\textit{n}$ variabili di partenza; tale costruzione viene fatta in modo tale che la proiezione delle vecchie variabili sul nuovo sottospazio generato da quelle nuove sia il più possibile vicina ai dati iniziali, dove la vicinanza è da intendere in termini della distanza euclidea. In altre parole con il PCA si ricerca il sottospazio dello spazio degli eventi di partenza per il quale l'errore che viene compiuto nell'approssimazione dei dati tramite proiezioni sia il più piccolo possibile. Un esempio grafico è riportato in figura \ref{PCA}.
 \begin{figure}[h!]
@@ -408,7 +408,7 @@ Il caso di \textit{autoencoder} non lineari ($\textit{deep autoencoder}$) può e
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.70\textwidth]{figs/Autoencoder_non_lineari.png}
-	\caption{Differenza fra i metodi lineari (PCA) e gli autoencoder non lineari \cite{Autoencoders}.}
+	\caption{Differenza fra i metodi lineari (PCA) e gli \textit{autoencoders} non lineari \cite{Autoencoders}.}
 	\label{autoencoder_non_lineari}
 \end{figure}
 
@@ -421,7 +421,7 @@ Il caso di \textit{autoencoder} non lineari ($\textit{deep autoencoder}$) può e
 \label{VAEs}
 
 Nella sezione precedente è stato presentato l'autoencoder come un metodo di riduzione della dimensionalità; tuttavia, apportando una sostanziale modifica, tale metodo può essere utilizzato per la generazione di eventi ed in questo caso si parla di \textit{Variational Autoencoders} (VAEs). \\ 
-L'autoencoder agisce su di un evento originale $\vec{x}$ trasformandolo in un $\vec{z} = e(\vec{x})$ nello spazio latente (fase di \textit{encoding}) e poi trasforma nuovamente $\vec{z}$ per tornare allo spazio originale. Per la generazione, basterebbe prendere un punto a caso nello spazio latente, e quindi decodificarlo, ottenendo un nuovo evento non legato direttamente a quello di input, ma solo alla distribuzione nello spazio latente. Questo non tiene pero' conto della regolarità dello spazio latente.\\ 
+L'autoencoder agisce su di un evento originale $\vec{x}$ trasformandolo in un $\vec{z} = e(\vec{x})$ nello spazio latente (fase di \textit{encoding}) e poi trasforma nuovamente $\vec{z}$ per tornare allo spazio originale. Per la generazione, basterebbe prendere un punto a caso nello spazio latente, e quindi decodificarlo, ottenendo un nuovo evento non legato direttamente a quello di input, ma solo alla distribuzione nello spazio latente. Questo non tiene però conto della regolarità dello spazio latente.\\ 
 L'\textit{autoencoder} codifica in modo puntuale ogni evento associando ad ognuno di essi un punto specifico e diverso dagli altri all'interno dello spazio latente. In questo modo, se viene dato in input un evento mai incontrato durante la fase di addestramento, si presentano delle difficoltà nella sua successiva rigenerazione. In questo caso infatti il modello comincia la fase di rigenerazione a partire da un punto nello spazio latente a cui non è associato nessun input, come se in quel punto lo spazio latente fosse discontinuo (un esempio è riportato in figura \ref{limite autoencoder}). Per ovviare a questo problema, la fase di codifica deve assumere un significato probabilistico, associando ai vari vettori evento non più un solo punto ma un'intera distribuzione. In questo modo lo spazio latente sarà meno soggetto ad avere discontinuità al suo interno, facilitando così il processo di generazione.
 
 \begin{figure}[h!]
