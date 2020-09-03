@@ -1,13 +1,13 @@
 \section{Machine Learning : metodi e caratteristiche}
 \label{ML: metodi e caratteristiche}
 
-In questo capitolo da prima verranno descritti i due approcci principali al ML: l'apprendimento supervisionato (\ref{app_sup}) e non supervisionato (\ref{app_non_sup}). Successivamente verranno presentati due metodi di apprendimento supervisionato, cioè le $\textit{Reti Neurali}$ (\ref{reti neurali}) e gli $\textit{Alberi Decisionali}$ (\ref{alberi decisionali}), ed un metodo di apprendimento non supervisionato, cioè il $\textit{Variational Autoencoders}$ (\ref{VAEs}).
+In questo capitolo da prima verranno descritti i due approcci principali al ML: l'apprendimento supervisionato (\ref{app_sup}) e non supervisionato (\ref{app_non_sup}). Successivamente verranno presentati due metodi di apprendimento supervisionato, cioè le $\textit{Reti Neurali}$ (\ref{reti neurali}) e gli $\textit{Alberi Decisionali}$ (\ref{alberi decisionali}), ed un metodo di apprendimento non supervisionato, cioè il $\textit{Variational Autoencoder}$ (\ref{VAEs}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Apprendimento supervisionato}
 \label{app_sup}
-Come già accennato nella sezione \ref{ML}, quando si parla di apprendimento supervisionato si hanno a disposizione sia gli input $\vec{x}$ che i corrispettivi target di output $\vec{y}$ (nella fase di addestramento); esisterà quindi una funzione 
+Come già accennato nella sezione \ref{ML}, quando si parla di apprendimento supervisionato si hanno a disposizione sia gli input $\vec{x}$ che i corrispettivi target di output $\vec{y}$ nella fase di addestramento; esisterà quindi una funzione 
 $\vec{y} = f(\vec{x})$ che mette in relazione gli input con gli output. Tuttavia tale funzione non è conosciuta a priori, ed è quindi l'obiettivo dell'algoritmo ricostruirne la migliore approssimazione possibile.
 Nella pratica si cerca di approssimare la funzione agendo su una serie di parametri $\vec{\theta}$, in modo da ottenere una funzione del tipo: $\hat{\vec{y}} = f(\vec{x},\vec{\theta})$. \\
 Lo schema logico seguito durante l'addestramento di un algoritmo di apprendimento supervisionato è riportato in figura \ref{fig:schema_app_sup}.
@@ -33,13 +33,8 @@ R(\vec{\theta}) = \frac{1}{N}\sum_{k=1}^{N}(\vec{y}_k - f(\vec{x}_k , \vec{\thet
 \end{equation}
 Quando si addestra un modello si vuole inoltre evitare il così detto $\textit{overfitting}$, che consiste in un eccessivo adattamento del modello ai dati di \textit{training} e che di conseguenza porta al non raggiungimento di una sufficiente generalità; in tal caso infatti l'algoritmo costruisce una funzione $f(\vec{x},\vec{\theta})$, che ha una forte potenza nella classificazione del campione di addestramento, ma non ha la stessa potenza di classificazione su altri campioni statistici. \\
 Un modo per verificare un eventuale \textit{overfitting} è quello di verificare se il modello è nettamente migliore per il data set di allenamento rispetto al data set di test. \\
-Per arginare questo problema è possibile modificare la funzione di rischio, aggiungendo una funzione $Q(\vec{\theta})$ (\color{red} aiuto\color{black}); in questo modo si ottiene la funzione di costo:
-\begin{equation}
-C(\vec{\theta}) = R(\vec{\theta}) + \lambda Q(\vec{\theta})
-\end{equation}
-con $\lambda$ parametro che esprime la rigidità del vincolo.\\
-A questo punto l'obiettivo è quello di minimizzare la funzione di costo ed uno dei metodi più comuni per tale scopo è il metodo di discesa del gradiente.\\
-Discesa del gradiente è una tecnica di ottimizzazione utilizzata per minimizzare l'errore che si introduce stimando la $\hat{\vec{y}} = f(\vec{x},\vec{\theta})$ rispetto alla funzione "vera" $\vec{y} = f(\vec{x})$. Si può quindi definire, per quanto detto precedentemente, una \textit{Loss Function} $L(\vec{y},f(\vec{x},\vec{\theta}))$ ed un vettore $\vec{\theta}$, le cui componenti sono i parametri che devono essere ottimizzati nel processo di addestramento al fine di ridurre il più possibile l'errore che viene commesso dall'algoritmo nello stimare l'output, rispetto all'output target.\\
+A questo punto l'obiettivo è quello di minimizzare la funzione di rischio ed uno dei metodi più comuni per tale scopo è il metodo di discesa del gradiente.\\
+La discesa del gradiente è una tecnica di ottimizzazione utilizzata per minimizzare l'errore che si introduce stimando la $\hat{\vec{y}} = f(\vec{x},\vec{\theta})$ rispetto alla funzione "vera" $\vec{y} = f(\vec{x})$. Si può quindi definire, per quanto detto precedentemente, una \textit{Loss Function} $L(\vec{y},f(\vec{x},\vec{\theta}))$ ed un vettore $\vec{\theta}$, le cui componenti sono i parametri che devono essere ottimizzati nel processo di addestramento al fine di ridurre il più possibile l'errore che viene commesso dall'algoritmo nello stimare l'output, rispetto all'output target.\\
 Esistono tre varianti del metodo di discesa del gradiente, che differiscono per il momento nel quale avviene l'aggiornamento del vettore $\vec{\theta}$:
 
 \begin{itemize}
@@ -48,7 +43,7 @@ Esistono tre varianti del metodo di discesa del gradiente, che differiscono per 
 	\begin{equation}
 		L_{tot} = \sum_{k=1}^{N} L(\vec{y}_k,f(\vec{x}_k,\vec{\theta}))
 	\end{equation}
-	Successivamente si definisce il vettore $\vec{G}$ applicando il gradiente (nello spazio dei parametri) alla \textit{loss} totale:
+	Successivamente si definisce il vettore $\vec{G}$ applicando il gradiente (nello spazio dei parametri) ad $L_{tot}$:
 	\begin{equation}
 		\vec{G} = \frac{1}{N}  \vec{\nabla}_{\vec{\theta}} L_{tot}
 	\end{equation}
@@ -58,7 +53,7 @@ Esistono tre varianti del metodo di discesa del gradiente, che differiscono per 
 	\end{equation}
 	con l'obiettivo di minimizzare la \textit{loss} totale.\\
 	Qui $\epsilon$ prende il nome di $\textit{learning rate}$ e regola l'aggiornamento del vettore dei parametri nella direzione opposta a quella del gradiente $\vec{G}$.\\
-	Quindi con questa tecnica si aggiornano i parametri una sola volta per ogni epoca, tuttavia si impiega molto tempo per arrivare ad una convergenza perché bisogna appunto processare tutti i dati e solo in seguito si applica il gradiente. Per questa ragione è un metodo poco adatto quando si hanno grandi moli di dati a disposizione e con alta dimensionalità. \\
+	Con questa tecnica si aggiornano i parametri una sola volta per ogni epoca, tuttavia si impiega molto tempo per arrivare ad una convergenza perché tutti i dati devono essere processati prima di applicare la correzione. Per questa ragione è un metodo poco adatto quando si hanno grandi moli di dati a disposizione e descritti da molte variabili. \\
 	 
 	\item $\textit{Stochastic Gradient Descent}$. \\
 	Differentemente dal caso precedente, il gradiente viene valutato indipendentemente per ciascun evento di input:
@@ -86,18 +81,18 @@ Esistono tre varianti del metodo di discesa del gradiente, che differiscono per 
 Gli algoritmi di apprendimento supervisionato risultano essere molto utili nel caso in cui si abbiano a disposizione sia i vettori di input che i corrispettivi output target, perché si riesce ad ottenere un'approssimazione della relazione esistente input-output; nel caso della fisica delle alte energie questo significa conoscere le proprietà degli eventi di segnale che si vogliono individuare.\\
 Tuttavia nel caso di ricerche ad ampio spettro, che non dipendano fortemente da un modello, e che quindi non hanno una descrizione precisa degli eventi di interesse, non è possibile avere a priori un campione di segnali con il relativo output di riferimento. \\
 In questo caso si può ricorrere all'uso di tecniche di apprendimento non supervisionato, dove l'obiettivo è quello di trovare eventuali partizioni degli input (\textit{Clustering}), cioè vengono ricercati all'interno degli input quelli che sono diversi dalle aspettative perché hanno proprietà non affini a tutti gli alti eventi del campione. \\
-Si consideri la figura \ref{Unsup} dove sono riportate tre diverse configurazioni possibili nel caso di input bidimensionali: nel caso a) è possibile la separazione in due sotto-gruppi e nel caso b) in un unico sotto-gruppo, mentre nel caso c) sembrerebbe non si possano stabilire graficamente eventuali separazioni.
+In figura \ref{Unsup} sono riportate tre diverse configurazioni possibili nel caso di input bidimensionali.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.85\textwidth]{figs/Unsup_learning.png}
-	\caption{vettori di input in uno spazio bidimensionale in tre situazioni differenti. L'immagine è presa da \cite{IntroML}}
+	\caption{vettori di input in uno spazio bidimensionale in tre situazioni differenti: nel caso a) è possibile la separazione in due sotto-gruppi e nel caso b) in un unico sotto-gruppo, mentre nel caso c) sembrerebbe non si possano stabilire graficamente eventuali separazioni. L'immagine è presa da \cite{IntroML}}
 	\label{Unsup}
 \end{figure}
 
-Quindi un algoritmo di \textit{clustering} si occupa della suddivisione del set di input $\Sigma$ in un numero N di sottogruppi $\Sigma_1$,...,$\Sigma_n$, detti appunto \textit{cluster}; si noti che lo stesso numero N non viene stabilito a priori e fornito all'algoritmo, ma viene anch'esso ricavato a partire dai dati. Una volta fatto sarà possibile implementare un classificatore per collegare nuovi vettori di input con i \textit{cluster} precedentemente individuati.\\
+Quindi un algoritmo di \textit{clustering} si occupa della suddivisione del set di input $\Sigma$ in un numero N di sottogruppi $\Sigma_1$,...,$\Sigma_n$, detti \textit{cluster}; si noti che lo stesso numero N non viene stabilito a priori e fornito all'algoritmo, ma viene anch'esso ricavato a partire dai dati. Una volta fatto sarà possibile implementare un classificatore per collegare nuovi vettori di input con i \textit{cluster} precedentemente individuati.\\
 Inoltre, aumentando il livello di complessità, è possibile trovare eventuali gerarchie di partizionamento, ovvero \textit{cluster} di \textit{cluster}.\\
-Un esempio di \textit{clustering} è quello basato sulla distanza euclidea. In questo caso bisogna porre particolare attenzione al concetto di misura, infatti i vettori evento sono, di norma, costituiti da componenti disomogenee ma, nonostante questo, vengono rappresentati in uno spazio a più dimensioni; quindi, nel calcolare le distanze, bisogna tenere a mente questo concetto.\\
+Un esempio di \textit{clustering} è quello basato sulla distanza euclidea. In questo caso bisogna porre particolare attenzione al concetto di misura, infatti i vettori evento sono, di norma, costituiti da componenti disomogenee ma, nonostante questo, vengono rappresentati in uno spazio a più dimensioni.\\
 E' di fondamentale importanza osservare che nei metodi che si basano sul concetto di distanza è importante ri-scalare i valori delle componenti degli eventi (in linea di principio si possono avere componenti diverse con ordini di grandezza di molto differenti) in modo da evitare che alcune componenti pesino più di altre; per fare ciò, ad esempio, si possono suddividere gli intervalli dei valori osservati per ogni componente in un egual numero di \textit{bin}, e su questi calcolare le distanze. \\
 Gli algoritmi di apprendimento non supervisionato sfruttano una misura di similarità per separare gli eventi di input nei vari \textit{cluster}. Una possibilità è quella di utilizzare la semplice distanza euclidea per poter separare lo spazio n-dimensionale degli eventi in delle sotto-aree (i \textit{cluster}). \\
 Per fare ciò viene implementato un metodo iterativo, basato sulla definizione di alcuni punti particolari nello spazio degli eventi, detti \textit{cluster seekers} (letteralmente "cercatori di cluster"). \\
@@ -174,7 +169,6 @@ Un ulteriore accorgimento può  essere quello di bloccare l'ottimizzazione di al
 \label{reti neurali}
 Le reti neurali sono probabilmente il metodo di apprendimento supervisionato più conosciuto ed utilizzato nel campo dell'analisi dati. \\
 La struttura di una rete neurale prevede la presenza di unità fondamentali, dette neuroni, che sono organizzate in strati e legate fra di loro mediante delle connessioni (sinapsi), ciascuna delle quali è caratterizzata da un peso. Sono proprio questi pesi a giocare un ruolo fondamentale nel processo di apprendimento della rete perché sono loro i parametri soggetti a modifica.\\
-Il nome rete neurale (artificiale) deriva dal fatto che la loro struttura è inspirata dalle corrispondenti strutture biologiche. \\
 In una rete neurale è sempre presente uno strato di input ed uno di output, mentre il numero di livelli nascosti può variare a seconda della complessità della rete; In figura \ref{fig:schemaNN} è riportato un esempio di rete neurale con un singolo strato interno nascosto.
 \begin{figure}[h!]
 	\centering
@@ -183,7 +177,6 @@ In una rete neurale è sempre presente uno strato di input ed uno di output, men
 	\label{fig:schemaNN}
 \end{figure}
 \\
-Si può passare ora a presentare il modello del singolo neurone per capire com'è strutturato e quale compito svolge.
 Gli elementi che caratterizzano il singolo neurone sono:
 \begin{enumerate}
 	\item Una serie di connessioni in ingresso (ciascuna caratterizzata da un proprio peso);
@@ -207,7 +200,7 @@ e si ottiene l'output attraverso la funzione di attivazione:
 \begin{equation}
 y_k = \phi(s_k + b_k)
 \end{equation}
-Risulta utile spendere qualche parola in più sul tipo di funzione di attivazione più utilizzata, ovvero la funzione sigmoide:
+La funzione di attivazione usata più comunemente è la funzione sigmoide, definita nel seguente modo:
 \begin{equation}
 sig(x) = \frac{1}{1 + e^{-{\alpha}x}}
 \end{equation} 
@@ -219,19 +212,19 @@ dove $\alpha$ è un parametro che permette di regolare la pendenza della curva, 
 	\label{sigmoide}
 \end{figure}
 \newpage
-Un singolo neurone è l'ingrediente fondamentale di una rete neurale e nella gran parte dei casi non è in grado di ottenere da solo nessuna classificazione degli input. Tuttavia esiste una caso particolare nel quale un singolo neurone può portare a termine un compito di classificazione; affinché ciò sia possibile è necessario che i vettori evento siano riconducibili a due sole categorie e che il loro spazio possa essere separato (in relazione alle due categorie) da un singolo iper-piano. In questo caso esiste un teorema di convergenza che garantisce la convergenza dei pesi nel processo di addestramento.\\
-A questo punto è possibile passare ad un livello di complessità superiore, osservando in che modo possono essere organizzati i neuroni per formare la rete neurale; si distinguono due tipologie di reti:
+Un singolo neurone è l'ingrediente fondamentale di una rete neurale ma nella gran parte dei casi non è in grado di ottenere da solo nessuna classificazione degli input. Tuttavia esiste una caso particolare nel quale un singolo neurone può portare a termine un compito di classificazione; affinché ciò sia possibile è necessario che i vettori evento siano riconducibili a due sole categorie e che il loro spazio possa essere separato (in relazione alle due categorie) da un singolo iper-piano. Questo, dal punto di vista fisico, significa che c'è una variabile (o una combinazioni lineare di variabili) in grado di separare perfettamente segnale e fondo. In questo caso esiste un teorema di convergenza che garantisce la convergenza dei pesi nel processo di addestramento.\\
+A seconda dell'organizzazione dei neuroni si possono distinguere due tipologie di reti:
 \begin{enumerate}
 	\item Reti \textit{feedforward} con uno o più strati: in questo caso il segnale si propaga dai nodi di input verso quelli di output, senza connessioni fra i neuroni di uno stesso strato;
 	\item Reti \textit{feedback}: sono reti cicliche dove il segnale si propaga anche fra i neuroni di uno stesso strato.
 \end{enumerate}
 L'apprendimento di un singolo neurone dipende dalla struttura della rete e dal tipo di input ed output fornito alla rete. Nel caso in cui l'output target sia noto si può utilizzare il metodo dell'apprendimento con correzione di errore. \\
-Si consideri un singolo neurone che ha in ingresso una serie di input $(x_1,...,x_n)$ e quindi produce un valore di output $y$ attraverso la somma pesata già introdotta precedentemente; tale valore può quindi essere confrontata con il risultato atteso $R$, ottenendo così un errore $err = R - y$; si può quindi definire la funzione di costo
+In questo caso ciascun neurone ha in ingresso una serie di input $(x_1,...,x_n)$ e quindi produce un valore di output $y$ attraverso una somma pesata; tale valore può quindi essere confrontato con il risultato atteso $R$, ottenendo così un errore $err = R - y$ e si può definire la funzione di costo
 \begin{equation}
 E = \frac{1}{2}err^2
 \end{equation}
-sulla quale si applicherà il metodo di discesa del gradiente già discusso nel paragrafo~\ref{app_sup} per ottimizzare i parametri.\\
-Una rete neurale può svolgere diverse funzioni, tuttavia quella principale che viene utilizzata in questa tesi prende il nome di riconoscimento. Il riconoscimento consiste nell'associazione da parte della rete di un vettore evento ad una delle varie categorie possibili. Tale obiettivo può essere ottenuto a seguito di una fase di addestramento dove vengono forniti alla rete sia i vettori in input che le categorie alle quali questi appartengono (si tratta chiaramente di un processo di apprendimento supervisionato). Si ipotizzi di avere a disposizione dei vettori evento con un numero n di componenti (i dati) che rappresentano dei punti in uno spazio n-dimensionale; questo spazio potrà essere allora diviso in delle regioni che corrispondono alle varie categorie ed i confini di queste regioni si ottengono a seguito del processo di addestramento. \\
+che verrà minimizzata utilizzando degli algoritmi di ottimizzazione come quelli descritti in \ref{app_sup}.\\
+Una rete neurale può svolgere diverse funzioni, tuttavia quella principale che viene utilizzata in questa tesi prende il nome di riconoscimento. Il riconoscimento consiste nell'associazione da parte della rete di un vettore evento ad una delle varie categorie possibili. Tale obiettivo può essere ottenuto a seguito di una fase di addestramento dove vengono forniti alla rete sia i vettori in input che le categorie alle quali questi appartengono. Si ipotizzi di avere a disposizione dei vettori evento con un numero n di componenti (i dati) che rappresentano dei punti in uno spazio n-dimensionale; questo spazio potrà essere allora diviso in delle regioni che corrispondono alle varie categorie ed i confini di queste regioni si ottengono a seguito del processo di addestramento. \\
 Durante l'addestramento ogni singolo neurone deve aggiornare i suoi pesi in modo che l'output della rete sia simile a quello atteso. \\
 Uno dei metodi migliori per addestrare la rete neurale è l'algoritmo di back-propagation. \\
 Per l'implementazione di questo algoritmo si introduce un segnale di input che deve propagarsi verso lo strato di output e, allo stesso tempo, si fa propagare un segnale di errore dallo strato di output verso quello di input.\\
@@ -252,8 +245,8 @@ Nel caso della back-propagation bisogna fare una distinzione tra l'addestramento
 	\begin{equation}
 	E_{tot} = \frac{1}{N}\sum_{j=1}^{N} E^{(j)}
 	\end{equation}
-	e l'obiettivo è quello di minimizzare tale funzione di costo. Per fare ciò si procede variando i pesi a seguito della presentazione di ogni singolo vettore evento.
-	Si utilizza il metodo di discesa del gradiente, procedendo nel seguente modo: il gradiente è dato da
+	e l'obiettivo è quello di minimizzare $E_{tot}$. Per fare ciò si procede variando i pesi a seguito della presentazione di ogni singolo vettore evento, utilizzando il metodo di discesa del gradiente.\\ 
+	Il gradiente è dato da:
 	\begin{equation}
 	\frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}}
 	\end{equation}
@@ -262,14 +255,14 @@ Nel caso della back-propagation bisogna fare una distinzione tra l'addestramento
 	\Delta w_{ki}^{(j)} = -\mu \frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}}
 	\end{equation}
 	dove $\mu$ è il $\textit{learning rate}$.
-	Manca a questo punto il calcolo esplicito del gradiente, che può essere eseguito con la regola della catena 
+	Il gradiente può essere calcolato con la regola della catena 
 	\begin{equation}
 	\frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}} = \frac{\partial E^{(j)}}{\partial err_k^{(j)}}
 	\frac{\partial err_k^{(j)}}{\partial y_k^{(j)}}
 	\frac{\partial y_k^{(j)}}{\partial S_k^{(j)}}
 	\frac{\partial S_k^{(j)}}{\partial w_{ki}^{(j)}}
 	\end{equation}
-	dove $S_k^{(j)} = s_k^{(j)} + b_k^{(j)} $ (si faccia riferimento all'equazione \eqref{sk}). \\
+	dove $S_k^{(j)} = s_k^{(j)} + b_k^{(j)}$, cioè la somma del valore di soglia $b_k^{(j)}$ e dell'esito della somma pesata $s_k^{(j)}$. \\
 	Una volta calcolate le quattro derivate si ottiene:
 	\begin{equation}
 	\frac{\partial E^{(j)} }{\partial w_{ki}^{(j)}} =
@@ -283,7 +276,7 @@ Nel caso della back-propagation bisogna fare una distinzione tra l'addestramento
 	\item Neurone in uno strato nascosto \\
 	In questo caso l'output del neurone non ha un diretto valore con il quale può essere confrontato, quindi il segnale di errore deve essere determinato a partire dai segnali di errore di tutti i neuroni dello strato successivo, da cui il nome di \textit{back-propagation} proprio perché il segnale di errore prosegue all'indietro dall'output verso l'input.
 \end{enumerate}
-Come ultima considerazione sulle reti neurali bisogna sottolineare che il \textit{learning rate} deve essere scelto in maniera accurata, infatti se fosse troppo piccolo si avrebbe una convergenza estremamente lenta e, viceversa, un valore troppo grande porterebbe ad una instabilità con comportamento oscillatorio. Per gestire meglio questo aspetto, nella pratica viene definito un \textit{learning rate} variabile. Generalmente si fa in modo che questo fattore parta da un certo valore per decrescere mano mano che si ci avvicina ad una soluzione ottimale. In prima istanza infatti è utile avere un valore abbastanza grande da poter seguire in modo efficace la discesa del gradiente, rendendo più rapida la ricerca della soluzione ottimale. Successivamente, però, risulta utile diminuire questo stesso parametro per evitare oscillazioni attorno al punto di minimo.
+Come ultima considerazione sulle reti neurali bisogna sottolineare che il \textit{learning rate} deve essere scelto in maniera accurata, infatti se fosse troppo piccolo si avrebbe una convergenza estremamente lenta e, viceversa, un valore troppo grande porterebbe ad una instabilità. Per gestire meglio questo aspetto, nella pratica viene definito un \textit{learning rate} variabile. Generalmente si fa in modo che questo fattore parta da un certo valore per decrescere mano mano che si ci avvicina ad una soluzione ottimale. In prima istanza infatti è utile avere un valore abbastanza grande da poter seguire in modo efficace la discesa del gradiente, rendendo più rapida la ricerca della soluzione ottimale. Successivamente, però, risulta utile diminuire questo stesso parametro per evitare oscillazioni attorno al punto di minimo.
 
 \newpage
 
@@ -292,7 +285,7 @@ Come ultima considerazione sulle reti neurali bisogna sottolineare che il \texti
 \subsection{Alberi Decisionali}
 \label{alberi decisionali}
 Gli alberi decisionali sono, al pari delle reti neurali, un metodo ML di apprendimento supervisionato.\\
-Gli alberi decisionali rappresentano un mezzo estremamente interessante per le operazioni di classificazione (sia per output continui che discreti) ed operano attraverso una serie di test sugli attributi degli eventi di input. \\ 
+Gli alberi decisionali rappresentano un mezzo estremamente interessante per le operazioni di classificazione (sia per output continui che discreti) ed operano attraverso una serie di test sulle componenti degli eventi di input. \\ 
 Come primo passo è utile discutere come è strutturato un albero decisionale, introducendo alcune notazioni (come ausilio alla trattazione si riporta in figura \ref{schemaDT} un esempio di albero decisionale molto semplice). \\
 
 \begin{figure} [h!]
@@ -323,12 +316,12 @@ Nella costruzione degli alberi decisionali bisogna distinguere due fasi successi
 
 Poiché ciascun nodo agisce su una singola variabile dei vettori di input, è possibile ottenere un gran numero di alberi differenti. Per questo motivo è necessario trovare un modo per ottimizzare la geometria dei nodi all'interno dell'albero: per farlo viene scelto per primo l'attributo attraverso il quale si ha una maggiore discriminazione dei dati in input. Per fare ciò si possono percorrere due strade distinte, utilizzando:
 \begin{itemize}
-	\item Coefficiente di impurità di Gini, ovvero un indicatore della frequenza con cui un elemento casuale, appartenente al data set, sia identificato in modo non corretto.
-	\item Guadagno informativo, ovvero un indicatore, preso in prestito dalla teoria dell'informazione e basato sul concetto di entropia, di quanto la scelta di uno specifico attributo consenta di ridurre l’entropia informativa dell'insieme (semplificando, la variabilità dei valori dell'attributo presenti all'interno di un nodo foglia). 
+	\item Coefficiente di impurità di Gini: un indicatore della frequenza con cui un elemento casuale, appartenente al data set, sia identificato in modo non corretto.
+	\item Guadagno informativo: un indicatore, preso in prestito dalla teoria dell'informazione e basato sul concetto di entropia, di quanto la scelta di uno specifico attributo consenta di ridurre l’entropia informativa dell'insieme (semplificando, la variabilità dei valori dell'attributo presenti all'interno di un nodo foglia). 
 \end{itemize}  
 
-E' chiaro che entrambi questi indici vengono utilizzati con la stessa finalità, tuttavia ogni algoritmo ha una differente logica di costruzione e quindi adotterà uno solo dei due indici, con la possibilità di ottenere risultati differenti. \\
-Una volta costruito l'albero decisionale, i metodi per il \textit{pruning} sono sostanzialmente due: da un lato si può seguire un approccio "\textit{top-down}", partendo dalla radice e suddividendo l'intera struttura in sotto alberi e dall'altro un approccio "\textit{bottom-up}", partendo dalle foglie ed analizzando l'impatto di ogni singola potatura. E' altresì possibile introdurre nella fase di costruzione stessa un criterio di \textit{early-stopping} o \textit{pre-pruning} richiedendo un valore minimo di miglioramento dell'algoritmo fra un'iterazione e l'altra: ad ogni passaggio di separazione dell'albero decisionale viene fatto un controllo sulla \textit{Loss function} e, se tale errore non diminuisce significativamente tra un passaggio e l'altro, si interrompe il processo di costruzione dell'albero. Il problema dell'\textit{early stopping} è che non tiene conto dell'impatto della selezione sui nodi successivi; per questa ragione in genere si utilizzano entrambi i metodi di \textit{pruning} e di \textit{early stopping} parallelamente, per poi confrontare i risultati. \\
+Entrambi questi indici vengono utilizzati con la stessa finalità, tuttavia ogni algoritmo ha una differente logica di costruzione e quindi adotterà uno solo dei due indici, con la possibilità di ottenere risultati differenti. \\
+Una volta costruito l'albero decisionale, i metodi per il \textit{pruning} sono sostanzialmente due: da un lato si può seguire un approccio "\textit{top-down}", partendo dalla radice e suddividendo l'intera struttura in sotto alberi e dall'altro un approccio "\textit{bottom-up}", partendo dalle foglie ed analizzando l'impatto di ogni singola potatura. Inoltre è possibile introdurre nella fase di costruzione stessa un criterio di \textit{early-stopping} dove si richiede un valore minimo di miglioramento dell'algoritmo fra un'iterazione e l'altra: ad ogni passaggio di separazione dell'albero decisionale viene fatto un controllo sulla \textit{Loss function} e, se tale errore non diminuisce significativamente tra un passaggio e l'altro, si interrompe il processo di costruzione dell'albero. Il problema dell'\textit{early stopping} è che non tiene conto dell'impatto della selezione sui nodi successivi; per questa ragione in genere si utilizzano entrambi i metodi di \textit{pruning} e di \textit{early stopping} parallelamente, per poi confrontare i risultati. \\
 Gli alberi decisionali hanno vari pregi, fra i quali quello di essere caratterizzati da una particolare semplicità nell'interpretazione e nella visualizzazione, ed essere insensibili ad eventuali componenti degli eventi irrilevanti nella classificazione; inoltre sono caratterizzati da una tolleranza ad eventuali attributi mancanti per alcuni input nel \textit{training data set} o nel \textit{test data set} e da una invarianza per trasformazioni monotone effettuate sulle variabili degli input, che rende la fase di pre-processamento dei dati non necessaria. Dall'altro lato ci sono una serie di limiti, come l'instabilità rispetto al variare del \textit{training data set}, cioè data set di allenamento di poco differenti fra loro producono risultati molto diversi, oppure il frequente problema dell'\textit{overfitting}. \\
 E' possibile anche combinare più alberi decisionali insieme per ottenere migliori prestazioni predittive. Una delle tecniche per tale combinazione è il \textit{Bagging}, dove vengono generati in maniera casuale dei sottogruppi del training data set ed ognuno di questi viene utilizzato per l'addestramento di un albero decisionale. Il risultato sarà una collezione di alberi decisionali e, come decisione finale, si utilizzerà la media delle decisioni dei singoli alberi. \\
 Esiste un'estensione di questo metodo conosciuta con il nome di \textit{Random Forest}; in questo caso viene aggiunto un passaggio ulteriore al processo appena illustrato perché viene scelto casualmente anche un sottogruppo delle componenti dei vettori di evento, ottenendo così un metodo capace di agire anche su data set ad alta dimensionalità e che permette di ridurre sensibilmente il problema dell'\textit{overfitting}.
@@ -340,13 +333,13 @@ Esiste un'estensione di questo metodo conosciuta con il nome di \textit{Random F
 \subsection{Curse of dimensionality e riduzione della dimensionalità}
 \label{curse_dim}
 
-I metodi di apprendimento supervisionato, come descritto, necessitano anche di output target per essere addestrati. Nel caso questi non fossero disponibili l'unica soluzione è utilizzare un metodo non supervisionato di ML. Un moderno esempio e' il Variational Autoencoder, di cui nel capitolo \ref{fisica_BSM_VAEs} verrà mostrata un'applicazione nel campo della fisica delle alte energie. \\
-Quando si parla di eventi di input ci si riferisce a dei vettori, le cui componenti sono i dati veri e propri; questi vettori, in quanto tali, possono essere pensati all'interno di un opportuno spazio n-dimensionale (con n=numero di componenti del vettore).\\
+I metodi di apprendimento supervisionato, come descritto, necessitano anche di output target per essere addestrati. Nel caso questi non fossero disponibili l'unica soluzione è utilizzare un metodo non supervisionato di ML. Un moderno esempio è il Variational Autoencoder, di cui nel capitolo \ref{fisica_BSM_VAEs} verrà mostrata un'applicazione nel campo della fisica delle alte energie. \\
+Quando si parla di eventi di input ci si riferisce a dei vettori, le cui componenti sono le variabili vere e proprie; questi vettori, in quanto tali, possono essere pensati all'interno di un opportuno spazio n-dimensionale (con n=numero di componenti del vettore).\\
 Spesso, nel campo della fisica delle particelle, il numero di variabili che descrivono ciascun evento è molto grande e  questo fa si che lo spazio di riferimento sia ad altissima dimensionalità. Come visto, in molti metodi l'aumento della dimensionalità crea delle problematiche riguardo la complessità dell'algoritmo e del tempo di computazione necessario per ottenere dei metodi ottimizzati. Questa problematica prende il nome di \textit{Curse of Dimensionality}. \\
-All'aumentare della dimensionalità la densità degli eventi nello spazio diminuisce, e questo fa si che il numero di dati necessari per poter avere dei risultati statisticamente significativi aumenta enormemente. Tutto ciò ha un grande impatto soprattutto quando si vuole fare una classificazione di eventi molto rari.\\
-Per ovviare a questo problema si possono utilizzare tecniche attraverso le quali viene ridotto il numero di variabili che caratterizzano gli eventi.; l'obiettivo di base è quello di proiettare gli elementi dello spazio n-dimensionale (i vettori di input) su di uno spazio a dimensione inferiore, limitando il più possibile la perdita di informazione.\\
+All'aumentare della dimensionalità la densità degli eventi nello spazio diminuisce, e questo fa si che aumenti il numero di dati necessari per poter avere dei risultati statisticamente significativi. Tutto ciò ha un grande impatto soprattutto quando si vuole fare una classificazione di eventi molto rari.\\
+Per ovviare a questo problema si possono utilizzare tecniche attraverso le quali viene ridotto il numero di variabili che caratterizzano gli eventi; l'obiettivo di base è quello di proiettare gli elementi dello spazio n-dimensionale (i vettori di input) su di uno spazio a dimensione inferiore, limitando il più possibile la perdita di informazione.\\
 Degli input con più bassa dimensionalità permettono di avere anche meno parametri (gradi di libertà) e quindi una struttura più semplice del modello. Inoltre sistemi meno complessi sono meno soggetti all'\textit{overfitting}, oltre a garantire una migliore efficacia statistica. \\
-Il processo di riduzione della dimensionalità è una metodologia di preparazione dei dati, per poi essere presentati all'algoritmo di apprendimento, che si troverà di fronte delle informazioni più compatte e quindi più facilmente processabili. Inoltre se tale processo viene svolto sul \textit{training data set}, allora deve essere attuato anche sul \textit{test data set}, per garantire un processo di verifica valido.\\
+Il processo di riduzione della dimensionalità è una metodologia di preparazione dei dati che in seguito verranno presentati all'algoritmo di apprendimento, che si troverà di fronte delle informazioni più compatte e quindi più facilmente processabili. Inoltre se tale processo viene svolto sul \textit{training data set}, allora deve essere attuato anche sul \textit{test data set}, per garantire un processo di verifica valido.\\
 Il processo di riduzione della dimensionalità può essere portato avanti attraverso due metodologie differenti:
 \begin{itemize}
 	\item Selezione, dove solo alcune componenti dei vettori di input vengono conservate;
@@ -367,12 +360,12 @@ Si riporta in figura \ref{encoder-decoder} l'illustrazione grafica del processo 
 Il vettore di input $\vec{x}$ (n-dimensionale) viene compresso dall'encoder $\textbf{e}$ in un vettore $\textbf{e}(\vec{x})$ di uno spazio m-dimensionale (con m<n), detto $\textit{spazio latente}$. \\
 Il decoder $\textbf{d}$ svolge la funzione opposta, ovvero decomprime il vettore $\textbf{e}(\vec{x})$ in $\textbf{d}(\textbf{e}(\vec{x}))$ per tornare allo spazio originario n-dimensionale. \\
 Nel caso in cui $\vec{x} = \textbf{d}(\textbf{e}(\vec{x}))$ (caso ideale) si dice che il processo è un $\textit{lossless encoding}$, ovvero non c'è stata perdita di informazioni nella riduzione della dimensionalità; viceversa, se $\vec{x} \not= \textbf{d}(\textbf{e}(\vec{x}))$, si parla di un $\textit{lossy encoding}$, cioè un processo nel quale parte dell'informazione viene persa e non può essere recuperata con la fase di decodifica. \\
-Come conseguenza di ciò che è stato appena illustrato, l'obiettivo di un processo di riduzione della dimensionalità è quello di trovare la coppia encoder-decoder (e,d) fra una famiglia di encoder E e di decoder D, che minimizzi l'informazione persa:
+L'obiettivo di un processo di riduzione della dimensionalità è quello di trovare la coppia encoder-decoder (e,d) fra una famiglia di encoder E e di decoder D, che minimizzi l'informazione persa:
 \begin{equation}
 (e,d) = \min_{E \times D} \epsilon (\vec{x},\textbf{d}(\textbf{e}(\vec{x})))
 \end{equation}
 dove $\epsilon (\vec{x},\textbf{d}(\textbf{e}(\vec{x})))$ è la grandezza attraverso la quale viene  quantificata la quantità di informazione persa nel processo di riduzione. \\
-I metodi di selezione ("$\textit{Feature Selection Methods}$ (FSM)") sono metodi attraverso i quali vengono selezionate le componenti dei vettori di input da tenere e quelle da eliminare perché irrilevanti per le analisi successive. I FSM si includo i $\textit{wrapper methods}$ ed i $\textit{filter methods}$: i primi valutano il modello con varie combinazioni di subset delle variabili originali e selezionano quella per la quale si ha la maggiore accuratezza del modello, mentre i secondi si basano maggiormente sulle caratteristiche intrinseche dei dati (correlazioni, contenuto informativo, etc...). \\
+I metodi di selezione ("$\textit{Feature Selection Methods}$ (FSM)") sono metodi attraverso i quali vengono selezionate le componenti dei vettori di input da tenere e quelle da eliminare perché irrilevanti per le analisi successive. I FSM si includo i $\textit{wrapper methods}$ ed i $\textit{filter methods}$: i primi valutano il modello con varie combinazioni di sottoinsiemi delle variabili originali e selezionano quella per la quale si ha la maggiore accuratezza del modello, mentre i secondi si basano maggiormente sulle caratteristiche intrinseche dei dati (correlazioni, contenuto informativo, etc...). \\
 I metodi di estrazione, invece, si basano fortemente sull'algebra lineare; in particolare vengono utilizzati spesso per la riduzione della dimensionalità i metodi di fattorizzazione delle matrici per cogliere la parte più importante dei dati, cioè quella per la quale la perdita di informazione nel processo di ricostruzione è minore. \\
 Il più comune di questi metodi prende il nome di $\textit{Principal Component Analysis}$ (PCA). L'idea del PCA è quella di costruire un numero $\textit{n}_\textit{e}$ di nuove variabili indipendenti che siano combinazione lineare delle $\textit{n}$ variabili di partenza; tale costruzione viene fatta in modo tale che la proiezione delle vecchie variabili sul nuovo sottospazio generato da quelle nuove sia il più possibile vicina ai dati iniziali, dove la vicinanza è da intendere in termini della distanza euclidea. In altre parole con il PCA si ricerca il sottospazio dello spazio degli eventi di partenza per il quale l'errore che viene compiuto nell'approssimazione dei dati tramite proiezioni sia il più piccolo possibile. Un esempio grafico è riportato in figura \ref{PCA}.
 \begin{figure}[h!]
@@ -398,14 +391,14 @@ Gli \textit{autoencoders}, come ogni altro metodo di riduzione della dimensional
 	\label{autoencoder}
 \end{figure}
 
-L'obiettivo è anche in questo caso quello di individuare la coppia \textit{encoder-decoder} che ottimizza il processo di ricostruzione degli input e ciò viene fatto attraverso il seguente processo iterativo: si presentano all'\textit{encoder} gli eventi di input uno alla volta, subiscono un processo di riduzione della dimensionalità e poi vengono ricostruiti (tornando alla dimensionalità di partenza), viene calcolato l'errore dal confronto fra l'input iniziale e quello ricostruito ed avviene l'aggiornamento dei pesi della rete neurale mediante il meccanismo di \textit{backpropagation}, già incontrato nella sezione \ref{reti neurali}. \\
+L'obiettivo è anche in questo caso quello di individuare la coppia \textit{encoder-decoder} che ottimizza il processo di ricostruzione degli input e ciò viene fatto attraverso il seguente processo iterativo: si presentano all'\textit{encoder} gli eventi di input uno alla volta, subiscono un processo di riduzione della dimensionalità e poi vengono ricostruiti (tornando alla dimensionalità di partenza), viene calcolato l'errore dal confronto fra l'input iniziale e quello ricostruito ed avviene l'aggiornamento dei pesi della rete neurale mediante il meccanismo di \textit{backpropagation}, come descritto nella sezione \ref{reti neurali}. \\
 Intuitivamente l'\textit{autoencoder} può essere pensato come un collo di bottiglia, attraverso il quale solo una parte dell'informazione riesce a passare oltre e a formare i vettori dello spazio latente.
 Facendo riferimento alla figura \ref{autoencoder} si osserva che, a partire dagli eventi di input $\vec{x}$, come primo passo si costruisce lo spazio latente degli $\vec{z} = e(\vec{x})$ per poi procedere alla fase di decodifica nella quale si ottengono gli eventi ricostruiti $\hat{\vec{x}} = d(\vec{z})$; si procede successivamente al calcolo degli errori nel seguente modo:
 \begin{equation}
 	L = \Vert \vec{x} - \hat{\vec{x}} \Vert
 \end{equation}
 dove L è l'errore di ricostruzione.\\
-Una considerazione necessaria circa l'errore, che potrebbe sembrare in contraddizione con quanto detto fino ad ora sul concetto di ottimizzazione, è che si vuole di norma evitare che $\vec{x} = \hat{\vec{x}}$, perché questo vuol dire che l'\textit{autoencoder} ha imparato la funzione identità e, come conseguenza, la struttura dello spazio latente, che è quella interessante per il processo di riduzione della dimensionalità, non porta alcuna informazione interessante; ciò è dovuto al fatto che l'\textit{encoder} non impara se vi siano variabili più o meno importanti di altre o se esse possano essere compattate in nuove variabili di dimensionalità minore. \\
+Una considerazione necessaria circa l'errore, che potrebbe sembrare in contraddizione con quanto detto fino ad ora sul concetto di ottimizzazione, è che si vuole di norma evitare che $\vec{x} = \hat{\vec{x}}$, perché questo vuol dire che l'\textit{autoencoder} ha imparato la funzione identità e, come conseguenza, la struttura dello spazio latente, che è quella interessante per il processo di riduzione della dimensionalità, non filtra alcuna informazione, limitandosi a riprodurre i dati di input; ciò è dovuto al fatto che l'\textit{encoder} non impara se vi siano variabili più o meno importanti di altre o se esse possano essere compattate in nuove variabili di dimensionalità minore. \\
 Per fornire un esempio pratico si consideri un insieme di vettori di input N dimensionali; una possibilità è quella di prendere una per una le componenti degli eventi e disporle lungo una retta (spazio latente 1-dimensionale) nella fase di codifica, per poi procedere in maniera inversa nella fase di decodifica. L'errore con questo procedimento sarà nullo ma non si può essere soddisfati essenzialmente per due motivi: da un lato lo spazio latente non è interpretabile e sfruttabile e, dall'altro, in un processo di riduzione della dimensionalità si vuole fare in modo che i dati continuino a conservare una qualche struttura. \\
 Una possibilità per evitare il risultato appena illustrato è di aggiungere alla funzione L un fattore di regolarizzazione che penalizza i risultati per i quali $\vec{x} = \hat{\vec{x}}$. \\
 Quindi bisogna sempre porre particolare attenzione alla scelta della profondità dell'\textit{encoder}, ovvero alla sua capacità di riduzione della dimensionalità. \\
@@ -570,7 +563,7 @@ e quindi
 	\log p(\vec{x}|\hat{\vec{x}}) \propto -{\lvert \vec{x}-\hat{\vec{x}} \rvert}^2
 \end{equation}
 
-Quindi si osserva che l'\textit{autoencoder} tende a minimizzare semplicemente ${\lvert \vec{x}-\hat{\vec{x}} \rvert}^2$, mentre il VAE tende a minimizzare la seguente quantità:
+Mentre l'\textit{autoencoder} tende a minimizzare semplicemente ${\lvert \vec{x}-\hat{\vec{x}} \rvert}^2$, il VAE tende a minimizzare la seguente quantità:
 
 \begin{equation}
 	{\lvert \vec{x}-\hat{\vec{x}} \rvert}^2 + KL (q(\vec{z}|\vec{x})||N(\vec{\mu},\vec{\Sigma}))

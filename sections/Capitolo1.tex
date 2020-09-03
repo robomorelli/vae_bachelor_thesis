@@ -1,7 +1,7 @@
 \section{Analisi multivariata e Machine Learning}
 \label{analisi multivariata e ML}
 
-Le ricerche di eventi rari nella fisica delle alte energie hanno come scopo quello di riuscire a selezionare un campione il più puro possibile di eventi di segnale. Il parametro di merito della selezione è la sensibilità al processo a cui si è interessati, che è funzione del rapporto tra il numero di eventi di segnale attesi ed il numero di eventi di background: 
+Le ricerche di eventi rari nella fisica delle alte energie hanno come scopo quello di riuscire a selezionare un campione il più puro possibile di eventi di segnale. Il parametro di merito della selezione è la sensibilità al processo a cui si è interessati, che è funzione del rapporto tra il numero di eventi di segnale attesi ed il numero di eventi di fondo: 
 \begin{equation}
 	\sigma = \frac{N_s}{\sqrt{N_s + N_b}}
 \end{equation}
@@ -25,12 +25,12 @@ E' importante sancire in maniera netta il confine fra l'analisi multivariata cla
 
 \subsection{Sistema di tagli}
 \label{sistema di tagli}
-Con questo sistema si applicano delle selezioni sulle varie componenti $x_i$ che definiscono un evento, in modo da ricavare un ipercubo nello spazio n-dimensionale degli eventi stessi. Per capire meglio questa metodologia si consideri un caso semplificato nel quale lo spazio in questione è bi-dimensionale e quindi i vettori di input sono del tipo $\vec{x} = (x_1,x_2)$; per raggiungere l'obiettivo di separazione bisognerà dunque applicare due tagli, uno sulla variabile $x_1$ ed uno su $x_2$, come riportato in figura ~\ref{fig:grid_example}.
+Con questo sistema si applicano delle selezioni sulle varie componenti $x_i$ che descrivono un evento, in modo da ricavare un ipercubo nello spazio n-dimensionale degli eventi stessi. Per capire meglio questa metodologia si consideri un caso semplificato nel quale lo spazio in questione è bi-dimensionale e quindi i vettori di input sono del tipo $\vec{x} = (x_1,x_2)$; per raggiungere l'obiettivo di separazione bisognerà dunque applicare due tagli, uno sulla variabile $x_1$ ed uno su $x_2$, come riportato in figura ~\ref{fig:grid_example}.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.85\textwidth]{figs/Grid_example.png}
-	\caption{risultato grafico di un processo di taglio sulle due variabili $x_1$ e $x_2$ per la separazione del segnale dal background \cite{Metodi_multivariati}.}
+	\caption{risultato grafico di un processo di taglio sulle due variabili $x_1$ e $x_2$ per la separazione del segnale dal fondo \cite{Metodi_multivariati}.}
 	\label{fig:grid_example}
 \end{figure}
 
@@ -44,15 +44,15 @@ In questo caso le selezioni sulle variabili $x_i$ sono fatte in modo indipendent
 
 Nella sezione precedente è stato messo in evidenza il fatto che i sistemi di tagli non permettono di tener conto di eventuali correlazioni fra i dati.\\
 Per poter tener conto delle correlazioni tra le variabili $x_i$ in esame, e poter sfruttare al meglio le variabili poco discriminanti è possibile utilizzare delle selezioni ottenute grazie a selezioni su delle funzioni di un sottoinsieme delle variabili prese in esame. \\
-Ogni volta che si considera una selezione fatta su una funzione di più di una variabile è possibile parlare di analisi multivariata e, per la ragione appena presentata, è necessario considerare i processi multivariati.\\
-Il metodo di analisi multivariata più semplice è quello del discriminante lineare, o discriminante di Fisher: si immagini di avere a disposizione un determinato set di eventi di input $\vec{x}_i$, ciascuno caratterizzato da un numero n di variabili (spazio n-dimensionale) e di volerli ripartire fra segnale e background.\\
+Ogni volta che si considera una selezione fatta su una funzione di più di una variabile è possibile parlare di analisi multivariata.\\
+Il metodo di analisi multivariata più semplice è quello del discriminante lineare, o discriminante di Fisher: si immagini di avere a disposizione un determinato set di eventi di input $\vec{x}_i$, ciascuno caratterizzato da un numero n di variabili (spazio n-dimensionale) e di volerli ripartire fra segnale e fondo.\\
 Si definisce la funzione discriminante lineare nel seguente modo:
 \begin{equation}
 D(x_1 , x_2 , ... , x_n) = c_0 + c_1x_1 + ... +c_nx_n = c_0 + \sum_{i=0}^{n} c_ix_i 
 \end{equation}
-cioè una combinazione lineare delle componenti del vettore che rappresenta l'evento; il valore assunto dalla funzione per ogni singolo evento ne permette la separazione nelle due classi (nel presente caso segnale e background), utilizzando un valore di riferimento $D_0$. \\
-A questo punto l'obiettivo è quello di massimizzare la distanza fra le due classi, ossia rendere massima la differenza dei valori assunti dalla funzione $D(\vec{x})$ fra gli eventi appartenenti al background e quelli relativi al segnale. \\
-Per ottenere una ottimizzazione del valore di selezione uno dei metodi più comuni è quello proposto da Fisher: si consideri un campione di eventi appartenenti al segnale e se ne definisca la media $\vec\mu_s$ e la deviazione standard $\sigma_s$ ed un campione appartenente al background, definendo anche qui la media $\vec\mu_b$ e la deviazione standard $\sigma_b$. A questo punto la migliore configurazione dei parametri ($\vec{\theta}$) è quella che massimizza la seguente funzione: 
+cioè una combinazione lineare delle componenti del vettore che rappresenta l'evento; il valore assunto dalla funzione per ogni singolo evento ne permette la separazione nelle due classi (nel presente caso segnale e fondo), utilizzando un valore di riferimento $D_0$. \\
+A questo punto l'obiettivo è quello di massimizzare la distanza fra le due classi, ossia rendere massima la differenza dei valori assunti dalla funzione $D(\vec{x})$ fra gli eventi appartenenti al fondo e quelli relativi al segnale. \\
+Per ottenere una ottimizzazione del valore di selezione uno dei metodi più comuni è quello proposto da Fisher: si consideri un campione di eventi appartenenti al segnale e se ne definisca la media $\vec\mu_s$ e la deviazione standard $\sigma_s$ ed un campione appartenente al fondo, definendo anche qui la media $\vec\mu_b$ e la deviazione standard $\sigma_b$. A questo punto la migliore configurazione dei parametri ($\vec{\theta}$) è quella che massimizza la seguente funzione: 
 \begin{equation}
 F(\vec{\theta}) = \frac{(\vec\mu_s - \vec\mu_b)^2}{\sigma_s^2 + \sigma_b^2}
 \end{equation} 
@@ -80,7 +80,7 @@ La stima di massima verosimiglianza è quella che si ottiene scegliendo $\vec{\t
 \subsection{Machine Learning}
 \label{ML}
 
-Perché è utile il ML per l'obiettivo che è stato prefissato? Bisogna considerare il fatto che i sistemi multivariati descritti in sezione \ref{metodi lineari e discriminante di Fisher} dipendono fortemente dalla scelta dell'analista della funzione, o del metodo, da utilizzare per applicare la selezione del proprio campione. Il Machine Learning invece sfrutta algoritmi in grado di apprendere in maniera semi-autonoma la struttura dei campioni di background e segnale, ed è quindi in grado di stabilire quale sia il modo migliore per separare tali campioni. \\
+I sistemi multivariati descritti in sezione \ref{metodi lineari e discriminante di Fisher} dipendono fortemente dalla scelta dell'analista della funzione, o del metodo, da utilizzare per applicare la selezione del proprio campione. Il \textit{machine learning} invece sfrutta algoritmi in grado di apprendere in maniera semi-autonoma la struttura dei campioni di fondo e segnale, ed è quindi in grado di stabilire quale sia il modo migliore per separare tali campioni. \\
 L'approccio classico all'analisi dei dati prevede la disponibilità di un modello matematico, che dipende da una serie di parametri incogniti. Questi parametri vengono ricavati a partire dai dati sperimentali attraverso processi che possono essere sia analitici che numerici. \\
 A differenza dei sistemi descritti fin ora, i sistemi di selezione autonoma non necessitano di un modello fisico-matematico su cui basare la propria selezione. \\
 Bisogna distinguere tre macro-tipologie di approccio all'analisi dati nel machine learning:
